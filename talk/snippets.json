@@ -1,0 +1,4905 @@
+{
+ "wall": [
+  {
+   "label": "Assembler (arm64 NEON)",
+   "file": "cnrsub_arm.s",
+   "lines": "275\u2013289",
+   "test": "Assembler clang (arm64)",
+   "rel": 1.0,
+   "rows": [
+    [
+     {
+      "t": "IxLoop:",
+      "c": "79C0FF",
+      "b": true,
+      "i": false
+     }
+    ],
+    [
+     {
+      "t": "    ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "ldp",
+      "c": "D2A8FF",
+      "b": true,
+      "i": false
+     },
+     {
+      "t": "         ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "q17",
+      "c": "79C0FF",
+      "b": true,
+      "i": false
+     },
+     {
+      "t": ",",
+      "c": "E6EDF3",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "q18",
+      "c": "79C0FF",
+      "b": true,
+      "i": false
+     },
+     {
+      "t": ",[",
+      "c": "E6EDF3",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "x14",
+      "c": "79C0FF",
+      "b": true,
+      "i": false
+     },
+     {
+      "t": "],",
+      "c": "E6EDF3",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "#64",
+      "c": "A5D6FF",
+      "b": false,
+      "i": false
+     }
+    ],
+    [
+     {
+      "t": "    ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "ldp",
+      "c": "D2A8FF",
+      "b": true,
+      "i": false
+     },
+     {
+      "t": "         ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "q19",
+      "c": "79C0FF",
+      "b": true,
+      "i": false
+     },
+     {
+      "t": ",",
+      "c": "E6EDF3",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "q20",
+      "c": "79C0FF",
+      "b": true,
+      "i": false
+     },
+     {
+      "t": ",[",
+      "c": "E6EDF3",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "x15",
+      "c": "79C0FF",
+      "b": true,
+      "i": false
+     },
+     {
+      "t": "],",
+      "c": "E6EDF3",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "#64",
+      "c": "A5D6FF",
+      "b": false,
+      "i": false
+     }
+    ],
+    [
+     {
+      "t": "    ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "fadd.4s",
+      "c": "D2A8FF",
+      "b": true,
+      "i": false
+     },
+     {
+      "t": "     ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "v17",
+      "c": "79C0FF",
+      "b": true,
+      "i": false
+     },
+     {
+      "t": ",",
+      "c": "E6EDF3",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "v17",
+      "c": "79C0FF",
+      "b": true,
+      "i": false
+     },
+     {
+      "t": ",",
+      "c": "E6EDF3",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "v7",
+      "c": "79C0FF",
+      "b": true,
+      "i": false
+     }
+    ],
+    [
+     {
+      "t": "\u22ee",
+      "c": "8B949E",
+      "b": false,
+      "i": false
+     }
+    ],
+    [
+     {
+      "t": "    ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "stp",
+      "c": "D2A8FF",
+      "b": true,
+      "i": false
+     },
+     {
+      "t": "         ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "q17",
+      "c": "79C0FF",
+      "b": true,
+      "i": false
+     },
+     {
+      "t": ",",
+      "c": "E6EDF3",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "q18",
+      "c": "79C0FF",
+      "b": true,
+      "i": false
+     },
+     {
+      "t": ",[",
+      "c": "E6EDF3",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "x16",
+      "c": "79C0FF",
+      "b": true,
+      "i": false
+     },
+     {
+      "t": "],",
+      "c": "E6EDF3",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "#64",
+      "c": "A5D6FF",
+      "b": false,
+      "i": false
+     }
+    ],
+    [
+     {
+      "t": "    ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "stp",
+      "c": "D2A8FF",
+      "b": true,
+      "i": false
+     },
+     {
+      "t": "         ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "q19",
+      "c": "79C0FF",
+      "b": true,
+      "i": false
+     },
+     {
+      "t": ",",
+      "c": "E6EDF3",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "q20",
+      "c": "79C0FF",
+      "b": true,
+      "i": false
+     },
+     {
+      "t": ",[",
+      "c": "E6EDF3",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "x17",
+      "c": "79C0FF",
+      "b": true,
+      "i": false
+     },
+     {
+      "t": "],",
+      "c": "E6EDF3",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "#64",
+      "c": "A5D6FF",
+      "b": false,
+      "i": false
+     }
+    ],
+    [
+     {
+      "t": "    ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "subs",
+      "c": "D2A8FF",
+      "b": true,
+      "i": false
+     },
+     {
+      "t": "        ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "x13",
+      "c": "79C0FF",
+      "b": true,
+      "i": false
+     },
+     {
+      "t": ",",
+      "c": "E6EDF3",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "x13",
+      "c": "79C0FF",
+      "b": true,
+      "i": false
+     },
+     {
+      "t": ",",
+      "c": "E6EDF3",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "#1",
+      "c": "A5D6FF",
+      "b": false,
+      "i": false
+     }
+    ],
+    [
+     {
+      "t": "    ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "b.ne",
+      "c": "D2A8FF",
+      "b": true,
+      "i": false
+     },
+     {
+      "t": "        ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "IxLoop",
+      "c": "79C0FF",
+      "b": true,
+      "i": false
+     }
+    ]
+   ],
+   "width": 33,
+   "background": "0D1117"
+  },
+  {
+   "label": "Julia",
+   "file": "csub.jl",
+   "lines": "84\u201391",
+   "test": "Julia julia",
+   "rel": 3.4,
+   "rows": [
+    [
+     {
+      "t": "function",
+      "c": "FF7B72",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": " ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "subr!(",
+      "c": "E6EDF3",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "in",
+      "c": "FF7B72",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": ",nx,ny,out)",
+      "c": "E6EDF3",
+      "b": false,
+      "i": false
+     }
+    ],
+    [
+     {
+      "t": "   ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "for",
+      "c": "FF7B72",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": " ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "iy",
+      "c": "E6EDF3",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": " ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "=",
+      "c": "FF7B72",
+      "b": true,
+      "i": false
+     },
+     {
+      "t": " ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "1",
+      "c": "A5D6FF",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": ":",
+      "c": "FF7B72",
+      "b": true,
+      "i": false
+     },
+     {
+      "t": "ny",
+      "c": "E6EDF3",
+      "b": false,
+      "i": false
+     }
+    ],
+    [
+     {
+      "t": "      ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "for",
+      "c": "FF7B72",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": " ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "ix",
+      "c": "E6EDF3",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": " ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "=",
+      "c": "FF7B72",
+      "b": true,
+      "i": false
+     },
+     {
+      "t": " ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "1",
+      "c": "A5D6FF",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": ":",
+      "c": "FF7B72",
+      "b": true,
+      "i": false
+     },
+     {
+      "t": "nx",
+      "c": "E6EDF3",
+      "b": false,
+      "i": false
+     }
+    ],
+    [
+     {
+      "t": "         ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "out[ix,iy]",
+      "c": "E6EDF3",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": " ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "=",
+      "c": "FF7B72",
+      "b": true,
+      "i": false
+     },
+     {
+      "t": " ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "in",
+      "c": "FF7B72",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "[ix,iy]",
+      "c": "E6EDF3",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": " ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "+",
+      "c": "FF7B72",
+      "b": true,
+      "i": false
+     },
+     {
+      "t": " ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "ix",
+      "c": "E6EDF3",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": " ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "+",
+      "c": "FF7B72",
+      "b": true,
+      "i": false
+     },
+     {
+      "t": " ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "iy",
+      "c": "E6EDF3",
+      "b": false,
+      "i": false
+     }
+    ],
+    [
+     {
+      "t": "      ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "end",
+      "c": "FF7B72",
+      "b": false,
+      "i": false
+     }
+    ],
+    [
+     {
+      "t": "   ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "end",
+      "c": "FF7B72",
+      "b": false,
+      "i": false
+     }
+    ],
+    [
+     {
+      "t": "   ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "return",
+      "c": "FF7B72",
+      "b": false,
+      "i": false
+     }
+    ],
+    [
+     {
+      "t": "end",
+      "c": "FF7B72",
+      "b": false,
+      "i": false
+     }
+    ]
+   ],
+   "width": 41,
+   "background": "0D1117"
+  },
+  {
+   "label": "Fortran",
+   "file": "cfsub.f",
+   "lines": "55\u201365",
+   "test": "Fortran gfortran -O3 native",
+   "rel": 2.05,
+   "rows": [
+    [
+     {
+      "t": "subroutine ",
+      "c": "FF7B72",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "sub",
+      "c": "E6EDF3",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": " ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "(In,Nx,Ny,Out)",
+      "c": "E6EDF3",
+      "b": false,
+      "i": false
+     }
+    ],
+    [
+     {
+      "t": "\u22ee",
+      "c": "8B949E",
+      "b": false,
+      "i": false
+     }
+    ],
+    [
+     {
+      "t": "do ",
+      "c": "FF7B72",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "Iy",
+      "c": "E6EDF3",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": " ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "=",
+      "c": "FF7B72",
+      "b": true,
+      "i": false
+     },
+     {
+      "t": " ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "1",
+      "c": "A5D6FF",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": ",Ny",
+      "c": "E6EDF3",
+      "b": false,
+      "i": false
+     }
+    ],
+    [
+     {
+      "t": "   ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "do ",
+      "c": "FF7B72",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "Ix",
+      "c": "E6EDF3",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": " ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "=",
+      "c": "FF7B72",
+      "b": true,
+      "i": false
+     },
+     {
+      "t": " ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "1",
+      "c": "A5D6FF",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": ",Nx",
+      "c": "E6EDF3",
+      "b": false,
+      "i": false
+     }
+    ],
+    [
+     {
+      "t": "      ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "Out(Ix,Iy)",
+      "c": "E6EDF3",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": " ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "=",
+      "c": "FF7B72",
+      "b": true,
+      "i": false
+     },
+     {
+      "t": " ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "In(Ix,Iy)",
+      "c": "E6EDF3",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": " ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "+",
+      "c": "FF7B72",
+      "b": true,
+      "i": false
+     },
+     {
+      "t": " ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "Ix",
+      "c": "E6EDF3",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": " ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "+",
+      "c": "FF7B72",
+      "b": true,
+      "i": false
+     },
+     {
+      "t": " ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "Iy",
+      "c": "E6EDF3",
+      "b": false,
+      "i": false
+     }
+    ],
+    [
+     {
+      "t": "   ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "end do",
+      "c": "FF7B72",
+      "b": false,
+      "i": false
+     }
+    ],
+    [
+     {
+      "t": "end do",
+      "c": "FF7B72",
+      "b": false,
+      "i": false
+     }
+    ],
+    [
+     {
+      "t": "end",
+      "c": "FF7B72",
+      "b": false,
+      "i": false
+     }
+    ]
+   ],
+   "width": 38,
+   "background": "0D1117"
+  },
+  {
+   "label": "Python + numba",
+   "file": "csubnp-numba.py",
+   "lines": "113\u2013117",
+   "test": "Python : numpy raw Python3 numba",
+   "rel": 3.15,
+   "rows": [
+    [
+     {
+      "t": "@numba",
+      "c": "D2A8FF",
+      "b": true,
+      "i": false
+     },
+     {
+      "t": ".",
+      "c": "FF7B72",
+      "b": true,
+      "i": false
+     },
+     {
+      "t": "jit",
+      "c": "E6EDF3",
+      "b": false,
+      "i": false
+     }
+    ],
+    [
+     {
+      "t": "def",
+      "c": "FF7B72",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": " ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "subr",
+      "c": "D2A8FF",
+      "b": true,
+      "i": false
+     },
+     {
+      "t": "(ina,nx,ny,out):",
+      "c": "E6EDF3",
+      "b": false,
+      "i": false
+     }
+    ],
+    [
+     {
+      "t": "   ",
+      "c": "E6EDF3",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "for",
+      "c": "FF7B72",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": " iy ",
+      "c": "E6EDF3",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "in",
+      "c": "FF7B72",
+      "b": true,
+      "i": false
+     },
+     {
+      "t": " range(ny):",
+      "c": "E6EDF3",
+      "b": false,
+      "i": false
+     }
+    ],
+    [
+     {
+      "t": "      ",
+      "c": "E6EDF3",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "for",
+      "c": "FF7B72",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": " ix ",
+      "c": "E6EDF3",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "in",
+      "c": "FF7B72",
+      "b": true,
+      "i": false
+     },
+     {
+      "t": " range(nx):",
+      "c": "E6EDF3",
+      "b": false,
+      "i": false
+     }
+    ],
+    [
+     {
+      "t": "         out[iy,ix] ",
+      "c": "E6EDF3",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "=",
+      "c": "FF7B72",
+      "b": true,
+      "i": false
+     },
+     {
+      "t": " ina[iy,ix] ",
+      "c": "E6EDF3",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "+",
+      "c": "FF7B72",
+      "b": true,
+      "i": false
+     },
+     {
+      "t": " ix ",
+      "c": "E6EDF3",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "+",
+      "c": "FF7B72",
+      "b": true,
+      "i": false
+     },
+     {
+      "t": " iy",
+      "c": "E6EDF3",
+      "b": false,
+      "i": false
+     }
+    ]
+   ],
+   "width": 42,
+   "background": "0D1117"
+  },
+  {
+   "label": "Go",
+   "file": "csubraw.go",
+   "lines": "13\u201321",
+   "test": "Go go",
+   "rel": 6.91,
+   "rows": [
+    [
+     {
+      "t": "func",
+      "c": "FF7B72",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": " ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "subr(in",
+      "c": "E6EDF3",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": " ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "[][]",
+      "c": "E6EDF3",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "float64",
+      "c": "FF7B72",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": ",",
+      "c": "E6EDF3",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": " ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "nx,",
+      "c": "E6EDF3",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": " ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "ny",
+      "c": "E6EDF3",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": " ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "int",
+      "c": "FF7B72",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": ",",
+      "c": "E6EDF3",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": " ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "out",
+      "c": "E6EDF3",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": " ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "[][]",
+      "c": "E6EDF3",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "float64",
+      "c": "FF7B72",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": ")",
+      "c": "E6EDF3",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": " ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "{",
+      "c": "E6EDF3",
+      "b": false,
+      "i": false
+     }
+    ],
+    [
+     {
+      "t": "   ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "for",
+      "c": "FF7B72",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": " ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "iy",
+      "c": "E6EDF3",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": " ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": ":=",
+      "c": "FF7B72",
+      "b": true,
+      "i": false
+     },
+     {
+      "t": " ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "0",
+      "c": "A5D6FF",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": ";",
+      "c": "E6EDF3",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": " ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "iy",
+      "c": "E6EDF3",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": " ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "<",
+      "c": "E6EDF3",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": " ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "ny;",
+      "c": "E6EDF3",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": " ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "iy",
+      "c": "E6EDF3",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "++",
+      "c": "FF7B72",
+      "b": true,
+      "i": false
+     },
+     {
+      "t": " ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "{",
+      "c": "E6EDF3",
+      "b": false,
+      "i": false
+     }
+    ],
+    [
+     {
+      "t": "      ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "rowIn",
+      "c": "E6EDF3",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": " ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": ":=",
+      "c": "FF7B72",
+      "b": true,
+      "i": false
+     },
+     {
+      "t": " ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "in[iy]",
+      "c": "E6EDF3",
+      "b": false,
+      "i": false
+     }
+    ],
+    [
+     {
+      "t": "      ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "rowOut",
+      "c": "E6EDF3",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": " ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": ":=",
+      "c": "FF7B72",
+      "b": true,
+      "i": false
+     },
+     {
+      "t": " ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "out[iy]",
+      "c": "E6EDF3",
+      "b": false,
+      "i": false
+     }
+    ],
+    [
+     {
+      "t": "      ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "for",
+      "c": "FF7B72",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": " ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "ix",
+      "c": "E6EDF3",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": " ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": ":=",
+      "c": "FF7B72",
+      "b": true,
+      "i": false
+     },
+     {
+      "t": " ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "0",
+      "c": "A5D6FF",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": ";",
+      "c": "E6EDF3",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": " ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "ix",
+      "c": "E6EDF3",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": " ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "<",
+      "c": "E6EDF3",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": " ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "nx;",
+      "c": "E6EDF3",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": " ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "ix",
+      "c": "E6EDF3",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "++",
+      "c": "FF7B72",
+      "b": true,
+      "i": false
+     },
+     {
+      "t": " ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "{",
+      "c": "E6EDF3",
+      "b": false,
+      "i": false
+     }
+    ],
+    [
+     {
+      "t": "         ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "rowOut[ix]",
+      "c": "E6EDF3",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": " ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "=",
+      "c": "E6EDF3",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": " ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "rowIn[ix]",
+      "c": "E6EDF3",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": " ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "+",
+      "c": "FF7B72",
+      "b": true,
+      "i": false
+     },
+     {
+      "t": " ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "float64(ix)",
+      "c": "E6EDF3",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": " ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "+",
+      "c": "FF7B72",
+      "b": true,
+      "i": false
+     },
+     {
+      "t": " ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "float64(iy)",
+      "c": "E6EDF3",
+      "b": false,
+      "i": false
+     }
+    ],
+    [
+     {
+      "t": "      ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "}",
+      "c": "E6EDF3",
+      "b": false,
+      "i": false
+     }
+    ],
+    [
+     {
+      "t": "   ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "}",
+      "c": "E6EDF3",
+      "b": false,
+      "i": false
+     }
+    ],
+    [
+     {
+      "t": "}",
+      "c": "E6EDF3",
+      "b": false,
+      "i": false
+     }
+    ]
+   ],
+   "width": 59,
+   "background": "0D1117"
+  },
+  {
+   "label": "LuaJIT",
+   "file": "csubraw.lua",
+   "lines": "9\u201317",
+   "test": "Lua LuaJIT",
+   "rel": 7.59,
+   "rows": [
+    [
+     {
+      "t": "local",
+      "c": "FF7B72",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": " ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "function",
+      "c": "FF7B72",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": " ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "subr",
+      "c": "D2A8FF",
+      "b": true,
+      "i": false
+     },
+     {
+      "t": "(",
+      "c": "E6EDF3",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "ina",
+      "c": "79C0FF",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": ",",
+      "c": "E6EDF3",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": " ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "nx",
+      "c": "79C0FF",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": ",",
+      "c": "E6EDF3",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": " ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "ny",
+      "c": "79C0FF",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": ",",
+      "c": "E6EDF3",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": " ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "out",
+      "c": "79C0FF",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": ")",
+      "c": "E6EDF3",
+      "b": false,
+      "i": false
+     }
+    ],
+    [
+     {
+      "t": "   ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "for",
+      "c": "FF7B72",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": " ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "iy",
+      "c": "79C0FF",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": " ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "=",
+      "c": "FF7B72",
+      "b": true,
+      "i": false
+     },
+     {
+      "t": " ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "0",
+      "c": "A5D6FF",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": ",",
+      "c": "E6EDF3",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": " ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "ny",
+      "c": "79C0FF",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": " ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "-",
+      "c": "FF7B72",
+      "b": true,
+      "i": false
+     },
+     {
+      "t": " ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "1",
+      "c": "A5D6FF",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": " ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "do",
+      "c": "FF7B72",
+      "b": false,
+      "i": false
+     }
+    ],
+    [
+     {
+      "t": "      ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "local",
+      "c": "FF7B72",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": " ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "row_in",
+      "c": "79C0FF",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "  ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "=",
+      "c": "FF7B72",
+      "b": true,
+      "i": false
+     },
+     {
+      "t": " ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "ina",
+      "c": "79C0FF",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "[",
+      "c": "E6EDF3",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "iy",
+      "c": "79C0FF",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": " ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "+",
+      "c": "FF7B72",
+      "b": true,
+      "i": false
+     },
+     {
+      "t": " ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "1",
+      "c": "A5D6FF",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "]",
+      "c": "E6EDF3",
+      "b": false,
+      "i": false
+     }
+    ],
+    [
+     {
+      "t": "      ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "local",
+      "c": "FF7B72",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": " ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "row_out",
+      "c": "79C0FF",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": " ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "=",
+      "c": "FF7B72",
+      "b": true,
+      "i": false
+     },
+     {
+      "t": " ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "out",
+      "c": "79C0FF",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "[",
+      "c": "E6EDF3",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "iy",
+      "c": "79C0FF",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": " ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "+",
+      "c": "FF7B72",
+      "b": true,
+      "i": false
+     },
+     {
+      "t": " ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "1",
+      "c": "A5D6FF",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "]",
+      "c": "E6EDF3",
+      "b": false,
+      "i": false
+     }
+    ],
+    [
+     {
+      "t": "      ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "for",
+      "c": "FF7B72",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": " ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "ix",
+      "c": "79C0FF",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": " ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "=",
+      "c": "FF7B72",
+      "b": true,
+      "i": false
+     },
+     {
+      "t": " ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "0",
+      "c": "A5D6FF",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": ",",
+      "c": "E6EDF3",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": " ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "nx",
+      "c": "79C0FF",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": " ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "-",
+      "c": "FF7B72",
+      "b": true,
+      "i": false
+     },
+     {
+      "t": " ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "1",
+      "c": "A5D6FF",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": " ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "do",
+      "c": "FF7B72",
+      "b": false,
+      "i": false
+     }
+    ],
+    [
+     {
+      "t": "         ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "row_out",
+      "c": "79C0FF",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "[",
+      "c": "E6EDF3",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "ix",
+      "c": "79C0FF",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": " ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "+",
+      "c": "FF7B72",
+      "b": true,
+      "i": false
+     },
+     {
+      "t": " ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "1",
+      "c": "A5D6FF",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "]",
+      "c": "E6EDF3",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": " ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "=",
+      "c": "FF7B72",
+      "b": true,
+      "i": false
+     },
+     {
+      "t": " ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "row_in",
+      "c": "79C0FF",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "[",
+      "c": "E6EDF3",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "ix",
+      "c": "79C0FF",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": " ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "+",
+      "c": "FF7B72",
+      "b": true,
+      "i": false
+     },
+     {
+      "t": " ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "1",
+      "c": "A5D6FF",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "]",
+      "c": "E6EDF3",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": " ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "+",
+      "c": "FF7B72",
+      "b": true,
+      "i": false
+     },
+     {
+      "t": " ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "ix",
+      "c": "79C0FF",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": " ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "+",
+      "c": "FF7B72",
+      "b": true,
+      "i": false
+     },
+     {
+      "t": " ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "iy",
+      "c": "79C0FF",
+      "b": false,
+      "i": false
+     }
+    ],
+    [
+     {
+      "t": "      ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "end",
+      "c": "FF7B72",
+      "b": false,
+      "i": false
+     }
+    ],
+    [
+     {
+      "t": "   ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "end",
+      "c": "FF7B72",
+      "b": false,
+      "i": false
+     }
+    ],
+    [
+     {
+      "t": "end",
+      "c": "FF7B72",
+      "b": false,
+      "i": false
+     }
+    ]
+   ],
+   "width": 51,
+   "background": "0D1117"
+  },
+  {
+   "label": "J",
+   "file": "csubraw.ijs",
+   "lines": "10\u201313",
+   "test": "J jconsole",
+   "rel": 8.24,
+   "rows": [
+    [
+     {
+      "t": "subr",
+      "c": "79C0FF",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": " ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "=:",
+      "c": "FF7B72",
+      "b": true,
+      "i": false
+     },
+     {
+      "t": " ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "3 : 0",
+      "c": "D2A8FF",
+      "b": true,
+      "i": false
+     }
+    ],
+    [
+     {
+      "t": "   ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "shp",
+      "c": "79C0FF",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": " ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "=.",
+      "c": "FF7B72",
+      "b": true,
+      "i": false
+     },
+     {
+      "t": " ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "$",
+      "c": "FF7B72",
+      "b": true,
+      "i": false
+     },
+     {
+      "t": " ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "y",
+      "c": "79C0FF",
+      "b": false,
+      "i": false
+     }
+    ],
+    [
+     {
+      "t": "   ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "y",
+      "c": "79C0FF",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": " ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "+",
+      "c": "FF7B72",
+      "b": true,
+      "i": false
+     },
+     {
+      "t": " ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "(",
+      "c": "E6EDF3",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "i",
+      "c": "79C0FF",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": ".",
+      "c": "FF7B72",
+      "b": true,
+      "i": false
+     },
+     {
+      "t": " ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "{.",
+      "c": "FF7B72",
+      "b": true,
+      "i": false
+     },
+     {
+      "t": " ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "shp",
+      "c": "79C0FF",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": ")",
+      "c": "E6EDF3",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": " ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "+/",
+      "c": "FF7B72",
+      "b": true,
+      "i": false
+     },
+     {
+      "t": " ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "i",
+      "c": "79C0FF",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": ".",
+      "c": "FF7B72",
+      "b": true,
+      "i": false
+     },
+     {
+      "t": " ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "{:",
+      "c": "FF7B72",
+      "b": true,
+      "i": false
+     },
+     {
+      "t": " ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "shp",
+      "c": "79C0FF",
+      "b": false,
+      "i": false
+     }
+    ],
+    [
+     {
+      "t": ")",
+      "c": "F85149",
+      "b": false,
+      "i": false
+     }
+    ]
+   ],
+   "width": 31,
+   "background": "0D1117"
+  },
+  {
+   "label": "Nim",
+   "file": "csubraw.nim",
+   "lines": "12\u201317",
+   "test": "Nim nim -d:danger",
+   "rel": 3.31,
+   "rows": [
+    [
+     {
+      "t": "proc",
+      "c": "FF7B72",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": " ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "subr",
+      "c": "D2A8FF",
+      "b": true,
+      "i": false
+     },
+     {
+      "t": "(inp:",
+      "c": "E6EDF3",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": " ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "var",
+      "c": "FF7B72",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": " ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "seq",
+      "c": "E6EDF3",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "[",
+      "c": "FF7B72",
+      "b": true,
+      "i": false
+     },
+     {
+      "t": "seq",
+      "c": "E6EDF3",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "[",
+      "c": "FF7B72",
+      "b": true,
+      "i": false
+     },
+     {
+      "t": "float64",
+      "c": "E6EDF3",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "]]",
+      "c": "FF7B72",
+      "b": true,
+      "i": false
+     },
+     {
+      "t": ";",
+      "c": "E6EDF3",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": " ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "nx,",
+      "c": "E6EDF3",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": " ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "ny:",
+      "c": "E6EDF3",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": " ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "int;",
+      "c": "E6EDF3",
+      "b": false,
+      "i": false
+     }
+    ],
+    [
+     {
+      "t": "          ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "outp:",
+      "c": "E6EDF3",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": " ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "var",
+      "c": "FF7B72",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": " ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "seq",
+      "c": "E6EDF3",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "[",
+      "c": "FF7B72",
+      "b": true,
+      "i": false
+     },
+     {
+      "t": "seq",
+      "c": "E6EDF3",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "[",
+      "c": "FF7B72",
+      "b": true,
+      "i": false
+     },
+     {
+      "t": "float64",
+      "c": "E6EDF3",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "]]",
+      "c": "FF7B72",
+      "b": true,
+      "i": false
+     },
+     {
+      "t": ")",
+      "c": "E6EDF3",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": " ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "=",
+      "c": "FF7B72",
+      "b": true,
+      "i": false
+     }
+    ],
+    [
+     {
+      "t": "   ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "for",
+      "c": "FF7B72",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": " ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "iy",
+      "c": "E6EDF3",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": " ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "in",
+      "c": "FF7B72",
+      "b": true,
+      "i": false
+     },
+     {
+      "t": " ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "0",
+      "c": "A5D6FF",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": " ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "..",
+      "c": "E6EDF3",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "<",
+      "c": "FF7B72",
+      "b": true,
+      "i": false
+     },
+     {
+      "t": " ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "ny:",
+      "c": "E6EDF3",
+      "b": false,
+      "i": false
+     }
+    ],
+    [
+     {
+      "t": "      ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "let",
+      "c": "FF7B72",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": " ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "fiy",
+      "c": "E6EDF3",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": " ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "=",
+      "c": "FF7B72",
+      "b": true,
+      "i": false
+     },
+     {
+      "t": " ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "float64(iy)",
+      "c": "E6EDF3",
+      "b": false,
+      "i": false
+     }
+    ],
+    [
+     {
+      "t": "      ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "for",
+      "c": "FF7B72",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": " ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "ix",
+      "c": "E6EDF3",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": " ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "in",
+      "c": "FF7B72",
+      "b": true,
+      "i": false
+     },
+     {
+      "t": " ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "0",
+      "c": "A5D6FF",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": " ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "..",
+      "c": "E6EDF3",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "<",
+      "c": "FF7B72",
+      "b": true,
+      "i": false
+     },
+     {
+      "t": " ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "nx:",
+      "c": "E6EDF3",
+      "b": false,
+      "i": false
+     }
+    ],
+    [
+     {
+      "t": "         ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "outp",
+      "c": "E6EDF3",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "[",
+      "c": "FF7B72",
+      "b": true,
+      "i": false
+     },
+     {
+      "t": "iy",
+      "c": "E6EDF3",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "][",
+      "c": "FF7B72",
+      "b": true,
+      "i": false
+     },
+     {
+      "t": "ix",
+      "c": "E6EDF3",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "]",
+      "c": "FF7B72",
+      "b": true,
+      "i": false
+     },
+     {
+      "t": " ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "=",
+      "c": "FF7B72",
+      "b": true,
+      "i": false
+     },
+     {
+      "t": " ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "inp",
+      "c": "E6EDF3",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "[",
+      "c": "FF7B72",
+      "b": true,
+      "i": false
+     },
+     {
+      "t": "iy",
+      "c": "E6EDF3",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "][",
+      "c": "FF7B72",
+      "b": true,
+      "i": false
+     },
+     {
+      "t": "ix",
+      "c": "E6EDF3",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "]",
+      "c": "FF7B72",
+      "b": true,
+      "i": false
+     },
+     {
+      "t": " ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "+",
+      "c": "FF7B72",
+      "b": true,
+      "i": false
+     },
+     {
+      "t": " ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "float64(ix)",
+      "c": "E6EDF3",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": " ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "+",
+      "c": "FF7B72",
+      "b": true,
+      "i": false
+     },
+     {
+      "t": " ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "fiy",
+      "c": "E6EDF3",
+      "b": false,
+      "i": false
+     }
+    ]
+   ],
+   "width": 55,
+   "background": "0D1117"
+  },
+  {
+   "label": "PDL (arrays)",
+   "file": "csubpdlary.pl",
+   "lines": "109\u2013112",
+   "test": "Perl/PDL : arrays Perl/PDL",
+   "rel": 25.08,
+   "rows": [
+    [
+     {
+      "t": "sub",
+      "c": "FF7B72",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": " ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "csub",
+      "c": "D2A8FF",
+      "b": true,
+      "i": false
+     },
+     {
+      "t": " ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "{",
+      "c": "E6EDF3",
+      "b": false,
+      "i": false
+     }
+    ],
+    [
+     {
+      "t": "   ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "my",
+      "c": "FF7B72",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": " ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "(",
+      "c": "E6EDF3",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "$Input",
+      "c": "79C0FF",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": ",",
+      "c": "E6EDF3",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "$Nx",
+      "c": "79C0FF",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": ",",
+      "c": "E6EDF3",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "$Ny",
+      "c": "79C0FF",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": ",",
+      "c": "E6EDF3",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "$Output",
+      "c": "79C0FF",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": ")",
+      "c": "E6EDF3",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": " ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "=",
+      "c": "FF7B72",
+      "b": true,
+      "i": false
+     },
+     {
+      "t": " ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "@_",
+      "c": "79C0FF",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": ";",
+      "c": "E6EDF3",
+      "b": false,
+      "i": false
+     }
+    ],
+    [
+     {
+      "t": "   ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "$Output",
+      "c": "79C0FF",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": " ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": ".=",
+      "c": "FF7B72",
+      "b": true,
+      "i": false
+     },
+     {
+      "t": " ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "$Input",
+      "c": "79C0FF",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": " ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "+",
+      "c": "FF7B72",
+      "b": true,
+      "i": false
+     },
+     {
+      "t": " ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "sequence(",
+      "c": "E6EDF3",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "$Nx",
+      "c": "79C0FF",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": ")",
+      "c": "E6EDF3",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": " ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "+",
+      "c": "FF7B72",
+      "b": true,
+      "i": false
+     },
+     {
+      "t": " ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "sequence(",
+      "c": "E6EDF3",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "$Ny",
+      "c": "79C0FF",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": ")",
+      "c": "E6EDF3",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "->",
+      "c": "FF7B72",
+      "b": true,
+      "i": false
+     },
+     {
+      "t": "dummy(",
+      "c": "E6EDF3",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "0",
+      "c": "A5D6FF",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": ",",
+      "c": "E6EDF3",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "1",
+      "c": "A5D6FF",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": ");",
+      "c": "E6EDF3",
+      "b": false,
+      "i": false
+     }
+    ],
+    [
+     {
+      "t": "}",
+      "c": "E6EDF3",
+      "b": false,
+      "i": false
+     }
+    ]
+   ],
+   "width": 65,
+   "background": "0D1117"
+  },
+  {
+   "label": "R (outer)",
+   "file": "csubouter.r",
+   "lines": "122\u2013124",
+   "test": "R : outer Rscript",
+   "rel": 149.67,
+   "rows": [
+    [
+     {
+      "t": "csub",
+      "c": "E6EDF3",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": " ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "<-",
+      "c": "FF7B72",
+      "b": true,
+      "i": false
+     },
+     {
+      "t": " ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "function",
+      "c": "FF7B72",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "(ina,nx,ny)",
+      "c": "E6EDF3",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": " ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "{",
+      "c": "E6EDF3",
+      "b": false,
+      "i": false
+     }
+    ],
+    [
+     {
+      "t": "   ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "return",
+      "c": "FF7B72",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": " ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "(ina",
+      "c": "E6EDF3",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": " ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "+",
+      "c": "FF7B72",
+      "b": true,
+      "i": false
+     },
+     {
+      "t": " ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "outer",
+      "c": "D2A8FF",
+      "b": true,
+      "i": false
+     },
+     {
+      "t": "(",
+      "c": "E6EDF3",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "1",
+      "c": "A5D6FF",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": ":",
+      "c": "FF7B72",
+      "b": true,
+      "i": false
+     },
+     {
+      "t": "nx,",
+      "c": "E6EDF3",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "1",
+      "c": "A5D6FF",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": ":",
+      "c": "FF7B72",
+      "b": true,
+      "i": false
+     },
+     {
+      "t": "ny,",
+      "c": "E6EDF3",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "'+'",
+      "c": "A5D6FF",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "))",
+      "c": "E6EDF3",
+      "b": false,
+      "i": false
+     }
+    ],
+    [
+     {
+      "t": "}",
+      "c": "E6EDF3",
+      "b": false,
+      "i": false
+     }
+    ]
+   ],
+   "width": 38,
+   "background": "0D1117"
+  },
+  {
+   "label": "Common Lisp (SBCL)",
+   "file": "csubraw.lisp",
+   "lines": "19\u201323",
+   "test": "Lisp SBCL untyped",
+   "rel": 167.25,
+   "rows": [
+    [
+     {
+      "t": "(defun",
+      "c": "E6EDF3",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": " ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "subr",
+      "c": "79C0FF",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": " ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "(",
+      "c": "E6EDF3",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "in-arr",
+      "c": "79C0FF",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": " ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "nx",
+      "c": "79C0FF",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": " ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "ny",
+      "c": "79C0FF",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": " ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "out-arr",
+      "c": "79C0FF",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": ")",
+      "c": "E6EDF3",
+      "b": false,
+      "i": false
+     }
+    ],
+    [
+     {
+      "t": "   ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "(dotimes",
+      "c": "E6EDF3",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": " ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "(",
+      "c": "E6EDF3",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "iy",
+      "c": "79C0FF",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": " ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "ny",
+      "c": "79C0FF",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": ")",
+      "c": "E6EDF3",
+      "b": false,
+      "i": false
+     }
+    ],
+    [
+     {
+      "t": "      ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "(dotimes",
+      "c": "E6EDF3",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": " ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "(",
+      "c": "E6EDF3",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "ix",
+      "c": "79C0FF",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": " ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "nx",
+      "c": "79C0FF",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": ")",
+      "c": "E6EDF3",
+      "b": false,
+      "i": false
+     }
+    ],
+    [
+     {
+      "t": "         ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "(setf",
+      "c": "E6EDF3",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": " ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "(aref",
+      "c": "E6EDF3",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": " ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "out-arr",
+      "c": "79C0FF",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": " ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "iy",
+      "c": "79C0FF",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": " ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "ix",
+      "c": "79C0FF",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": ")",
+      "c": "E6EDF3",
+      "b": false,
+      "i": false
+     }
+    ],
+    [
+     {
+      "t": "               ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "(+",
+      "c": "E6EDF3",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": " ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "(aref",
+      "c": "E6EDF3",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": " ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "in-arr",
+      "c": "79C0FF",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": " ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "iy",
+      "c": "79C0FF",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": " ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "ix",
+      "c": "79C0FF",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": ")",
+      "c": "E6EDF3",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": " ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "ix",
+      "c": "79C0FF",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": " ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "iy",
+      "c": "79C0FF",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": ")))))",
+      "c": "E6EDF3",
+      "b": false,
+      "i": false
+     }
+    ]
+   ],
+   "width": 48,
+   "background": "0D1117"
+  },
+  {
+   "label": "Tcl",
+   "file": "ctest.tcl",
+   "lines": "91\u2013100",
+   "test": "Tcl : raw tclsh",
+   "rel": 13455.86,
+   "rows": [
+    [
+     {
+      "t": "proc",
+      "c": "FF7B72",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": " ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "subr",
+      "c": "E6EDF3",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": " ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "{",
+      "c": "FF7B72",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": " ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "inary",
+      "c": "79C0FF",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": " ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "nx",
+      "c": "E6EDF3",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": " ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "ny",
+      "c": "E6EDF3",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": " ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "outary",
+      "c": "E6EDF3",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": " ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "}",
+      "c": "FF7B72",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": " ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "{",
+      "c": "FF7B72",
+      "b": false,
+      "i": false
+     }
+    ],
+    [
+     {
+      "t": "\u22ee",
+      "c": "8B949E",
+      "b": false,
+      "i": false
+     }
+    ],
+    [
+     {
+      "t": "   ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "for",
+      "c": "FF7B72",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": " ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "{set",
+      "c": "FF7B72",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": " ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "iy",
+      "c": "E6EDF3",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": " ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "0",
+      "c": "A5D6FF",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "}",
+      "c": "FF7B72",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": " ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "{",
+      "c": "FF7B72",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "$iy",
+      "c": "79C0FF",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": " ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "<",
+      "c": "FF7B72",
+      "b": true,
+      "i": false
+     },
+     {
+      "t": " ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "$ny",
+      "c": "79C0FF",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "}",
+      "c": "FF7B72",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": " ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "{",
+      "c": "FF7B72",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "incr",
+      "c": "E6EDF3",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": " ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "iy",
+      "c": "E6EDF3",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "}",
+      "c": "FF7B72",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": " ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "{",
+      "c": "FF7B72",
+      "b": false,
+      "i": false
+     }
+    ],
+    [
+     {
+      "t": "      ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "for",
+      "c": "FF7B72",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": " ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "{set",
+      "c": "FF7B72",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": " ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "ix",
+      "c": "E6EDF3",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": " ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "0",
+      "c": "A5D6FF",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "}",
+      "c": "FF7B72",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": " ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "{",
+      "c": "FF7B72",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "$ix",
+      "c": "79C0FF",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": " ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "<",
+      "c": "FF7B72",
+      "b": true,
+      "i": false
+     },
+     {
+      "t": " ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "$nx",
+      "c": "79C0FF",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "}",
+      "c": "FF7B72",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": " ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "{",
+      "c": "FF7B72",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "incr",
+      "c": "E6EDF3",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": " ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "ix",
+      "c": "E6EDF3",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "}",
+      "c": "FF7B72",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": " ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "{",
+      "c": "FF7B72",
+      "b": false,
+      "i": false
+     }
+    ],
+    [
+     {
+      "t": "         ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "set",
+      "c": "FF7B72",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": " ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "inelem",
+      "c": "E6EDF3",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": " ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "$in",
+      "c": "79C0FF",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "(",
+      "c": "FF7B72",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "$iy",
+      "c": "79C0FF",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": ",",
+      "c": "E6EDF3",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "$ix",
+      "c": "79C0FF",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": ")",
+      "c": "FF7B72",
+      "b": false,
+      "i": false
+     }
+    ],
+    [
+     {
+      "t": "         ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "set",
+      "c": "FF7B72",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": " ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "out",
+      "c": "E6EDF3",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "(",
+      "c": "FF7B72",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "$iy",
+      "c": "79C0FF",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": ",",
+      "c": "E6EDF3",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "$ix",
+      "c": "79C0FF",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": ")",
+      "c": "FF7B72",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": " ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "[expr",
+      "c": "FF7B72",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": " ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "$inelem",
+      "c": "79C0FF",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": " ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "+",
+      "c": "FF7B72",
+      "b": true,
+      "i": false
+     },
+     {
+      "t": " ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "$ix",
+      "c": "79C0FF",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": " ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "+",
+      "c": "FF7B72",
+      "b": true,
+      "i": false
+     },
+     {
+      "t": " ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "$iy",
+      "c": "79C0FF",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "]",
+      "c": "FF7B72",
+      "b": false,
+      "i": false
+     }
+    ],
+    [
+     {
+      "t": "      ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "}",
+      "c": "FF7B72",
+      "b": false,
+      "i": false
+     }
+    ],
+    [
+     {
+      "t": "   ",
+      "c": "6E7681",
+      "b": false,
+      "i": false
+     },
+     {
+      "t": "}",
+      "c": "FF7B72",
+      "b": false,
+      "i": false
+     }
+    ],
+    [
+     {
+      "t": "}",
+      "c": "FF7B72",
+      "b": false,
+      "i": false
+     }
+    ]
+   ],
+   "width": 52,
+   "background": "0D1117"
+  }
+ ],
+ "numba": {
+  "label": "Python + numba",
+  "file": "csubnp-numba.py",
+  "lines": "113\u2013117",
+  "test": "Python : numpy raw Python3 numba",
+  "rel": 3.15,
+  "rows": [
+   [
+    {
+     "t": "@numba",
+     "c": "D2A8FF",
+     "b": true,
+     "i": false
+    },
+    {
+     "t": ".",
+     "c": "FF7B72",
+     "b": true,
+     "i": false
+    },
+    {
+     "t": "jit",
+     "c": "E6EDF3",
+     "b": false,
+     "i": false
+    }
+   ],
+   [
+    {
+     "t": "def",
+     "c": "FF7B72",
+     "b": false,
+     "i": false
+    },
+    {
+     "t": " ",
+     "c": "6E7681",
+     "b": false,
+     "i": false
+    },
+    {
+     "t": "subr",
+     "c": "D2A8FF",
+     "b": true,
+     "i": false
+    },
+    {
+     "t": "(ina,nx,ny,out):",
+     "c": "E6EDF3",
+     "b": false,
+     "i": false
+    }
+   ],
+   [
+    {
+     "t": "   ",
+     "c": "E6EDF3",
+     "b": false,
+     "i": false
+    },
+    {
+     "t": "for",
+     "c": "FF7B72",
+     "b": false,
+     "i": false
+    },
+    {
+     "t": " iy ",
+     "c": "E6EDF3",
+     "b": false,
+     "i": false
+    },
+    {
+     "t": "in",
+     "c": "FF7B72",
+     "b": true,
+     "i": false
+    },
+    {
+     "t": " range(ny):",
+     "c": "E6EDF3",
+     "b": false,
+     "i": false
+    }
+   ],
+   [
+    {
+     "t": "      ",
+     "c": "E6EDF3",
+     "b": false,
+     "i": false
+    },
+    {
+     "t": "for",
+     "c": "FF7B72",
+     "b": false,
+     "i": false
+    },
+    {
+     "t": " ix ",
+     "c": "E6EDF3",
+     "b": false,
+     "i": false
+    },
+    {
+     "t": "in",
+     "c": "FF7B72",
+     "b": true,
+     "i": false
+    },
+    {
+     "t": " range(nx):",
+     "c": "E6EDF3",
+     "b": false,
+     "i": false
+    }
+   ],
+   [
+    {
+     "t": "         out[iy,ix] ",
+     "c": "E6EDF3",
+     "b": false,
+     "i": false
+    },
+    {
+     "t": "=",
+     "c": "FF7B72",
+     "b": true,
+     "i": false
+    },
+    {
+     "t": " ina[iy,ix] ",
+     "c": "E6EDF3",
+     "b": false,
+     "i": false
+    },
+    {
+     "t": "+",
+     "c": "FF7B72",
+     "b": true,
+     "i": false
+    },
+    {
+     "t": " ix ",
+     "c": "E6EDF3",
+     "b": false,
+     "i": false
+    },
+    {
+     "t": "+",
+     "c": "FF7B72",
+     "b": true,
+     "i": false
+    },
+    {
+     "t": " iy",
+     "c": "E6EDF3",
+     "b": false,
+     "i": false
+    }
+   ]
+  ],
+  "width": 42,
+  "background": "0D1117"
+ }
+}

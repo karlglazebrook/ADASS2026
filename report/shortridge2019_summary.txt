@@ -1,0 +1,103 @@
+                   Swift                 Swiftc 1K Iter:            6.2, Relative time         3356.89
+                   Swift          Swiftc -Onone 1K Iter:            6.2, Relative time         3353.01
+                   Swift              Swiftc -O 1K Iter:          0.028, Relative time           14.95
+                   Swift     Swiftc -Ounchecked 1K Iter:          0.013, Relative time            7.12
+               Assembler                  clang 1K Iter:          0.002, Relative time            1.09
+                 Fortran               gfortran 1K Iter:          0.075, Relative time           40.72
+                 Fortran            gfortran -O 1K Iter:          0.012, Relative time            6.65
+                 Fortran           gfortran -O1 1K Iter:          0.012, Relative time            6.69
+                 Fortran           gfortran -O2 1K Iter:          0.012, Relative time            6.66
+                 Fortran           gfortran -O3 1K Iter:         0.0045, Relative time            2.42
+                 Fortran    gfortran -O3 native 1K Iter:          0.002, Relative time            1.06
+                 R : raw                Rscript 1K Iter:            1.8, Relative time          955.84
+           R : ref class                Rscript 1K Iter:        2.9e+03, Relative time      1574237.91
+               R : outer                Rscript 1K Iter:           0.45, Relative time          242.73
+                    Perl                   Perl 1K Iter:            2.4, Relative time         1275.50
+          Perl/PDL : raw               Perl/PDL 1K Iter:        3.4e+02, Relative time       183200.78
+      Perl/PDL : vectors               Perl/PDL 1K Iter:           0.23, Relative time          123.13
+       Perl/PDL : arrays               Perl/PDL 1K Iter:          0.094, Relative time           50.79
+          Python : lists                Python2 1K Iter:            6.3, Relative time         3389.64
+      Python : numpy raw                Python2 1K Iter:             44, Relative time        23630.46
+        Python : vectors                Python2 1K Iter:           0.11, Relative time           59.19
+         Python : arrays                Python2 1K Iter:          0.064, Relative time           34.44
+          Python : lists                Python3 1K Iter:            3.3, Relative time         1802.12
+      Python : numpy raw                Python3 1K Iter:             17, Relative time         9450.74
+        Python : vectors                Python3 1K Iter:           0.08, Relative time           43.26
+         Python : arrays                Python3 1K Iter:          0.087, Relative time           46.76
+      Python : numpy raw          Python3 numba 1K Iter:          0.016, Relative time            8.81
+                    Rust                  Rustc 1K Iter:            3.2, Relative time         1706.91
+                    Rust               Rustc -O 1K Iter:          0.038, Relative time           20.26
+                    Rust              Rustc -O3 1K Iter:          0.034, Relative time           18.11
+                    Rust       Rustc -O3 native 1K Iter:          0.032, Relative time           17.40
+                    Rust        Rustc iterators 1K Iter:          0.023, Relative time           12.40
+                    Rust           Rustc unsafe 1K Iter:          0.015, Relative time            8.33
+                    Java                   Java 1K Iter:          0.014, Relative time            7.58
+               Tcl : raw                  tclsh 1K Iter:             36, Relative time        19695.75
+                   Julia                  julia 1K Iter:          0.019, Relative time           10.09
+                   Julia              julia -O0 1K Iter:           0.16, Relative time           88.51
+                   Julia              julia -O1 1K Iter:          0.043, Relative time           23.35
+                   Julia              julia -O2 1K Iter:          0.019, Relative time           10.08
+                   Julia              julia -O3 1K Iter:          0.019, Relative time           10.10
+                   Julia          julia (int32) 1K Iter:         0.0019, Relative time            1.04
+              Javascript                Node.js 1K Iter:          0.053, Relative time           28.74
+           Javascript   Node.js --no-opt 1K Iter:      1.2, Relative time    624.88
+              C : raw              clang 1K Iter:    0.052, Relative time     28.32
+              C : raw           clang -O 1K Iter:    0.003, Relative time      1.63
+              C : raw          clang -O1 1K Iter:    0.012, Relative time      6.68
+              C : raw          clang -O2 1K Iter:    0.003, Relative time      1.62
+              C : raw          clang -O3 1K Iter:    0.003, Relative time      1.62
+              C : raw   clang -O3 native 1K Iter:   0.0019, Relative time      1.01
+              C : raw                g++ 1K Iter:    0.075, Relative time     40.65
+              C : raw             g++ -O 1K Iter:    0.014, Relative time      7.48
+              C : raw            g++ -O1 1K Iter:    0.014, Relative time      7.49
+              C : raw            g++ -O2 1K Iter:    0.014, Relative time      7.49
+              C : raw            g++ -O3 1K Iter:   0.0047, Relative time      2.52
+              C : raw     g++ -O3 native 1K Iter:    0.002, Relative time      1.06
+          C : vectors              clang 1K Iter:      0.1, Relative time     55.38
+          C : vectors           clang -O 1K Iter:    0.003, Relative time      1.60
+          C : vectors          clang -O1 1K Iter:    0.012, Relative time      6.67
+          C : vectors          clang -O2 1K Iter:   0.0029, Relative time      1.59
+          C : vectors          clang -O3 1K Iter:   0.0029, Relative time      1.59
+          C : vectors   clang -O3 native 1K Iter:   0.0019, Relative time      1.02
+          C : vectors                g++ 1K Iter:     0.19, Relative time    103.95
+          C : vectors             g++ -O 1K Iter:    0.021, Relative time     11.11
+          C : vectors            g++ -O1 1K Iter:     0.02, Relative time     11.06
+          C : vectors            g++ -O2 1K Iter:    0.014, Relative time      7.49
+          C : vectors            g++ -O3 1K Iter:   0.0045, Relative time      2.43
+          C : vectors     g++ -O3 native 1K Iter:    0.002, Relative time      1.08
+          C++ : Boost              clang 1K Iter:      2.2, Relative time   1177.08
+          C++ : Boost           clang -O 1K Iter:    0.034, Relative time     18.23
+          C++ : Boost          clang -O1 1K Iter:      1.2, Relative time    624.37
+          C++ : Boost          clang -O2 1K Iter:    0.034, Relative time     18.24
+          C++ : Boost          clang -O3 1K Iter:    0.029, Relative time     15.78
+          C++ : Boost   clang -O3 native 1K Iter:    0.028, Relative time     14.93
+          C++ : Boost                g++ 1K Iter:      2.5, Relative time   1348.81
+          C++ : Boost             g++ -O 1K Iter:    0.072, Relative time     38.99
+          C++ : Boost            g++ -O1 1K Iter:    0.073, Relative time     39.42
+          C++ : Boost            g++ -O2 1K Iter:    0.068, Relative time     36.60
+          C++ : Boost            g++ -O3 1K Iter:    0.068, Relative time     36.53
+          C++ : Boost     g++ -O3 native 1K Iter:    0.065, Relative time     34.90
+C++ : Boost no assert              clang 1K Iter:      2.1, Relative time   1157.81
+C++ : Boost no assert           clang -O 1K Iter:    0.015, Relative time      7.91
+C++ : Boost no assert          clang -O1 1K Iter:      1.1, Relative time    615.50
+C++ : Boost no assert          clang -O2 1K Iter:    0.015, Relative time      7.92
+C++ : Boost no assert          clang -O3 1K Iter:    0.015, Relative time      7.91
+C++ : Boost no assert   clang -O3 native 1K Iter:    0.022, Relative time     12.00
+C++ : Boost no assert                g++ 1K Iter:      2.4, Relative time   1317.03
+C++ : Boost no assert             g++ -O 1K Iter:    0.036, Relative time     19.24
+C++ : Boost no assert            g++ -O1 1K Iter:    0.036, Relative time     19.27
+C++ : Boost no assert            g++ -O2 1K Iter:    0.018, Relative time      9.98
+C++ : Boost no assert            g++ -O3 1K Iter:    0.014, Relative time      7.51
+C++ : Boost no assert     g++ -O3 native 1K Iter:    0.014, Relative time      7.80
+        C : Num. rec.              clang 1K Iter:    0.053, Relative time     28.51
+        C : Num. rec.           clang -O 1K Iter:   0.0029, Relative time      1.59
+        C : Num. rec.          clang -O1 1K Iter:    0.012, Relative time      6.65
+        C : Num. rec.          clang -O2 1K Iter:   0.0029, Relative time      1.58
+        C : Num. rec.          clang -O3 1K Iter:   0.0029, Relative time      1.59
+        C : Num. rec.   clang -O3 native 1K Iter:   0.0019, Relative time      1.00
+        C : Num. rec.                g++ 1K Iter:    0.075, Relative time     40.74
+        C : Num. rec.             g++ -O 1K Iter:    0.017, Relative time      9.19
+        C : Num. rec.            g++ -O1 1K Iter:    0.017, Relative time      9.20
+        C : Num. rec.            g++ -O2 1K Iter:    0.014, Relative time      7.49
+        C : Num. rec.            g++ -O3 1K Iter:   0.0045, Relative time      2.42
+        C : Num. rec.     g++ -O3 native 1K Iter:    0.002, Relative time      1.06
