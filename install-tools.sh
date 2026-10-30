@@ -240,7 +240,7 @@ JCONSOLE_WRAPPER
     # Strip Apple quarantine xattr so macOS doesn't refuse to run the
     # binary the first time (jsoftware ships an unsigned dmg/zip).
     /usr/bin/xattr -rc "$TOOLS/jlang/j64" 2>/dev/null || true
-    "$TOOLS/jlang/j64/jconsole" "$HERE/ADASS2019/verJ.ijs"
+    "$TOOLS/jlang/j64/jconsole" "$HERE/verJ.ijs"
 }
 
 install_pypy() {

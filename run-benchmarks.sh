@@ -2,9 +2,9 @@
 #
 # run-benchmarks.sh — wrapper that sets up PATH and tool-specific
 # environment variables for the 2026 ADASS2019 benchmark suite, then
-# runs ADASS2019/Run.py inside that environment.
+# runs Run.py (in this directory) inside that environment.
 #
-# All toolchain path hacks live HERE so that ADASS2019/Run.py stays
+# All toolchain path hacks live HERE so that Run.py stays
 # close to the upstream KnaveAndVarlet/ADASS2019 form (just the extra
 # blocks of test-list constants for the new languages, no env munging).
 #
@@ -29,8 +29,8 @@
 #     numpy + numba).
 
 HERE="$(cd "$(dirname "$0")" && pwd)"
-# The suite (Run.py and the csub* sources) is the repo root, one level up.
-SUITE="$(cd "$HERE/.." && pwd)"
+# The suite (Run.py and the csub* sources) lives alongside this script.
+SUITE="$HERE"
 # Toolchains from install-tools.sh; override with TOOLS=... to use a tree elsewhere.
 TOOLS="${TOOLS:-$HERE/tools}"
 # Anaconda install holding base (numpy/numba) and the adass-* envs.

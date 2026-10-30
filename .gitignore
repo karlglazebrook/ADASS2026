@@ -13,13 +13,13 @@ fs_proj/obj/
 cs_aot_proj/bin/
 cs_aot_proj/obj/
 
-# 2026 harness: toolchains are installed locally by install-tools.sh (~3 GB)
-ADASS2026/tools
+# Toolchains are installed locally by install-tools.sh (~3 GB)
+/tools
 
 # LaTeX and deck build by-products
-ADASS2026/report/*.aux
-ADASS2026/report/*.log
-!ADASS2026/report/run22.log
-!ADASS2026/report/run23.log
-ADASS2026/report/*.out
-ADASS2026/talk/render/
+report/*.aux
+report/*.log
+!report/run22.log
+!report/run23.log
+report/*.out
+talk/render/
