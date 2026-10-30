@@ -484,8 +484,8 @@ async function main() {
       { text: "github.com/KnaveAndVarlet/ADASS2019", options: { fontSize: 16, color: MUTED_ON_DARK, breakLine: true,
           hyperlink: { url: "https://github.com/KnaveAndVarlet/ADASS2019" } } },
       { text: "2026 suite, report, logs and this talk: ", options: { fontSize: 16, color: MUTED_ON_DARK } },
-      { text: "github.com/karlglazebrook/ADASS2019", options: { fontSize: 16, color: MUTED_ON_DARK,
-          hyperlink: { url: "https://github.com/karlglazebrook/ADASS2019" } } },
+      { text: "github.com/karlglazebrook/ADASS2026", options: { fontSize: 16, color: MUTED_ON_DARK,
+          hyperlink: { url: "https://github.com/karlglazebrook/ADASS2026" } } },
     ], { placeholder: "body" });
     s.addNotes("Thank Keith first and by name. The 2026 material is in the ADASS2026 folder of the fork.");
   }
