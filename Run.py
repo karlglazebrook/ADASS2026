@@ -86,6 +86,13 @@ import datetime
 import sys
 import numpy
 
+# Note: this script expects PATH and a few tool-specific environment
+# variables (RUSTUP_HOME, CARGO_HOME, CPLUS_INCLUDE_PATH, DOTNET_ROOT,
+# OCAMLLIB) to be set up correctly for the 29-language 2026 suite.  All
+# of that bootstrap lives in ../run-benchmarks.sh in the parent
+# directory.  Run via:    ./run-benchmarks.sh
+# rather than calling Run.py directly.
+
 # ------------------------------------------------------------------------------
 
 #                      E x e c u t e  C o m m a n d
@@ -892,12 +899,12 @@ FortranO3native = [
 
 Assembler = [
    "Assembler",
-   "clang",
-   "c++ -c -o subrasavx.o subrasavx.s",
-   "c++ -o assmain -O cnrmain.cpp subrasavx.o",
+   "clang (arm64)",
+   "c++ -c -o cnrsub_arm.o cnrsub_arm.s",
+   "c++ -o assmain -O cnrmain.cpp cnrsub_arm.o",
    "./assmain",
    5000000,
-   "rm -f assmain subrasavx.o"]
+   "rm -f assmain cnrsub_arm.o"]
 
 Java = [
    "Java",
@@ -1007,13 +1014,18 @@ Perl = [
    1000,
    ""]
 
+#  PDL "raw" per-element access.  csubpdl.pl now uses ->at and ->set
+#  (the proper per-element primitives) rather than the ->slice form
+#  used in 2019.  See the comment block at the top of csubpdl.pl for
+#  the history.  ->at/->set is roughly 12x faster than ->slice; rep
+#  count is bumped from 10 to 1000 accordingly.
 PerlPDLraw = [
    "Perl/PDL : raw",
    "Perl/PDL",
    "",
    "",
    "perl csubpdl.pl",
-   10,
+   1000,
    ""]
 
 PerlPDLvec = [
@@ -1032,6 +1044,19 @@ PerlPDLary = [
    "",
    "perl csubpdlary.pl",
    100000,
+   ""]
+
+#  Perl/PDL using Inline::Pdlpp — compiles a small C kernel via PDL::PP the
+#  first time it runs and caches it under ./_Inline.  We warm the cache with
+#  a single-rep call (Build1) so the timed run measures execution only, not
+#  the one-off compile.
+PerlPDLpp = [
+   "Perl/PDL : pp",
+   "Perl/PDL",
+   "perl csubpdlpp.pl 1 2000 10",
+   "",
+   "perl csubpdlpp.pl",
+   1000000,
    ""]
 
 Python2 = [
@@ -1187,6 +1212,302 @@ JavascriptNoopt = [
    6000,
    ""]
 
+JavascriptBun = [
+   "Javascript",
+   "Bun",
+   "",
+   "",
+   "bun cjstest.js",
+   1000000,
+   ""]
+
+JavascriptDeno = [
+   "Javascript",
+   "Deno",
+   "",
+   "",
+   "deno run cjstest.js",
+   500000,
+   ""]
+
+RubyRaw26 = [
+   "Ruby : raw",
+   "ruby 2.6",                               # macOS-shipped Ruby
+   "",
+   "",
+   "/usr/bin/ruby csubraw.rb",
+   5000,
+   ""]
+
+RubyRaw33 = [
+   "Ruby : raw",
+   "ruby 3.3",
+   "",
+   "",
+   "ruby csubraw.rb",
+   5000,
+   ""]
+
+RubyRaw33YJIT = [
+   "Ruby : raw",
+   "ruby 3.3 +YJIT",
+   "",
+   "",
+   "ruby --yjit csubraw.rb",
+   10000,
+   ""]
+
+RubyNumo = [
+   "Ruby : Numo",
+   "ruby 3.3",
+   "",
+   "",
+   "ruby csubnumo.rb",
+   100000,
+   ""]
+
+RubyNumoYJIT = [
+   "Ruby : Numo",
+   "ruby 3.3 +YJIT",
+   "",
+   "",
+   "ruby --yjit csubnumo.rb",
+   100000,
+   ""]
+
+#  Go.  Build to a temporary binary, run, clean up.  Default build flags
+#  (no -O switch in Go's tradition; the SSA backend is always optimising).
+Go = [
+   "Go",
+   "go",
+   "go build -o csub_go csubraw.go",
+   "",
+   "./csub_go",
+   1000000,
+   "rm -f csub_go"]
+
+#  Go without bounds-check elision disabled — shows what BCE costs.
+GoNoBCE = [
+   "Go",
+   "go -B (no BCE)",
+   "go build -gcflags=-B -o csub_go csubraw.go",
+   "",
+   "./csub_go",
+   1000000,
+   "rm -f csub_go"]
+
+#  LuaJIT — tracing JIT for Lua, famously fast on tight numeric loops.
+LuaJIT = [
+   "Lua",
+   "LuaJIT",
+   "",
+   "",
+   "luajit csubraw.lua",
+   1000000,
+   ""]
+
+#  C# / .NET 8.  Build via `dotnet build -c Release` then run the apphost.
+#  DOTNET_ROOT is set in the bootstrap above so the apphost can find the
+#  runtime.
+CSharp = [
+   "C#",
+   ".NET 8",
+   "dotnet build cs_proj -c Release -o /tmp/csbin --nologo -v q",
+   "",
+   "/tmp/csbin/cs_proj",
+   1000000,
+   "rm -rf /tmp/csbin"]
+
+#  Crystal — Ruby-syntax statically typed AOT-compiled language.  Use
+#  --release for full LLVM optimisation; without it Crystal is roughly
+#  3-5× slower.
+Crystal = [
+   "Crystal",
+   "crystal --release",
+   "crystal build --release -o csub_cr csubraw.cr",
+   "",
+   "./csub_cr",
+   1000000,
+   "rm -f csub_cr"]
+
+#  OCaml — ocamlopt's native compiler.  -unsafe disables bounds checks
+#  on Array.get/set (Array.unsafe_get always omits them; -unsafe makes
+#  the safe variants do the same).
+OCaml = [
+   "OCaml",
+   "ocamlopt -O3",
+   "ocamlopt -O3 -unsafe csubraw.ml -o csub_ml",
+   "",
+   "./csub_ml",
+   1000000,
+   "rm -f csub_ml csubraw.cmi csubraw.cmx csubraw.o"]
+
+#  PyPy — same csubraw.py the CPython tests use, but executed by the
+#  PyPy interpreter, which has a tracing JIT.  No code change required.
+PyPy = [
+   "Python : lists",
+   "PyPy3",
+   "",
+   "",
+   #  `pypy3` here is the shim in ../bin/ — see run-benchmarks.sh.
+   #  We can't put tools/pypy/bin on PATH because PyPy ships its own
+   #  python/python3 symlinks that would hijack every CPython test.
+   "pypy3 csubraw.py",
+   500000,
+   ""]
+
+#  Zig — modern systems language, AOT via LLVM (same backend as clang).
+#  -O ReleaseFast enables full optimisation and disables runtime safety
+#  checks for the closest fair comparison with `clang -O3 native`.
+Zig = [
+   "Zig",
+   "zig -O ReleaseFast",
+   "zig build-exe -O ReleaseFast csubraw.zig -femit-bin=csub_zig",
+   "",
+   "./csub_zig",
+   1000000,
+   "rm -f csub_zig csubraw.o"]
+
+#  SBCL Common Lisp — untyped variant.  Generic arithmetic, dispatched
+#  array access; the slow tier.
+SBCLUntyped = [
+   "Lisp",
+   "SBCL untyped",
+   "",
+   "",
+   "sbcl --script csubraw.lisp",
+   5000,
+   ""]
+
+#  SBCL Common Lisp — typed variant with full (declare (type ...))
+#  declarations.  SBCL's compiler emits tight machine code; should
+#  land in the C-class tier.
+SBCLTyped = [
+   "Lisp",
+   "SBCL typed",
+   "",
+   "",
+   "sbcl --script csubraw-typed.lisp",
+   1000000,
+   ""]
+
+#  Haskell GHC — purely functional language, lazy by default but with
+#  strict (BangPatterns) annotations on the hot variables and unboxed
+#  doubles via IOUArray, the inner loop compiles to tight native code.
+Haskell = [
+   "Haskell",
+   "GHC -O2",
+   "ghc -O2 -funbox-strict-fields csubraw.hs -o csub_hs",
+   "",
+   "./csub_hs",
+   1000000,
+   "rm -f csub_hs csubraw.o csubraw.hi"]
+
+#  F# -- same .NET 8 runtime as the C# entry, very different language.
+FSharp = [
+   "F#",
+   ".NET 8",
+   "dotnet build fs_proj -c Release -o /tmp/fsbin --nologo -v q",
+   "",
+   "/tmp/fsbin/fs_proj",
+   1000000,
+   "rm -rf /tmp/fsbin"]
+
+#  C# AOT -- PublishAot=true compiles directly to native via the
+#  ILCompiler.  Compare against the JIT result in CSharp above.
+CSharpAOT = [
+   "C#",
+   ".NET 8 AOT",
+   "dotnet publish cs_aot_proj -c Release -r osx-arm64 -o /tmp/csaotbin --nologo -v q",
+   "",
+   "/tmp/csaotbin/cs_aot_proj",
+   1000000,
+   "rm -rf /tmp/csaotbin"]
+
+#  D / LDC -- LLVM-based D compiler.  -release -boundscheck=off matches
+#  the no-runtime-checks position of the optimised C tests.
+DLang = [
+   "D",
+   "ldc2 -O3 -release",
+   "ldc2 -O3 -release -boundscheck=off csubraw.d -of=csub_d",
+   "",
+   "./csub_d",
+   1000000,
+   "rm -f csub_d csubraw.o"]
+
+#  Nim -- compiles to C, then through clang.  -d:danger turns off all
+#  runtime safety checks; --gc:arc is the deterministic refcount GC.
+Nim = [
+   "Nim",
+   "nim -d:danger",
+   "nim c -d:danger --gc:arc -o:csub_nim csubraw.nim",
+   "",
+   "./csub_nim",
+   1000000,
+   "rm -rf csub_nim nimcache"]
+
+#  Octave -- Matlab clone.  Two variants: element-wise loops and
+#  vectorised broadcasting.  The loop version exercises Octave's
+#  interpreter; the vectorised version exercises Octave's BLAS-style
+#  inner kernel.
+#  Octave -- system install via Homebrew.  Two variants: element-wise
+#  loops (exercises Octave's interpreter; very slow) and vectorised
+#  broadcasting (exercises Octave's BLAS-style fast path).
+OctaveLoop = [
+   "Octave",
+   "octave loop",
+   "",
+   "",
+   "octave-cli --no-gui --norc -q csubraw.m",
+   100,
+   ""]
+
+OctaveVec = [
+   "Octave",
+   "octave vectorised",
+   "",
+   "",
+   "octave-cli --no-gui --norc -q csubvec.m",
+   10000,
+   ""]
+
+#  Kotlin -- JVM language.  `kotlinc` here resolves to the shim in
+#  ../bin/ (see run-benchmarks.sh), which bypasses the broken conda
+#  bin/kotlinc shell wrapper and exec's libexec/kotlin/bin/kotlinc.
+KotlinJVM = [
+   "Kotlin",
+   "kotlinc + JVM",
+   "kotlinc csubraw.kt -include-runtime -d /tmp/csub_kt.jar",
+   "",
+   "java -jar /tmp/csub_kt.jar",
+   500000,
+   "rm -f /tmp/csub_kt.jar"]
+
+#  PyPy + numpy -- not the speedup people expect.  PyPy emulates the
+#  CPython C API (cpyext) for compiled extensions, and numpy is one
+#  of the largest such extensions.  The cpyext layer is much slower
+#  than CPython's native fast path, so PyPy + numpy lands in the
+#  *slowest* tier of the dataset, not a faster one.
+PyPyNumpy = [
+   "Python : numpy raw",
+   "PyPy3",
+   "",
+   "",
+   "pypy3 csubnp.py",   # pypy3 is the shim in ../bin/, see PyPy above
+   200,
+   ""]
+
+#  J — the array language.  Whole kernel collapses to one outer-product
+#  expression: out =. y + (i. ny) +/ i. nx
+J = [
+   "J",
+   "jconsole",
+   "",
+   "",
+   "jconsole csubraw.ijs",
+   1000000,
+   ""]
+
 Swift = [
    "Swift",
    "Swiftc",
@@ -1231,7 +1552,7 @@ FullTests = [
    Assembler,
    Fortran,FortranO,FortranO1,FortranO2,FortranO3,FortranO3native,
    RawR, Rref, Router,
-   Perl,PerlPDLraw,PerlPDLvec,PerlPDLary,
+   Perl,PerlPDLraw,PerlPDLvec,PerlPDLary,PerlPDLpp,
    Python2,Python2np,Python2vec,Python2ary,
    Python3,Python3np,Python3vec,Python3ary,
    Python3npNumba,
@@ -1240,7 +1561,13 @@ FullTests = [
    Java,
    Tcl,
    Julia,JuliaO0,JuliaO1,JuliaO2,JuliaO3,JuliaInt32,
-   Javascript,JavascriptNoopt,
+   Javascript,JavascriptNoopt,JavascriptBun,JavascriptDeno,
+   RubyRaw26,RubyRaw33,RubyRaw33YJIT,RubyNumo,RubyNumoYJIT,
+   Go,GoNoBCE,LuaJIT,CSharp,
+   Crystal,OCaml,
+   PyPy,Zig,SBCLUntyped,SBCLTyped,Haskell,
+   FSharp,CSharpAOT,DLang,Nim,KotlinJVM,PyPyNumpy,
+   OctaveLoop,OctaveVec,J,
    RawCclang,RawCclangO,RawCclangO1,RawCclangO2,RawCclangO3,RawCclangO3native,
    RawCgcc,RawCgccO,RawCgccO1,RawCgccO2,RawCgccO3,RawCgccO3native,
    VecCclang,VecCclangO,VecCclangO1,VecCclangO2,VecCclangO3,VecCclangO3native,
@@ -1276,6 +1603,23 @@ ListVersion("Python2  ","python --version")
 ListVersion("Python3  ","python3 --version")
 ListVersion("Java     ","java -version")
 ListVersion("Node.js  ","node --version")
+ListVersion("Bun      ","bun --version")
+ListVersion("Deno     ","deno --version")
+ListVersion("Ruby     ","ruby --version")
+ListVersion("Go       ","go version")
+ListVersion("LuaJIT   ","luajit -v")
+ListVersion("C#/.NET  ","dotnet --version")
+ListVersion("Crystal  ","crystal --version")
+ListVersion("OCaml    ","ocamlopt --version")
+ListVersion("PyPy     ","pypy3 --version")
+ListVersion("Zig      ","zig version")
+ListVersion("SBCL     ","sbcl --version")
+ListVersion("GHC      ","ghc --version")
+ListVersion("D (LDC)  ","ldc2 --version")
+ListVersion("Nim      ","nim --version")
+ListVersion("Octave   ", "octave-cli --version")
+ListVersion("Kotlin   ","kotlinc -version")
+ListVersion("J        ","jconsole verJ.ijs")
 ListVersion("Tcl      ","tclsh ver.tcl")
 ListVersion("Swift    ","xcrun swiftc --version")
 ListVersion("Julia    ","julia --version")

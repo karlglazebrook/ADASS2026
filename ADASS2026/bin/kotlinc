@@ -1,0 +1,7 @@
+#!/bin/bash
+# Shim for Kotlin.  The conda adass-kotlin env ships a bin/kotlinc
+# shell wrapper that unconditionally references CONDA_PREFIX, which is
+# not set when we run outside `conda activate`.  This shim bypasses
+# the wrapper and calls the inner libexec/kotlin/bin/kotlinc directly
+# (which works without any env vars).
+exec "${CONDA_ROOT:-$HOME/anaconda3}"/envs/adass-kotlin/libexec/kotlin/bin/kotlinc "$@"

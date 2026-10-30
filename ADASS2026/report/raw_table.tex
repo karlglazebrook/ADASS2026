@@ -1,0 +1,151 @@
+\begingroup
+\footnotesize
+\setlength{\tabcolsep}{4pt}
+\begin{longtable}{@{}clllr@{}}
+\toprule
+\textbf{Tier} & \textbf{Rel.\ time} & \textbf{Family} & \textbf{Variant} & \textbf{ms / 1k iter} \\
+\midrule
+\endfirsthead
+\multicolumn{5}{l}{\emph{(continued from previous page)}} \\
+\toprule
+\textbf{Tier} & \textbf{Rel.\ time} & \textbf{Family} & \textbf{Variant} & \textbf{ms / 1k iter} \\
+\midrule
+\endhead
+\midrule
+\multicolumn{5}{r}{\emph{continued on next page}} \\
+\endfoot
+\bottomrule
+\endlastfoot
+\swatch{tg1} & 1.00 & Assembler & clang (arm64) & 0.0011 \\
+\swatch{tg2} & 1.17 & Julia & julia (int32) & 0.0013 \\
+\swatch{tg2} & 1.19 & C : raw & g++ -O3 native & 0.0013 \\
+\swatch{tg2} & 1.20 & C : raw & clang -O3 native & 0.0013 \\
+\swatch{tg2} & 1.21 & C : Num. rec. & g++ -O3 native & 0.0014 \\
+\swatch{tg2} & 1.22 & C : Num. rec. & clang -O3 native & 0.0014 \\
+\swatch{tg2} & 1.28 & C : raw & g++ -O2 & 0.0014 \\
+\swatch{tg2} & 1.28 & C : raw & g++ -O3 & 0.0014 \\
+\swatch{tg2} & 1.29 & C : Num. rec. & g++ -O2 & 0.0014 \\
+\swatch{tg2} & 1.30 & C : Num. rec. & g++ -O3 & 0.0015 \\
+\swatch{tg2} & 1.30 & C : vectors & clang -O3 native & 0.0015 \\
+\swatch{tg2} & 1.30 & C : vectors & g++ -O3 native & 0.0015 \\
+\swatch{tg2} & 1.37 & C : vectors & g++ -O3 & 0.0015 \\
+\swatch{tg2} & 1.40 & C : vectors & g++ -O2 & 0.0016 \\
+\swatch{tg2} & 1.41 & C : Num. rec. & clang -O3 & 0.0016 \\
+\swatch{tg2} & 1.41 & C : raw & clang -O2 & 0.0016 \\
+\swatch{tg2} & 1.49 & C : raw & clang -O3 & 0.0017 \\
+\swatch{tg2} & 1.49 & C : vectors & clang -O3 & 0.0017 \\
+\swatch{tg2} & 1.51 & C : vectors & clang -O2 & 0.0017 \\
+\swatch{tg2} & 1.54 & C : Num. rec. & clang -O2 & 0.0017 \\
+\swatch{tg2} & 2.05 & Fortran & gfortran -O3 native & 0.0023 \\
+\swatch{tg3} & 2.50 & Fortran & gfortran -O3 & 0.0028 \\
+\swatch{tg3} & 2.51 & Fortran & gfortran -O2 & 0.0028 \\
+\swatch{tg3} & 2.59 & Julia & julia -O2 & 0.0029 \\
+\swatch{tg3} & 2.60 & Julia & julia -O3 & 0.0029 \\
+\swatch{tg3} & 2.76 & D & ldc2 -O3 -release & 0.0031 \\
+\swatch{tg3} & 2.84 & Zig & zig -O ReleaseFast & 0.0032 \\
+\swatch{tg3} & 3.15 & Python : numpy raw & Python3 numba & 0.0035 \\
+\swatch{tg3} & 3.23 & C++ : Boost no assert & g++ -O3 native & 0.0036 \\
+\swatch{tg3} & 3.24 & C++ : Boost no assert & clang -O3 native & 0.0036 \\
+\swatch{tg3} & 3.25 & C++ : Boost no assert & g++ -O2 & 0.0036 \\
+\swatch{tg3} & 3.25 & C++ : Boost no assert & g++ -O3 & 0.0036 \\
+\swatch{tg3} & 3.31 & Nim & nim -d:danger & 0.0037 \\
+\swatch{tg3} & 3.40 & Julia & julia & 0.0038 \\
+\swatch{tg3} & 3.67 & Crystal & crystal --release & 0.0041 \\
+\swatch{tg3} & 3.70 & Java & Java & 0.0042 \\
+\swatch{tg3} & 4.30 & Kotlin & kotlinc + JVM & 0.0048 \\
+\swatch{tg3} & 4.59 & C : Num. rec. & clang -O1 & 0.0051 \\
+\swatch{tg3} & 4.59 & C : raw & g++ -O & 0.0051 \\
+\swatch{tg3} & 4.59 & C : raw & g++ -O1 & 0.0051 \\
+\swatch{tg3} & 4.59 & C++ : Boost no assert & clang -O3 & 0.0051 \\
+\swatch{tg3} & 4.60 & C : raw & clang -O1 & 0.0052 \\
+\swatch{tg3} & 4.62 & C++ : Boost no assert & clang -O2 & 0.0052 \\
+\swatch{tg3} & 4.64 & Fortran & gfortran -O1 & 0.0052 \\
+\swatch{tg3} & 4.65 & C : vectors & clang -O1 & 0.0052 \\
+\swatch{tg3} & 4.65 & C : vectors & g++ -O & 0.0052 \\
+\swatch{tg3} & 4.66 & C : vectors & g++ -O1 & 0.0052 \\
+\swatch{tg3} & 4.69 & C : Num. rec. & g++ -O1 & 0.0053 \\
+\swatch{tg3} & 4.70 & C : Num. rec. & g++ -O & 0.0053 \\
+\swatch{tg3} & 4.72 & C : raw & clang -O & 0.0053 \\
+\swatch{tg3} & 4.73 & C : Num. rec. & clang -O & 0.0053 \\
+\swatch{tg3} & 4.78 & C : vectors & clang -O & 0.0054 \\
+\swatch{tg3} & 4.87 & Fortran & gfortran -O & 0.0055 \\
+\swatch{tg3} & 5.31 & C\# & .NET 8 & 0.006 \\
+\swatch{tg3} & 5.39 & C\# & .NET 8 AOT & 0.006 \\
+\swatch{tg3} & 5.47 & Perl/PDL : pp & Perl/PDL & 0.0061 \\
+\swatch{tg3} & 5.50 & Go & go -B (no BCE) & 0.0062 \\
+\swatch{tg3} & 5.55 & C++ : Boost no assert & g++ -O1 & 0.0062 \\
+\swatch{tg3} & 5.60 & C++ : Boost no assert & g++ -O & 0.0063 \\
+\swatch{tg3} & 6.76 & Rust & Rustc iterators & 0.0076 \\
+\swatch{tg3} & 6.78 & C++ : Boost no assert & clang -O & 0.0076 \\
+\swatch{tg3} & 6.91 & Go & go & 0.0078 \\
+\swatch{ty} & 7.21 & F\# & .NET 8 & 0.0081 \\
+\swatch{ty} & 7.59 & Lua & LuaJIT & 0.0085 \\
+\swatch{ty} & 8.24 & J & jconsole & 0.0092 \\
+\swatch{ty} & 8.48 & Rust & Rustc unsafe & 0.0095 \\
+\swatch{ty} & 9.16 & Haskell & GHC -O2 & 0.01 \\
+\swatch{ty} & 9.44 & OCaml & ocamlopt -O3 & 0.011 \\
+\swatch{ty} & 10.23 & C++ : Boost & clang -O3 native & 0.011 \\
+\swatch{ty} & 10.63 & Lisp & SBCL typed & 0.012 \\
+\swatch{ty} & 10.84 & C++ : Boost & g++ -O3 native & 0.012 \\
+\swatch{ty} & 11.39 & C++ : Boost & g++ -O3 & 0.013 \\
+\swatch{ty} & 12.04 & Rust & Rustc -O3 & 0.013 \\
+\swatch{ty} & 12.08 & Rust & Rustc -O3 native & 0.014 \\
+\swatch{ty} & 12.29 & Javascript & Bun & 0.014 \\
+\swatch{ty} & 12.49 & C++ : Boost & clang -O3 & 0.014 \\
+\swatch{ty} & 13.27 & Rust & Rustc -O & 0.015 \\
+\swatch{ty} & 14.60 & C++ : Boost & g++ -O2 & 0.016 \\
+\swatch{to1} & 15.03 & C++ : Boost & g++ -O & 0.017 \\
+\swatch{to1} & 15.80 & C++ : Boost & clang -O2 & 0.018 \\
+\swatch{to1} & 15.98 & C++ : Boost & clang -O & 0.018 \\
+\swatch{to1} & 16.10 & Python : vectors & Python3 & 0.018 \\
+\swatch{to1} & 17.80 & Python : arrays & Python3 & 0.02 \\
+\swatch{to1} & 17.91 & Swift & Swiftc -Ounchecked & 0.02 \\
+\swatch{to1} & 18.14 & Swift & Swiftc -O & 0.02 \\
+\swatch{to1} & 21.15 & Ruby : Numo & ruby 3.3 +YJIT & 0.024 \\
+\swatch{to1} & 21.24 & Fortran & gfortran & 0.024 \\
+\swatch{to1} & 21.54 & Ruby : Numo & ruby 3.3 & 0.024 \\
+\swatch{to1} & 22.50 & C : raw & g++ & 0.025 \\
+\swatch{to1} & 22.56 & C : Num. rec. & g++ & 0.025 \\
+\swatch{to1} & 23.80 & C : raw & clang & 0.027 \\
+\swatch{to1} & 23.89 & C : Num. rec. & clang & 0.027 \\
+\swatch{to1} & 24.43 & Javascript & Deno & 0.027 \\
+\swatch{to1} & 25.08 & Perl/PDL : arrays & Perl/PDL & 0.028 \\
+\swatch{to1} & 25.88 & Javascript & Node.js & 0.029 \\
+\swatch{to1} & 26.54 & Javascript & Node.js --no-opt & 0.03 \\
+\swatch{to1} & 31.35 & Python : vectors & Python2 & 0.035 \\
+\swatch{to1} & 33.87 & C++ : Boost & clang -O1 & 0.038 \\
+\swatch{to1} & 36.17 & Python : lists & PyPy3 & 0.041 \\
+\swatch{to1} & 38.02 & C++ : Boost no assert & clang -O1 & 0.043 \\
+\swatch{to1} & 39.05 & Python : arrays & Python2 & 0.044 \\
+\swatch{to1} & 46.72 & Julia & julia -O1 & 0.052 \\
+\swatch{to1} & 47.17 & C++ : Boost & g++ -O1 & 0.053 \\
+\swatch{to1} & 54.60 & C : vectors & g++ & 0.061 \\
+\swatch{to1} & 55.72 & C : vectors & clang & 0.062 \\
+\swatch{to1} & 57.45 & Octave & octave vectorised & 0.064 \\
+\swatch{to1} & 66.85 & Perl/PDL : vectors & Perl/PDL & 0.075 \\
+\swatch{to1} & 85.57 & Julia & julia -O0 & 0.096 \\
+\swatch{to2} & 150 & R : outer & Rscript & 0.17 \\
+\swatch{to2} & 167 & Lisp & SBCL untyped & 0.19 \\
+\swatch{to2} & 284 & Ruby : raw & ruby 3.3 +YJIT & 0.32 \\
+\swatch{to2} & 418 & Rust & Rustc & 0.47 \\
+\swatch{tr} & 644 & Python : lists & Python3 & 0.72 \\
+\swatch{tr} & 716 & Perl & Perl & 0.8 \\
+\swatch{tr} & 755 & Ruby : raw & ruby 3.3 & 0.85 \\
+\swatch{tr} & 782 & Ruby : raw & ruby 2.6 & 0.88 \\
+\swatch{tr} & 794 & R : raw & Rscript & 0.89 \\
+\swatch{tr} & 878 & C++ : Boost no assert & g++ & 0.98 \\
+\swatch{tr} & 905 & C++ : Boost no assert & clang & 1 \\
+\swatch{tr} & 918 & Python : lists & Python2 & 1 \\
+\swatch{tr} & 921 & C++ : Boost & g++ & 1 \\
+\swatch{tr} & 1012 & C++ : Boost & clang & 1.1 \\
+\swatch{tr} & 2883 & Python : numpy raw & Python3 & 3.2 \\
+\swatch{tr} & 3599 & Swift & Swiftc & 4 \\
+\swatch{tr} & 3680 & Swift & Swiftc -Onone & 4.1 \\
+\swatch{tr} & 7161 & Python : numpy raw & Python2 & 8 \\
+\swatch{tr} & 9207 & Perl/PDL : raw & Perl/PDL & 10 \\
+\swatch{tr} & 13,456 & Tcl : raw & tclsh & 15 \\
+\swatch{tp} & 22,015 & Python : numpy raw & PyPy3 & 25 \\
+\swatch{tp} & 46,705 & Octave & octave loop & 52 \\
+\swatch{tp} & 481,009 & R : ref class & Rscript & 5.4e+02 \\
+\end{longtable}
+\endgroup

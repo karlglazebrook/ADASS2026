@@ -1,0 +1,6 @@
+#!/bin/bash
+# Shim for PyPy.  We cannot put tools/pypy/bin on PATH because PyPy
+# ships its own python/python3 symlinks that would hijack every
+# CPython test in the suite.  Exposing only pypy3 via this shim lets
+# Run.py call `pypy3` as a bare command without the side-effect.
+exec "$(cd "$(dirname "$0")"/.. && pwd)/tools/pypy/bin/pypy3" "$@"

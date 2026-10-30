@@ -1,0 +1,387 @@
+Script started on Fri May  1 19:20:57 2026
+[1m[7m%[27m[1m[0m                                                                                                                      ]7;file://Karls-MacBook-Pro-6.local/Users/karl/Dropbox/Software/Claude-Dev/ADASS-2019-redux[0m[27m[24m[J% [K[?2004hcd '/Users/karl/Downloads/'[27Dps auxgww | grep Run.py    [23Drm tmp.py              [14D      r  , / //./  ../run-benchmarks.sh[1m [0m[0m [?2004l
+
+Versions:
+
+Clang     : Apple clang version 16.0.0 (clang-1600.0.26.6)
+Assembler : Apple clang version 16.0.0 (clang-1600.0.26.6)
+Gcc       : Apple clang version 16.0.0 (clang-1600.0.26.6)
+Gfortran  : GNU Fortran (Homebrew GCC 15.2.0_1) 15.2.0
+R         : Rscript (R) version 4.6.0 (2026-04-24)
+Python2   : Python 2.7.15
+Python3   : Python 3.12.7
+Java      : openjdk version "17.0.17" 2025-10-21
+Node.js   : v24.14.1
+Bun       : 1.3.13
+Deno      : deno 2.7.13 (stable, release, aarch64-apple-darwin)
+Ruby      : ruby 3.3.6 (2024-11-05 revision 75015d4c1f) [arm64-darwin24]
+Go        : go version go1.22.0 darwin/arm64
+LuaJIT    : LuaJIT 2.1.1774896198 -- Copyright (C) 2005-2026 Mike Pall. https://luajit.org/
+C#/.NET   : 8.0.420
+Crystal   : Crystal 1.16.3 [3f369d2c7] (2025-05-12)
+OCaml     : 5.4.0
+PyPy      : Python 3.10.14 (75b3de9d9035, Apr 21 2024, 10:55:50)
+Zig       : 0.13.0
+SBCL      : SBCL 2.4.0
+GHC       : The Glorious Glasgow Haskell Compilation System, version 9.10.1
+D (LDC)   : LDC - the LLVM D compiler (1.41.0-beta1):
+Nim       : Nim Compiler Version 2.0.8 [MacOSX: arm64]
+Octave    : GNU Octave (aarch64-apple-darwin24.6.0) version 11.1.0
+Kotlin    : info: kotlinc-jvm 2.3.255-SNAPSHOT (JRE 17.0.17+10)
+J         : j9.6.3/j64arm/darwin/commercial/www.jsoftware.com/2025-04-05T16:34:55/clang-15-0-0/SLEEF=1
+Tcl       : 8.6
+Swift     : Apple Swift version 6.0.3 (swiftlang-6.0.3.1.10 clang-1600.0.30.1)
+Swift     : swift-driver version: 1.115.1 
+Julia     : julia version 1.10.4
+Rust      : rustc 1.95.0 (59807616e 2026-04-14)
+Perl/PDL  : perlDL shell v1.357
+
+Running through full set of timing tests
+
+Arrays used: 2000 columns, 10 rows
+
+                   Swift               Swiftc Rept:     1000 Elap:       3.26 1K Iter:        3.3
+                   Swift        Swiftc -Onone Rept:     1000 Elap:       3.27 1K Iter:        3.3
+                   Swift            Swiftc -O Rept:   300000 Elap:       6.32 1K Iter:      0.021
+                   Swift   Swiftc -Ounchecked Rept:   500000 Elap:      10.01 1K Iter:       0.02
+               Assembler        clang (arm64) Rept:  5000000 Elap:       5.30 1K Iter:     0.0011
+                 Fortran             gfortran Rept:   100000 Elap:       2.40 1K Iter:      0.024
+                 Fortran          gfortran -O Rept:   500000 Elap:       2.79 1K Iter:     0.0056
+                 Fortran         gfortran -O1 Rept:   500000 Elap:       2.68 1K Iter:     0.0054
+                 Fortran         gfortran -O2 Rept:   500000 Elap:       1.44 1K Iter:     0.0029
+                 Fortran         gfortran -O3 Rept:   500000 Elap:       1.47 1K Iter:     0.0029
+                 Fortran  gfortran -O3 native Rept:  5000000 Elap:      11.89 1K Iter:     0.0024
+                 R : raw              Rscript Rept:     5000 Elap:       4.50 1K Iter:        0.9
+           R : ref class              Rscript Rept:        3 Elap:       1.80 1K Iter:      6e+02
+               R : outer              Rscript Rept:    20000 Elap:       3.49 1K Iter:       0.17
+                    Perl                 Perl Rept:     1000 Elap:       0.81 1K Iter:       0.81
+          Perl/PDL : raw             Perl/PDL Rept:     1000 Elap:       9.72 1K Iter:        9.7
+      Perl/PDL : vectors             Perl/PDL Rept:    30000 Elap:       1.97 1K Iter:      0.066
+       Perl/PDL : arrays             Perl/PDL Rept:   100000 Elap:       2.76 1K Iter:      0.028
+           Perl/PDL : pp             Perl/PDL Rept:  1000000 Elap:       6.13 1K Iter:     0.0061
+          Python : lists              Python2 Rept:     1000 Elap:       1.25 1K Iter:        1.3
+      Python : numpy raw              Python2 Rept:      200 Elap:       1.71 1K Iter:        8.6
+        Python : vectors              Python2 Rept:    50000 Elap:       1.82 1K Iter:      0.036
+         Python : arrays              Python2 Rept:    50000 Elap:       2.27 1K Iter:      0.045
+          Python : lists              Python3 Rept:     1000 Elap:       0.72 1K Iter:       0.72
+      Python : numpy raw              Python3 Rept:      200 Elap:       0.53 1K Iter:        2.6
+        Python : vectors              Python3 Rept:    50000 Elap:       0.96 1K Iter:      0.019
+         Python : arrays              Python3 Rept:    50000 Elap:       1.04 1K Iter:      0.021
+      Python : numpy raw        Python3 numba Rept:   500000 Elap:       1.68 1K Iter:     0.0034
+                    Rust                Rustc Rept:     1000 Elap:       0.58 1K Iter:       0.58
+                    Rust             Rustc -O Rept:   100000 Elap:       1.51 1K Iter:      0.015
+                    Rust            Rustc -O3 Rept:   100000 Elap:       1.37 1K Iter:      0.014
+                    Rust     Rustc -O3 native Rept:   100000 Elap:       1.36 1K Iter:      0.014
+                    Rust      Rustc iterators Rept:   100000 Elap:       0.79 1K Iter:     0.0079
+                    Rust         Rustc unsafe Rept:   300000 Elap:       2.88 1K Iter:     0.0096
+                    Java                 Java Rept:   500000 Elap:       2.13 1K Iter:     0.0043
+               Tcl : raw                tclsh Rept:      200 Elap:       3.21 1K Iter:         16
+                   Julia                julia Rept:   500000 Elap:       1.89 1K Iter:     0.0038
+mo                   Julia            julia -O0 Rept:    50000 Elap:       4.82 1K Iter:      0.096
+^R
+m                    Julia            julia -O1 Rept:   200000 Elap:      10.46 1K Iter:      0.052
+                   Julia            julia -O2 Rept:   200000 Elap:       0.59 1K Iter:      0.003
+                   Julia            julia -O3 Rept:   200000 Elap:       0.59 1K Iter:     0.0029
+                   Julia        julia (int32) Rept:  5000000 Elap:       6.62 1K Iter:     0.0013
+              Javascript              Node.js Rept:   100000 Elap:       2.77 1K Iter:      0.028
+              Javascript     Node.js --no-opt Rept:     6000 Elap:       0.21 1K Iter:      0.036
+              Javascript                  Bun Rept:  1000000 Elap:      13.29 1K Iter:      0.013
+              Javascript                 Deno Rept:   500000 Elap:      13.78 1K Iter:      0.028
+              Ruby : raw             ruby 2.6 Rept:     5000 Elap:       4.47 1K Iter:       0.89
+              Ruby : raw             ruby 3.3 Rept:     5000 Elap:       4.25 1K Iter:       0.85
+              Ruby : raw       ruby 3.3 +YJIT Rept:    10000 Elap:       3.24 1K Iter:       0.32
+             Ruby : Numo             ruby 3.3 Rept:   100000 Elap:       2.86 1K Iter:      0.029
+             Ruby : Numo       ruby 3.3 +YJIT Rept:   100000 Elap:       2.74 1K Iter:      0.027
+                      Go                   go Rept:  1000000 Elap:       7.67 1K Iter:     0.0077
+                      Go       go -B (no BCE) Rept:  1000000 Elap:       6.21 1K Iter:     0.0062
+                     Lua               LuaJIT Rept:  1000000 Elap:       8.58 1K Iter:     0.0086
+                      C#               .NET 8 Rept:  1000000 Elap:       6.14 1K Iter:     0.0061
+                 Crystal    crystal --release Rept:  1000000 Elap:       3.86 1K Iter:     0.0039
+                   OCaml         ocamlopt -O3 Rept:  1000000 Elap:      10.45 1K Iter:       0.01
+          Python : lists                PyPy3 Rept:   500000 Elap:      20.42 1K Iter:      0.041
+                     Zig   zig -O ReleaseFast Rept:  1000000 Elap:       3.19 1K Iter:     0.0032
+                    Lisp         SBCL untyped Rept:     5000 Elap:       0.94 1K Iter:       0.19
+                    Lisp           SBCL typed Rept:  1000000 Elap:      12.04 1K Iter:      0.012
+                 Haskell              GHC -O2 Rept:  1000000 Elap:      10.53 1K Iter:      0.011
+                      F#               .NET 8 Rept:  1000000 Elap:       8.40 1K Iter:     0.0084
+                      C#           .NET 8 AOT Rept:  1000000 Elap:       5.94 1K Iter:     0.0059
+                       D    ldc2 -O3 -release Rept:  1000000 Elap:       3.00 1K Iter:      0.003
+                     Nim        nim -d:danger Rept:  1000000 Elap:       3.71 1K Iter:     0.0037
+                  Kotlin        kotlinc + JVM Rept:   500000 Elap:       2.41 1K Iter:     0.0048
+      Python : numpy raw                PyPy3 Rept:      200 Elap:       3.56 1K Iter:         18
+                  Octave          octave loop Rept:      100 Elap:       2.75 1K Iter:         27
+                  Octave    octave vectorised Rept:    10000 Elap:       0.66 1K Iter:      0.066
+                       J             jconsole Rept:  1000000 Elap:       9.37 1K Iter:     0.0094
+                 C : raw                clang Rept:   100000 Elap:       2.72 1K Iter:      0.027
+                 C : raw             clang -O Rept:  1000000 Elap:       5.36 1K Iter:     0.0054
+                 C : raw            clang -O1 Rept:  1000000 Elap:       5.21 1K Iter:     0.0052
+                 C : raw            clang -O2 Rept:  1000000 Elap:       1.61 1K Iter:     0.0016
+                 C : raw            clang -O3 Rept:  1000000 Elap:       1.63 1K Iter:     0.0016
+                 C : raw     clang -O3 native Rept:  5000000 Elap:       6.76 1K Iter:     0.0014
+                 C : raw                  g++ Rept:   100000 Elap:       2.56 1K Iter:      0.026
+                 C : raw               g++ -O Rept:  1000000 Elap:       5.21 1K Iter:     0.0052
+                 C : raw              g++ -O1 Rept:  1000000 Elap:       5.20 1K Iter:     0.0052
+                 C : raw              g++ -O2 Rept:  1000000 Elap:       1.46 1K Iter:     0.0015
+                 C : raw              g++ -O3 Rept:  1000000 Elap:       1.42 1K Iter:     0.0014
+                 C : raw       g++ -O3 native Rept:  5000000 Elap:       6.72 1K Iter:     0.0013
+             C : vectors                clang Rept:   100000 Elap:       6.27 1K Iter:      0.063
+             C : vectors             clang -O Rept:  1000000 Elap:       5.40 1K Iter:     0.0054
+             C : vectors            clang -O1 Rept:  1000000 Elap:       5.25 1K Iter:     0.0052
+             C : vectors            clang -O2 Rept:  1000000 Elap:       1.70 1K Iter:     0.0017
+             C : vectors            clang -O3 Rept:  1000000 Elap:       1.70 1K Iter:     0.0017
+             C : vectors     clang -O3 native Rept:  5000000 Elap:       7.28 1K Iter:     0.0015
+             C : vectors                  g++ Rept:   100000 Elap:       6.12 1K Iter:      0.061
+             C : vectors               g++ -O Rept:  1000000 Elap:       5.26 1K Iter:     0.0053
+             C : vectors              g++ -O1 Rept:  1000000 Elap:       5.28 1K Iter:     0.0053
+             C : vectors              g++ -O2 Rept:  1000000 Elap:       1.56 1K Iter:     0.0016
+             C : vectors              g++ -O3 Rept:  1000000 Elap:       1.55 1K Iter:     0.0015
+             C : vectors       g++ -O3 native Rept:  5000000 Elap:       7.27 1K Iter:     0.0015
+             C++ : Boost                clang Rept:     5000 Elap:       5.35 1K Iter:        1.1
+             C++ : Boost             clang -O Rept:   100000 Elap:       1.77 1K Iter:      0.018
+             C++ : Boost            clang -O1 Rept:     5000 Elap:       0.18 1K Iter:      0.036
+             C++ : Boost            clang -O2 Rept:   100000 Elap:       1.77 1K Iter:      0.018
+             C++ : Boost            clang -O3 Rept:   100000 Elap:       1.31 1K Iter:      0.013
+             C++ : Boost     clang -O3 native Rept:   100000 Elap:       1.13 1K Iter:      0.011
+             C++ : Boost                  g++ Rept:     5000 Elap:       5.20 1K Iter:          1
+             C++ : Boost               g++ -O Rept:   100000 Elap:       1.66 1K Iter:      0.017
+             C++ : Boost              g++ -O1 Rept:     3000 Elap:       0.17 1K Iter:      0.058
+             C++ : Boost              g++ -O2 Rept:   100000 Elap:       1.64 1K Iter:      0.016
+             C++ : Boost              g++ -O3 Rept:   100000 Elap:       1.14 1K Iter:      0.011
+             C++ : Boost       g++ -O3 native Rept:   100000 Elap:       1.15 1K Iter:      0.012
+   C++ : Boost no assert                clang Rept:     5000 Elap:       5.15 1K Iter:          1
+   C++ : Boost no assert             clang -O Rept:   100000 Elap:       0.78 1K Iter:     0.0078
+   C++ : Boost no assert            clang -O1 Rept:     3000 Elap:       0.13 1K Iter:      0.044
+   C++ : Boost no assert            clang -O2 Rept:   100000 Elap:       0.52 1K Iter:     0.0052
+   C++ : Boost no assert            clang -O3 Rept:   100000 Elap:       0.52 1K Iter:     0.0052
+   C++ : Boost no assert     clang -O3 native Rept:   100000 Elap:       0.38 1K Iter:     0.0038
+   C++ : Boost no assert                  g++ Rept:     5000 Elap:       5.01 1K Iter:          1
+   C++ : Boost no assert               g++ -O Rept:   100000 Elap:       0.63 1K Iter:     0.0063
+   C++ : Boost no assert              g++ -O1 Rept:   100000 Elap:       0.61 1K Iter:     0.0061
+   C++ : Boost no assert              g++ -O2 Rept:   100000 Elap:       0.37 1K Iter:     0.0037
+   C++ : Boost no assert              g++ -O3 Rept:   100000 Elap:       0.38 1K Iter:     0.0038
+   C++ : Boost no assert       g++ -O3 native Rept:   100000 Elap:       0.38 1K Iter:     0.0038
+           C : Num. rec.                clang Rept:   100000 Elap:       2.74 1K Iter:      0.027
+           C : Num. rec.             clang -O Rept:  1000000 Elap:       5.37 1K Iter:     0.0054
+           C : Num. rec.            clang -O1 Rept:  1000000 Elap:       5.21 1K Iter:     0.0052
+           C : Num. rec.            clang -O2 Rept:  1000000 Elap:       1.61 1K Iter:     0.0016
+           C : Num. rec.            clang -O3 Rept:  1000000 Elap:       1.61 1K Iter:     0.0016
+           C : Num. rec.     clang -O3 native Rept:  5000000 Elap:       6.81 1K Iter:     0.0014
+           C : Num. rec.                  g++ Rept:   100000 Elap:       2.59 1K Iter:      0.026
+           C : Num. rec.               g++ -O Rept:   500000 Elap:       2.65 1K Iter:     0.0053
+           C : Num. rec.              g++ -O1 Rept:   500000 Elap:       2.65 1K Iter:     0.0053
+           C : Num. rec.              g++ -O2 Rept:  1000000 Elap:       1.48 1K Iter:     0.0015
+           C : Num. rec.              g++ -O3 Rept:  1000000 Elap:       1.46 1K Iter:     0.0015
+           C : Num. rec.       g++ -O3 native Rept:  5000000 Elap:       6.91 1K Iter:     0.0014
+Fastest combination is  Assembler and clang (arm64)
+
+Summary of relative speeds:
+
+                   Swift               Swiftc 1K Iter:        3.3, Relative time      3070.99
+                   Swift        Swiftc -Onone 1K Iter:        3.3, Relative time      3081.06
+                   Swift            Swiftc -O 1K Iter:      0.021, Relative time        19.88
+                   Swift   Swiftc -Ounchecked 1K Iter:       0.02, Relative time        18.89
+               Assembler        clang (arm64) 1K Iter:     0.0011, Relative time         1.00
+                 Fortran             gfortran 1K Iter:      0.024, Relative time        22.66
+                 Fortran          gfortran -O 1K Iter:     0.0056, Relative time         5.26
+                 Fortran         gfortran -O1 1K Iter:     0.0054, Relative time         5.06
+                 Fortran         gfortran -O2 1K Iter:     0.0029, Relative time         2.72
+                 Fortran         gfortran -O3 1K Iter:     0.0029, Relative time         2.78
+                 Fortran  gfortran -O3 native 1K Iter:     0.0024, Relative time         2.24
+                 R : raw              Rscript 1K Iter:        0.9, Relative time       849.47
+           R : ref class              Rscript 1K Iter:      6e+02, Relative time    565837.76
+               R : outer              Rscript 1K Iter:       0.17, Relative time       164.59
+                    Perl                 Perl 1K Iter:       0.81, Relative time       766.90
+          Perl/PDL : raw             Perl/PDL 1K Iter:        9.7, Relative time      9167.70
+      Perl/PDL : vectors             Perl/PDL 1K Iter:      0.066, Relative time        61.82
+       Perl/PDL : arrays             Perl/PDL 1K Iter:      0.028, Relative time        25.99
+           Perl/PDL : pp             Perl/PDL 1K Iter:     0.0061, Relative time         5.78
+          Python : lists              Python2 1K Iter:        1.3, Relative time      1182.02
+      Python : numpy raw              Python2 1K Iter:        8.6, Relative time      8073.30
+        Python : vectors              Python2 1K Iter:      0.036, Relative time        34.35
+         Python : arrays              Python2 1K Iter:      0.045, Relative time        42.78
+          Python : lists              Python3 1K Iter:       0.72, Relative time       681.89
+      Python : numpy raw              Python3 1K Iter:        2.6, Relative time      2488.24
+        Python : vectors              Python3 1K Iter:      0.019, Relative time        18.07
+         Python : arrays              Python3 1K Iter:      0.021, Relative time        19.53
+      Python : numpy raw        Python3 numba 1K Iter:     0.0034, Relative time         3.18
+                    Rust                Rustc 1K Iter:       0.58, Relative time       542.64
+                    Rust             Rustc -O 1K Iter:      0.015, Relative time        14.23
+                    Rust            Rustc -O3 1K Iter:      0.014, Relative time        12.89
+                    Rust     Rustc -O3 native 1K Iter:      0.014, Relative time        12.86
+                    Rust      Rustc iterators 1K Iter:     0.0079, Relative time         7.41
+                    Rust         Rustc unsafe 1K Iter:     0.0096, Relative time         9.04
+                    Java                 Java 1K Iter:     0.0043, Relative time         4.02
+               Tcl : raw                tclsh 1K Iter:         16, Relative time     15125.55
+                   Julia                julia 1K Iter:     0.0038, Relative time         3.57
+                   Julia            julia -O0 1K Iter:      0.096, Relative time        90.86
+                   Julia            julia -O1 1K Iter:      0.052, Relative time        49.32
+                   Julia            julia -O2 1K Iter:      0.003, Relative time         2.79
+                   Julia            julia -O3 1K Iter:     0.0029, Relative time         2.78
+                   Julia        julia (int32) 1K Iter:     0.0013, Relative time         1.25
+              Javascript              Node.js 1K Iter:      0.028, Relative time        26.13
+              Javascript     Node.js --no-opt 1K Iter:      0.036, Relative time        33.79
+              Javascript                  Bun 1K Iter:      0.013, Relative time        12.54
+              Javascript                 Deno 1K Iter:      0.028, Relative time        25.99
+              Ruby : raw             ruby 2.6 1K Iter:       0.89, Relative time       843.14
+              Ruby : raw             ruby 3.3 1K Iter:       0.85, Relative time       802.65
+              Ruby : raw       ruby 3.3 +YJIT 1K Iter:       0.32, Relative time       305.76
+             Ruby : Numo             ruby 3.3 1K Iter:      0.029, Relative time        26.97
+             Ruby : Numo       ruby 3.3 +YJIT 1K Iter:      0.027, Relative time        25.87
+                      Go                   go 1K Iter:     0.0077, Relative time         7.23
+                      Go       go -B (no BCE) 1K Iter:     0.0062, Relative time         5.85
+                     Lua               LuaJIT 1K Iter:     0.0086, Relative time         8.09
+                      C#               .NET 8 1K Iter:     0.0061, Relative time         5.79
+                 Crystal    crystal --release 1K Iter:     0.0039, Relative time         3.64
+                   OCaml         ocamlopt -O3 1K Iter:       0.01, Relative time         9.86
+          Python : lists                PyPy3 1K Iter:      0.041, Relative time        38.53
+                     Zig   zig -O ReleaseFast 1K Iter:     0.0032, Relative time         3.01
+                    Lisp         SBCL untyped 1K Iter:       0.19, Relative time       177.99
+                    Lisp           SBCL typed 1K Iter:      0.012, Relative time        11.35
+                 Haskell              GHC -O2 1K Iter:      0.011, Relative time         9.94
+                      F#               .NET 8 1K Iter:     0.0084, Relative time         7.93
+                      C#           .NET 8 AOT 1K Iter:     0.0059, Relative time         5.61
+                       D    ldc2 -O3 -release 1K Iter:      0.003, Relative time         2.83
+                     Nim        nim -d:danger 1K Iter:     0.0037, Relative time         3.50
+                  Kotlin        kotlinc + JVM 1K Iter:     0.0048, Relative time         4.54
+      Python : numpy raw                PyPy3 1K Iter:         18, Relative time     16793.10
+                  Octave          octave loop 1K Iter:         27, Relative time     25919.52
+                  Octave    octave vectorised 1K Iter:      0.066, Relative time        61.96
+                       J             jconsole 1K Iter:     0.0094, Relative time         8.83
+                 C : raw                clang 1K Iter:      0.027, Relative time        25.63
+                 C : raw             clang -O 1K Iter:     0.0054, Relative time         5.06
+                 C : raw            clang -O1 1K Iter:     0.0052, Relative time         4.91
+                 C : raw            clang -O2 1K Iter:     0.0016, Relative time         1.52
+                 C : raw            clang -O3 1K Iter:     0.0016, Relative time         1.54
+                 C : raw     clang -O3 native 1K Iter:     0.0014, Relative time         1.27
+                 C : raw                  g++ 1K Iter:      0.026, Relative time        24.17
+                 C : raw               g++ -O 1K Iter:     0.0052, Relative time         4.92
+                 C : raw              g++ -O1 1K Iter:     0.0052, Relative time         4.90
+                 C : raw              g++ -O2 1K Iter:     0.0015, Relative time         1.37
+                 C : raw              g++ -O3 1K Iter:     0.0014, Relative time         1.34
+                 C : raw       g++ -O3 native 1K Iter:     0.0013, Relative time         1.27
+             C : vectors                clang 1K Iter:      0.063, Relative time        59.11
+             C : vectors             clang -O 1K Iter:     0.0054, Relative time         5.09
+             C : vectors            clang -O1 1K Iter:     0.0052, Relative time         4.95
+             C : vectors            clang -O2 1K Iter:     0.0017, Relative time         1.60
+             C : vectors            clang -O3 1K Iter:     0.0017, Relative time         1.60
+             C : vectors     clang -O3 native 1K Iter:     0.0015, Relative time         1.37
+             C : vectors                  g++ 1K Iter:      0.061, Relative time        57.68
+             C : vectors               g++ -O 1K Iter:     0.0053, Relative time         4.96
+             C : vectors              g++ -O1 1K Iter:     0.0053, Relative time         4.98
+             C : vectors              g++ -O2 1K Iter:     0.0016, Relative time         1.48
+             C : vectors              g++ -O3 1K Iter:     0.0015, Relative time         1.46
+             C : vectors       g++ -O3 native 1K Iter:     0.0015, Relative time         1.37
+             C++ : Boost                clang 1K Iter:        1.1, Relative time      1010.10
+             C++ : Boost             clang -O 1K Iter:      0.018, Relative time        16.65
+             C++ : Boost            clang -O1 1K Iter:      0.036, Relative time        33.89
+             C++ : Boost            clang -O2 1K Iter:      0.018, Relative time        16.71
+             C++ : Boost            clang -O3 1K Iter:      0.013, Relative time        12.36
+             C++ : Boost     clang -O3 native 1K Iter:      0.011, Relative time        10.66
+             C++ : Boost                  g++ 1K Iter:          1, Relative time       981.81
+             C++ : Boost               g++ -O 1K Iter:      0.017, Relative time        15.69
+             C++ : Boost              g++ -O1 1K Iter:      0.058, Relative time        54.49
+             C++ : Boost              g++ -O2 1K Iter:      0.016, Relative time        15.44
+             C++ : Boost              g++ -O3 1K Iter:      0.011, Relative time        10.78
+             C++ : Boost       g++ -O3 native 1K Iter:      0.012, Relative time        10.87
+   C++ : Boost no assert                clang 1K Iter:          1, Relative time       970.60
+   C++ : Boost no assert             clang -O 1K Iter:     0.0078, Relative time         7.39
+   C++ : Boost no assert            clang -O1 1K Iter:      0.044, Relative time        41.49
+   C++ : Boost no assert            clang -O2 1K Iter:     0.0052, Relative time         4.93
+   C++ : Boost no assert            clang -O3 1K Iter:     0.0052, Relative time         4.93
+   C++ : Boost no assert     clang -O3 native 1K Iter:     0.0038, Relative time         3.58
+   C++ : Boost no assert                  g++ 1K Iter:          1, Relative time       945.29
+   C++ : Boost no assert               g++ -O 1K Iter:     0.0063, Relative time         5.97
+   C++ : Boost no assert              g++ -O1 1K Iter:     0.0061, Relative time         5.72
+   C++ : Boost no assert              g++ -O2 1K Iter:     0.0037, Relative time         3.49
+   C++ : Boost no assert              g++ -O3 1K Iter:     0.0038, Relative time         3.54
+   C++ : Boost no assert       g++ -O3 native 1K Iter:     0.0038, Relative time         3.55
+           C : Num. rec.                clang 1K Iter:      0.027, Relative time        25.89
+           C : Num. rec.             clang -O 1K Iter:     0.0054, Relative time         5.06
+           C : Num. rec.            clang -O1 1K Iter:     0.0052, Relative time         4.91
+           C : Num. rec.            clang -O2 1K Iter:     0.0016, Relative time         1.52
+           C : Num. rec.            clang -O3 1K Iter:     0.0016, Relative time         1.52
+           C : Num. rec.     clang -O3 native 1K Iter:     0.0014, Relative time         1.28
+           C : Num. rec.                  g++ 1K Iter:      0.026, Relative time        24.39
+           C : Num. rec.               g++ -O 1K Iter:     0.0053, Relative time         5.00
+           C : Num. rec.              g++ -O1 1K Iter:     0.0053, Relative time         5.01
+           C : Num. rec.              g++ -O2 1K Iter:     0.0015, Relative time         1.39
+           C : Num. rec.              g++ -O3 1K Iter:     0.0015, Relative time         1.38
+           C : Num. rec.       g++ -O3 native 1K Iter:     0.0014, Relative time         1.30
+
+Compiler,Assembler,C : Num. rec.,C : raw,C : vectors,C#,C++ : Boost,C++ : Boost no assert,Crystal,D,F#,Fortran,Go,Haskell,J,Java,Javascript,Julia,Kotlin,Lisp,Lua,Nim,OCaml,Octave,Perl,Perl/PDL : arrays,Perl/PDL : pp,Perl/PDL : raw,Perl/PDL : vectors,Python : arrays,Python : lists,Python : numpy raw,Python : vectors,R : outer,R : raw,R : ref class,Ruby : Numo,Ruby : raw,Rust,Swift,Tcl : raw,Zig
+.NET 8,,,,,5.79,,,,,7.93,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+.NET 8 AOT,,,,,5.61,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+Bun,,,,,,,,,,,,,,,,12.54,,,,,,,,,,,,,,,,,,,,,,,,,
+clang,,25.89,25.63,59.11,,1010.10,970.60,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+clang (arm64),1.00,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+clang -O,,5.06,5.06,5.09,,16.65,7.39,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+clang -O1,,4.91,4.91,4.95,,33.89,41.49,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+clang -O2,,1.52,1.52,1.60,,16.71,4.93,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+clang -O3,,1.52,1.54,1.60,,12.36,4.93,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+clang -O3 native,,1.28,1.27,1.37,,10.66,3.58,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+crystal --release,,,,,,,,3.64,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+Deno,,,,,,,,,,,,,,,,25.99,,,,,,,,,,,,,,,,,,,,,,,,,
+g++,,24.39,24.17,57.68,,981.81,945.29,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+g++ -O,,5.00,4.92,4.96,,15.69,5.97,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+g++ -O1,,5.01,4.90,4.98,,54.49,5.72,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+g++ -O2,,1.39,1.37,1.48,,15.44,3.49,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+g++ -O3,,1.38,1.34,1.46,,10.78,3.54,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+g++ -O3 native,,1.30,1.27,1.37,,10.87,3.55,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+gfortran,,,,,,,,,,,22.66,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+gfortran -O,,,,,,,,,,,5.26,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+gfortran -O1,,,,,,,,,,,5.06,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+gfortran -O2,,,,,,,,,,,2.72,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+gfortran -O3,,,,,,,,,,,2.78,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+gfortran -O3 native,,,,,,,,,,,2.24,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+GHC -O2,,,,,,,,,,,,,9.94,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+go,,,,,,,,,,,,7.23,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+go -B (no BCE),,,,,,,,,,,,5.85,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+Java,,,,,,,,,,,,,,,4.02,,,,,,,,,,,,,,,,,,,,,,,,,,
+jconsole,,,,,,,,,,,,,,8.83,,,,,,,,,,,,,,,,,,,,,,,,,,,
+julia,,,,,,,,,,,,,,,,,3.57,,,,,,,,,,,,,,,,,,,,,,,,
+julia (int32),,,,,,,,,,,,,,,,,1.25,,,,,,,,,,,,,,,,,,,,,,,,
+julia -O0,,,,,,,,,,,,,,,,,90.86,,,,,,,,,,,,,,,,,,,,,,,,
+julia -O1,,,,,,,,,,,,,,,,,49.32,,,,,,,,,,,,,,,,,,,,,,,,
+julia -O2,,,,,,,,,,,,,,,,,2.79,,,,,,,,,,,,,,,,,,,,,,,,
+julia -O3,,,,,,,,,,,,,,,,,2.78,,,,,,,,,,,,,,,,,,,,,,,,
+kotlinc + JVM,,,,,,,,,,,,,,,,,,4.54,,,,,,,,,,,,,,,,,,,,,,,
+ldc2 -O3 -release,,,,,,,,,2.83,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+LuaJIT,,,,,,,,,,,,,,,,,,,,8.09,,,,,,,,,,,,,,,,,,,,,
+nim -d:danger,,,,,,,,,,,,,,,,,,,,,3.50,,,,,,,,,,,,,,,,,,,,
+Node.js,,,,,,,,,,,,,,,,26.13,,,,,,,,,,,,,,,,,,,,,,,,,
+Node.js --no-opt,,,,,,,,,,,,,,,,33.79,,,,,,,,,,,,,,,,,,,,,,,,,
+ocamlopt -O3,,,,,,,,,,,,,,,,,,,,,,9.86,,,,,,,,,,,,,,,,,,,
+octave loop,,,,,,,,,,,,,,,,,,,,,,,25919.52,,,,,,,,,,,,,,,,,,
+octave vectorised,,,,,,,,,,,,,,,,,,,,,,,61.96,,,,,,,,,,,,,,,,,,
+Perl,,,,,,,,,,,,,,,,,,,,,,,,766.90,,,,,,,,,,,,,,,,,
+Perl/PDL,,,,,,,,,,,,,,,,,,,,,,,,,25.99,5.78,9167.70,61.82,,,,,,,,,,,,,
+PyPy3,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,38.53,16793.10,,,,,,,,,,
+Python2,,,,,,,,,,,,,,,,,,,,,,,,,,,,,42.78,1182.02,8073.30,34.35,,,,,,,,,
+Python3,,,,,,,,,,,,,,,,,,,,,,,,,,,,,19.53,681.89,2488.24,18.07,,,,,,,,,
+Python3 numba,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,3.18,,,,,,,,,,
+Rscript,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,164.59,849.47,565837.76,,,,,,
+ruby 2.6,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,843.14,,,,
+ruby 3.3,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,26.97,802.65,,,,
+ruby 3.3 +YJIT,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,25.87,305.76,,,,
+Rustc,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,542.64,,,
+Rustc -O,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,14.23,,,
+Rustc -O3,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,12.89,,,
+Rustc -O3 native,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,12.86,,,
+Rustc iterators,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,7.41,,,
+Rustc unsafe,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,9.04,,,
+SBCL typed,,,,,,,,,,,,,,,,,,,11.35,,,,,,,,,,,,,,,,,,,,,,
+SBCL untyped,,,,,,,,,,,,,,,,,,,177.99,,,,,,,,,,,,,,,,,,,,,,
+Swiftc,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,3070.99,,
+Swiftc -O,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,19.88,,
+Swiftc -Onone,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,3081.06,,
+Swiftc -Ounchecked,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,18.89,,
+tclsh,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,15125.55,
+zig -O ReleaseFast,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,3.01
+[1m[7m%[27m[1m[0m                                                                                                                      ]7;file://Karls-MacBook-Pro-6.local/Users/karl/Dropbox/Software/Claude-Dev/ADASS-2019-redux[0m[27m[24m[J% [K[?2004heexit[?2004l
+
+Saving session...
+...copying shared history...
+...saving history...truncating history files...
+...completed.
+
+Script done on Fri May  1 20:17:57 2026
