@@ -36,6 +36,21 @@ WALL = [
     ("Common Lisp (SBCL)", "csubraw.lisp", range(19, 24), "common-lisp", "Lisp SBCL untyped"),
     ("Tcl", "ctest.tcl", [91, *range(94, 101)], "tcl", "Tcl : raw tclsh"),
 ]
+# Second wall, for a backup slide: twelve more, none repeated from WALL.
+WALL2 = [
+    ("C (Numerical Recipes)", "cnrsub.cpp", [59, 60, *range(65, 71)], "cpp", "C : Num. rec. clang -O3 native"),
+    ("Java", "csub.java", range(96, 104), "java", "Java Java"),
+    ("JavaScript (Bun)", "cjstest.js", range(95, 102), "javascript", "Javascript Bun"),
+    ("Swift", "cstest.swift", range(103, 111), "swift", "Swift Swiftc -O"),
+    ("D", "csubraw.d", range(7, 17), "d", "D ldc2 -O3 -release"),
+    ("C#", "csubraw.cs", range(8, 17), "csharp", "C# .NET 8"),
+    ("Haskell", "csubraw.hs", range(23, 30), "haskell", "Haskell GHC -O2"),
+    ("Ruby + YJIT", "csubraw.rb", range(26, 35), "ruby", "Ruby : raw ruby 3.3 +YJIT"),
+    ("Python + numpy, loop", "csub.py", range(103, 107), "python", "Python : numpy raw Python3"),
+    ("PDL raw (->at, ->set)", "csubpdl.pl", range(17, 25), "perl", "Perl/PDL : raw Perl/PDL"),
+    ("PDL::PP", "csubpdlpp.pl", [165, 166, 167, *range(169, 176)], "perl", "Perl/PDL : pp Perl/PDL"),
+    ("Octave, vectorised", "csubvec.m", [20, 21, *range(23, 26)], "octave", "Octave octave vectorised"),
+]
 NUMBA = ("Python + numba", "csubnp-numba.py", range(113, 118), "python", "Python : numpy raw Python3 numba")
 
 
@@ -99,10 +114,11 @@ def snippet(label, fname, lines, lexer, test, times):
 
 def main():
     times = run22_times()
-    data = {"wall": [snippet(*s, times) for s in WALL], "numba": snippet(*NUMBA, times)}
+    data = {"wall": [snippet(*s, times) for s in WALL], "wall2": [snippet(*s, times) for s in WALL2],
+            "numba": snippet(*NUMBA, times)}
     with open(os.path.join(HERE, "snippets.json"), "w") as f:
         json.dump(data, f, indent=1)
-    for s in data["wall"]:
+    for s in data["wall"] + data["wall2"]:
         print(f"{s['rel']:9.2f}  {s['label']:24s} {s['file']}:{s['lines']}  {len(s['rows'])} rows x {s['width']} cols")
 
 

@@ -170,6 +170,27 @@ async function main() {
       lineSpacing: fontSize * 1.05, valign: "top", objectName: `code ${snip.label}` });
   };
 
+  // A wall of a dozen highlighted kernels, fastest first, from snippets.json.
+  const codeWall = (title, section, list, notes) => {
+    const s = content(title, section, "Content Dark");
+    const cols = 3, rows = 4, gx = 0.16, gy = 0.12, top = 0.9, bottom = 7.15;
+    const cw = (CW - (cols - 1) * gx) / cols, chh = (bottom - top - (rows - 1) * gy) / rows;
+    const snips = list.slice().sort((a, b) => a.rel - b.rel);
+    snips.forEach((sn, i) => {
+      const x = M + (i % cols) * (cw + gx), y = top + Math.floor(i / cols) * (chh + gy);
+      card(s, x, y, cw, chh, `code card ${sn.label}`, sn.background);
+      T(s, [{ text: sn.label, options: { bold: true, color: "E6EDF3" } }, { text: `   ${sn.file}`, options: { fontSize: 9, color: "8B949E" } }],
+        { x: x + 0.15, y: y + 0.06, w: cw - 1.2, h: 0.26, fontSize: 12, valign: "middle" });
+      const lab = sn.rel >= 100 ? Math.round(sn.rel).toLocaleString("en-US") : sn.rel.toFixed(2);
+      chip(s, x + cw - 0.95, y + 0.06, 0.8, 0.25, sn.rel, lab, 10, `chip ${sn.label}`);
+      // largest Courier size (<= 8 pt) that fits the card: 0.6 em per char, 1.05 em per line
+      const iw = cw - 0.3, ih = chh - 0.42;
+      const fsz = Math.min(8, (iw * 72) / (0.6 * sn.width), (ih * 72) / (1.05 * sn.rows.length + 0.3));
+      code(s, sn, x + 0.15, y + 0.37, iw, ih, Math.floor(fsz * 2) / 2);
+    });
+    s.addNotes(notes);
+  };
+
   const vals = readRun22();
 
   // ===================================================== Part A: the story
@@ -355,25 +376,8 @@ async function main() {
   }
 
   // 5b. The code wall: one kernel in a dozen languages, straight from the repo sources
-  {
-    const s = content("One kernel, many languages: a dozen of the 131", "Results", "Content Dark");
-    const cols = 3, rows = 4, gx = 0.16, gy = 0.12, top = 0.9, bottom = 7.15;
-    const cw = (CW - (cols - 1) * gx) / cols, chh = (bottom - top - (rows - 1) * gy) / rows;
-    const snips = SNIPPETS.wall.slice().sort((a, b) => a.rel - b.rel);
-    snips.forEach((sn, i) => {
-      const x = M + (i % cols) * (cw + gx), y = top + Math.floor(i / cols) * (chh + gy);
-      card(s, x, y, cw, chh, `code card ${sn.label}`, sn.background);
-      T(s, [{ text: sn.label, options: { bold: true, color: "E6EDF3" } }, { text: `   ${sn.file}`, options: { fontSize: 9, color: "8B949E" } }],
-        { x: x + 0.15, y: y + 0.06, w: cw - 1.2, h: 0.26, fontSize: 12, valign: "middle" });
-      const lab = sn.rel >= 100 ? Math.round(sn.rel).toLocaleString("en-US") : sn.rel.toFixed(2);
-      chip(s, x + cw - 0.95, y + 0.06, 0.8, 0.25, sn.rel, lab, 10, `chip ${sn.label}`);
-      // largest Courier size (<= 8 pt) that fits the card: 0.6 em per char, 1.05 em per line
-      const iw = cw - 0.3, ih = chh - 0.42;
-      const fsz = Math.min(8, (iw * 72) / (0.6 * sn.width), (ih * 72) / (1.05 * sn.rows.length + 0.3));
-      code(s, sn, x + 0.15, y + 0.37, iw, ih, Math.floor(fsz * 2) / 2);
-    });
-    s.addNotes("~30 s, let it land. Twelve of the 131 tests, each pulled verbatim from its source file in the repo (file names on the cards) and highlighted; the chip is its run22 time relative to the assembler, top left. The same element-by-element kernel throughout, except J, PDL and R, which say it as one whole-array expression. Assembler: comments stripped and the middle of the loop elided to fit.");
-  }
+  codeWall("One kernel, many languages: a dozen of the 131", "Results", SNIPPETS.wall,
+    "~30 s, let it land. Twelve of the 131 tests, each pulled verbatim from its source file in the repo (file names on the cards) and highlighted; the chip is its run22 time relative to the assembler, top left. The same element-by-element kernel throughout, except J, PDL and R, which say it as one whole-array expression. Assembler: comments stripped and the middle of the loop elided to fit.");
 
   // 6. Python ladder (headline)
   {
@@ -669,6 +673,8 @@ async function main() {
     ], { isTextBox: true, x: rx, y: 1.4, w: rw, h: 5.3, margin: 0, fontSize: 15, color: C.text1, paraSpaceAfter: 10, valign: "top" });
     s.addNotes("Each point is one test that exists in both studies, matched by its Run.py name. Caveats if asked: different hardware (x86 AVX in 2019, arm64 NEON now); the reference drifts about 10% between runs; Python 2.7 runs under Rosetta 2 here.");
   }
+  codeWall("Backup: a dozen more of the 131", "Backup", SNIPPETS.wall2,
+    "Twelve more kernels, none repeated from the main code wall, each pulled verbatim from its source file and timed in run22. PDL raw is the corrected ->at/->set form. The Octave card shows its index vectors built once, outside the timed loop.");
   {
     const s = content("Backup: every family at a glance", "Backup");
     const ih = 5.5, iw = ih * 1787 / 1779;
