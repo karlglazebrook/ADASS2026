@@ -39,7 +39,7 @@
 \definecolor{tp}{HTML}{7a0177}
 
 \title{Languages, Compilers, Options and\\Astronomical Images\\[6pt]
-       \large A 2026 reprise of Shortridge (2019), with sixteen new languages}
+       \large A 2026 reprise of Shortridge (2019), with fifteen new languages}
 \author{Karl Glazebrook\thanks{Created PDL in 1996 and may be
 biassed.} \\ \small (with assistance from Claude Sonnet 4.7 by
 Anthropic)}
@@ -55,9 +55,9 @@ This report extends Keith Shortridge's 2019 ADASS study (paper
 P9-17, \texttt{KnaveAndVarlet/\allowbreak ADASS2019}) to 2026, on
 Apple Silicon arm64. The original work compared 12 languages and
 roughly 90 test variants; the present study has grown that to
-\textbf{29 language families and 131 working test variants}, with
-sixteen language families newly added and a few new variants within
-existing families. The benchmark itself is unchanged: a tight nested
+\textbf{27 languages and 131 working test variants}, with
+fifteen languages newly added and a few new variants within
+existing ones. The benchmark itself is unchanged: a tight nested
 loop that adds the sum of two indices to each element of a 2D
 floating-point array.
 
@@ -104,7 +104,7 @@ flag, which in 2019 unlocked AVX-2 and on M-series lands on NEON's
 
 The full set of toolchains is installed locally; the test harness
 (\texttt{Run.py}) sets up paths and environment variables so that
-all 29 toolchains resolve without further activation. Pre-existing
+every toolchain resolves without further activation. Pre-existing
 system tools (system clang/g++, gfortran, Perl, etc.) account for
 about a third; the rest live under \texttt{tools/} or in dedicated
 conda environments. The full provenance is documented at the top of
@@ -197,28 +197,29 @@ the running VM.}, sitting in tiers~3--4.
 \textbf{Go} (default and \texttt{-gcflags=-B} for no bounds checks),
 and \textbf{Haskell} (GHC \texttt{-O2}).
 
-\paragraph{Dynamic languages with non-trivial runtime stories (6).}
+\paragraph{Dynamic languages with non-trivial runtime stories (5).}
 \textbf{Ruby} (five variants: raw 2.6, raw 3.3, raw 3.3 +YJIT, Numo,
 Numo +YJIT), \textbf{Lua / LuaJIT} (the tracing-JIT exemplar),
-\textbf{J} (jconsole; the array-language exemplar), \textbf{PyPy}
-(Python lists and numpy raw under PyPy's tracing JIT),
+\textbf{J} (jconsole; the array-language exemplar),
 \textbf{Common Lisp / SBCL} (typed and untyped), and \textbf{Octave}
 (a Matlab-class numerical interpreter, tested with both
 element-wise loops and vectorised broadcasting --- two idioms that
 turn out to be 800$\times$ apart).
 
-\paragraph{New variants within existing families (4).}
+\paragraph{New variants within existing languages (5).}
+\textbf{Python}: PyPy (Python lists and numpy raw under PyPy's tracing JIT);
 \textbf{Javascript}: Bun and Deno (Node.js was already in the suite);
 \textbf{Perl/PDL}: PDL::PP via \texttt{Inline::Pdlpp}, plus a separate
 \verb|->at|/\verb|->set| variant of the per-element ``raw'' test
 (discussed below in \S\ref{sec:syntax}); \textbf{Assembler}: arm64 NEON port replacing the 2019
 x86 AVX implementation.
 
-That is sixteen new language families and four new variants within
-existing families.\footnote{Two minor counting choices: ``Lua /
-LuaJIT'' and ``Common Lisp / SBCL'' are each one family; PyPy is
-treated as a separate family because its interpreter is a complete
-reimplementation distinct from CPython.}
+That is fifteen new languages and five new variants within
+existing ones.\footnote{Languages are counted strictly, on the same
+basis as Shortridge's 12: C and C++ are one entry, as are Perl and
+PDL; LuaJIT, SBCL and PyPy are implementations, not languages. So
+12 + 15 = 27. The harness's own family labels split C/C++ and
+Perl/PDL, which is why the per-family figure has 29 rows.}
 
 % ----------------------------------------------------------------------
 \section{Updated results --- direct successor to Shortridge 2019 Figure~1}

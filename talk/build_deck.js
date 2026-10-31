@@ -328,7 +328,7 @@ async function main() {
     });
     T(s, "A test is one language with one compiler, runtime or option setting (e.g. C, clang -O3), built, run and timed by Keith's Run.py.",
       { x: M, y: 4.8, w: 6.6, h: 0.5, fontSize: 12, color: MUTED, italic: true });
-    const stats = [["7", "days"], ["23", "benchmark runs"], ["~1,060", "of my prompts"], ["29", "language families"]];
+    const stats = [["7", "days"], ["23", "benchmark runs"], ["~1,060", "of my prompts"], ["27", "languages"]];
     const sw = (6.6 - 3 * 0.2) / 4;
     stats.forEach(([n, l], i) => {
       const x = M + i * (sw + 0.2);
@@ -350,7 +350,7 @@ async function main() {
       { text: "29 Apr – 1 May", options: { bold: true, color: C.text2, breakLine: true } },
       { text: "Report, audit rounds, PDL fix, run22 frozen, one-command toolchain rebuild", options: {} },
     ], { isTextBox: true, x: rx, y: 1.35, w: rw, h: 5.4, margin: 0, fontSize: 15, color: C.text1, valign: "top", paraSpaceAfter: 5 });
-    s.addNotes("~1 min. Then Claude Code arrived and I used it to port the suite to a few more languages, for fun. Day one: 58 of 104 tests passing on this Mac. By day five, 29 families and 131 tests. My own message: 'Do #1 to #7 please and then we will stop'. We did not stop. Then the report, audits, the PDL fix and a reproducible toolchain. Prompt count is from the transcript to 30 April.");
+    s.addNotes("~1 min. Then Claude Code arrived and I used it to port the suite to a few more languages, for fun. Day one: 58 of 104 tests passing on this Mac. By day five, 27 languages and 131 tests. My own message: 'Do #1 to #7 please and then we will stop'. We did not stop. Then the report, audits, the PDL fix and a reproducible toolchain. Prompt count is from the transcript to 30 April.");
   }
 
   // ===================================================== Part B: results
@@ -359,7 +359,7 @@ async function main() {
   // 5. Suite at a glance
   {
     const s = content("The 2026 suite at a glance", "Results");
-    const rows = [["29", "language families", "16 new since 2019"], ["131", "variants", "131 / 131 pass (run22)"],
+    const rows = [["27", "languages", "15 new since 2019"], ["131", "variants", "131 / 131 pass (run22)"],
                   ["4.8 × 10⁵", "range", "1.00 up to the R reference class at 481,009"]];
     rows.forEach(([n, l, sub], i) => {
       const y = 1.4 + i * 1.75;
@@ -372,7 +372,7 @@ async function main() {
       altText: "Histogram of all 131 relative times on a log scale, coloured by the eight tiers" });
     T(s, "1.00 = Keith's hand-written arm64 NEON kernel. Tier 3 (2.5–7×) is the crowd: 41 of 131.",
       { x: M + 4.6, y: 1.45 + ih, w: iw, h: 0.6, fontSize: 14, color: MUTED, italic: true });
-    s.addNotes("~45 s. 29 families, 131 variants, all passing in run22, the frozen reference. The range is 4.8e5 rather than Keith's million, partly from the new reference and partly the PDL correction. Most compiled languages pile up in tier 3.");
+    s.addNotes("~45 s. 27 languages, 15 of them new, counted the way Keith counted his 12 (C/C++ as one, Perl/PDL as one). 131 variants, all passing in run22, the frozen reference. The range is 4.8e5 rather than Keith's million, partly from the new reference and partly the PDL correction. Most compiled languages pile up in tier 3.");
   }
 
   // 5b. The code wall: one kernel in a dozen languages, straight from the repo sources
@@ -525,7 +525,7 @@ async function main() {
   {
     const s = content("What the LLM did well", "The LLM");
     const rows = [
-      [fa.FaCode, "Porting at scale", "16 new families in about four days, each kernel adapted to the language's idioms. J came out in 9 lines, with no hints from me."],
+      [fa.FaCode, "Porting at scale", "15 new languages in about four days, each kernel adapted to the language's idioms. J came out in 9 lines, with no hints from me."],
       [fa.FaTools, "Environment wrangling", "PyPy's python3 symlink hijacked 7 numpy tests; conda's Octave shipped its own perl and python; GHC and Ruby baked install paths into 235 files."],
       [fa.FaChartBar, "The whole pipeline", "Figures, the 131-row appendix and a 20-page report, all regenerated from one frozen log."],
       [fa.FaRedo, "Reproducibility", "One script rebuilds every toolchain in 7.5 minutes; a fresh re-run passed 131/131."],

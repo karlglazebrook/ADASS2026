@@ -9,7 +9,7 @@ Magnitude*, Karl Glazebrook, ADASS 2026, Perth.
 The kernel is unchanged: `Out[iy][ix] = In[iy][ix] + ix + iy` on a 2000 × 10
 float array. The 2026 runs are on Apple Silicon (arm64), with times relative to
 Keith's hand-written NEON assembler kernel (`cnrsub_arm.s`) = 1.00. The suite now
-covers 29 language families in 131 variants. The new ports (`csubraw.*`,
+covers 27 languages (Keith's 12 plus 15 new) in 131 variants. The new ports (`csubraw.*`,
 `csubraw-typed.lisp`, `csubvec.m`, `csubnumo.rb`, `csubpdlpp.pl` and the C#/F#
 project directories) sit next to Keith's 2019 files and `Run.py`.
 

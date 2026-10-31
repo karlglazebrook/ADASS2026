@@ -68,7 +68,7 @@ A timeline graphic of language families against day:
   then PyPy, Zig, SBCL, Haskell. INTERCAL fails ("PROGRAMMER IS
   OVERLY POLITE"). Reached 24 families and 123 tests. Me: "Do #1 to
   #7 please and then we will stop :)". Then Octave, giving
-  **29 families, 131 tests**.
+  **27 languages, 131 tests**.
 - **29 Apr – 1 May:** a 20-page report, about 7 rounds of auditing
   by a second LLM, the PDL correction, run22 frozen, and a script
   that reinstalls every toolchain (7.5 min).
@@ -81,7 +81,7 @@ A timeline graphic of language families against day:
 
 ### 5. The 2026 suite at a glance
 - Apple Silicon arm64, Keith's NEON kernel = 1.00.
-- 29 families, 131 variants, 131/131 passing (run22).
+- 27 languages (Keith's 12 + 15 new), 131 variants, 131/131 passing (run22).
 - Range about 4.8×10⁵ (1.00 to the R reference class at 481,009).
 - The tiers: 1/20/41/16/30/4/16/3 entries. Tier 3 (2.5–7) is the
   crowd.
@@ -149,8 +149,8 @@ this table on the slide:
 ## Part C — the LLM and the take-home
 
 ### 10. What the LLM did well
-- Ported 16 new families in about 4 days (29 includes C and C++
-  counted separately), adapting the kernel to
+- Ported 15 new languages in about 4 days (counted as Keith did:
+  C/C++ and Perl/PDL are one each; PyPy is Python), adapting the kernel to
   each language's idioms. J came in at 9 lines and needed no hints
   from me ("I never 'supplied J hints' – that was all you").
 - Fixed the environment clashes. PyPy's `python3` symlink took over
