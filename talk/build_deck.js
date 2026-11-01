@@ -341,7 +341,7 @@ async function main() {
       { text: "y", options: { italic: true } }, { text: ") + " }, { text: "x", options: { italic: true } },
       { text: " + " }, { text: "y", options: { italic: true } },
     ], { x: ex, y: ey, w: ew, h: eh, fontFace: "Cambria Math", fontSize: 18, color: C.text2, align: "center", valign: "middle" });
-    s.addNotes("~45 s. Keith's poster and paper (P9-17). The million-fold headline, with his own asterisk: 'deliberately attention-grabbing'. One trivial kernel, so what you measure is how each language reaches an array element. Note how ADASS feedback improved his own study within weeks. Say thanks to Keith here, and again at the end.");
+    s.addNotes("~45 s. Keith's poster and paper (P9-17). The million-fold headline, with his own asterisk on the poster: 'a deliberately attention-grabbing headline claim'. One trivial kernel, so what you measure is how each language reaches an array element. Note how ADASS feedback improved his own study within weeks. Say thanks to Keith here, and again at the end.");
   }
 
   // 3. Where I came in (timeline)
@@ -353,7 +353,7 @@ async function main() {
       { yr: "2022", head: "Keith writes arm64 assembler",
         body: "A hand-written NEON kernel for Apple Silicon (August 2022)." },
       { yr: "Jan 2024", head: "PDL::PP and compiler flags",
-        body: "PDL::PP on my M1: 9.3 s unoptimised, 2.2 s at -O2. Keith sends his assembler: “the improvements you get over C are marginal and not worth the effort.”" },
+        body: "Setting the C flags on PDL::PP's compiled kernel: 9.3 s at -O0 → 2.2 s at -O2 on my M1. Keith replies with his assembler: “the improvements you get over C are marginal and not worth the effort.”" },
     ];
     const n = items.length, cw = (CW - (n - 1) * 0.4) / n, ly = 1.75;
     s.addShape(pres.shapes.LINE, { x: M + cw / 2, y: ly, w: CW - cw, h: 0, line: { color: MUTED, width: 1.5 }, objectName: "timeline axis" });
@@ -435,7 +435,7 @@ async function main() {
       { text: "29 Apr – 1 May", options: { bold: true, color: C.text2, breakLine: true } },
       { text: "Report, audit rounds, PDL fix, run22 frozen, one-command toolchain rebuild", options: {} },
     ], { isTextBox: true, x: rx, y: 1.35, w: rw, h: 5.4, margin: 0, fontSize: 15, color: C.text1, valign: "top", paraSpaceAfter: 5 });
-    s.addNotes("~1 min. Then Claude Code arrived and I used it to port the suite to a few more languages, for fun. Day one: 58 of Keith's 103 tests passing on this Mac; all 103 by the next day (run2), none ever dropped. Only the x86 assembler had to be swapped for Keith's arm64 one. Then we extended it: 28 new tests. By day five, 27 languages and 131 tests. My own message: 'Do #1 to #7 please and then we will stop'. We did not stop. Then the report, audits, the PDL fix and a reproducible toolchain. Prompt count is from the transcript to 30 April.");
+    s.addNotes("~30 s, don't read the timeline out. Then Claude Code arrived and I used it to port the suite to a few more languages, for fun. Day one: 58 of Keith's 103 tests passing on this Mac; all 103 by the next day (run2), none ever dropped. Only the x86 assembler had to be swapped for Keith's arm64 one. Then we extended it: 28 new tests. By day five, 27 languages and 131 tests. My own message: 'Do #1 to #7 please and then we will stop'. We did not stop. Then the report, audits, the PDL fix and a reproducible toolchain. Prompt count is from the transcript to 30 April.");
   }
 
   // ===================================================== Part B: results
@@ -444,7 +444,7 @@ async function main() {
   // 5. Suite at a glance
   {
     const s = content("The 2026 suite at a glance", "Results");
-    const rows = [["27", "languages", "15 new since 2019"], ["131", "variants", "131 / 131 pass (run22)"],
+    const rows = [["27", "languages", "15 new (the abstract's 29 splits C/C++, Perl/PDL)"], ["131", "variants", "131 / 131 pass (run22)"],
                   ["4.8 × 10⁵", "range", "1.00 up to the R reference class at 481,009"]];
     rows.forEach(([n, l, sub], i) => {
       const y = 1.3 + i * 1.6;
@@ -470,9 +470,10 @@ async function main() {
       { lo: 15, hi: 100, label: "arrays", color: TIER_COLORS[4], text: HEX.dk1,
         head: "Whole arrays, half measures, 15–100×",
         body: "One whole-array expression in numpy, PDL, Numo or Octave; JavaScript engines; Swift -O; PyPy on lists; C or Fortran with no optimisation." },
-      { lo: 100, hi: G.xlim[1], label: "interpreted", color: TIER_COLORS[6], text: "FFFFFF",
-        head: "Interpreted element lookup, 100× up",
-        body: "An interpreter touching one element at a time: Python lists, Perl, Ruby, R, Tcl, numpy or PDL lookup. Purple tail: a library boundary crossed per element." },
+      { lo: 100, hi: 20000, label: "interpreted", color: TIER_COLORS[6], text: "FFFFFF",
+        head: "Interpreted element lookup, 100–20,000×",
+        body: "An interpreter touching one element at a time: Python lists, Perl, Ruby, R, Tcl, numpy or PDL lookup. Purple: per-element cost explodes." },
+      { lo: 20000, hi: G.xlim[1], label: "pathological", color: TIER_COLORS[7], text: "FFFFFF", nobox: true },
     ];
     const bw = (iw - 2 * 0.15) / 3, by = iy + ih + 0.1, bh = 6.85 - by;
     groups.forEach((g, i) => {
@@ -481,24 +482,12 @@ async function main() {
         fill: { color: g.color }, line: { color: MUTED, width: 0.75 },
         fontSize: 13, bold: true, color: g.text, align: "center", valign: "middle", objectName: `group arrow ${i + 1}` });
       arrowShades[`group arrow ${i + 1}`] = tierBands(g.lo, g.hi);
+      if (g.nobox) return;
       s.addText([{ text: g.head, options: { bold: true, fontSize: 14, color: C.text2, breakLine: true } }, { text: g.body, options: { fontSize: 12 } }],
         { x: ix + i * (bw + 0.15), y: by, w: bw, h: bh, margin: [6, 8, 6, 8], fill: { color: C.background2 },
           line: { color: g.color, width: 2.5 }, color: C.text1, valign: "top", paraSpaceAfter: 3, objectName: `group box ${i + 1}` });
     });
-    s.addNotes("~1 min. Reference first: 1.00 is Keith's hand-written NEON assembler; the best C is 1.19, so a good C compiler gets within 20% of hand-written assembler (the 1.19 test is labelled g++ in Run.py, but g++ on macOS is Apple clang; the clang-named run is 1.20). 27 languages, 15 of them new, counted the way Keith counted his 12 (C/C++ as one, Perl/PDL as one). 131 variants, all passing in run22, the frozen reference. The range is 4.8e5 rather than Keith's million, partly from the new reference and partly the PDL correction. Three peaks. CLICK: native code, 1 to 15x, where tier 3 (2.5 to 7x) is the crowd, 41 of 131. CLICK: whole-array expressions and half measures, 15 to 100x. CLICK: an interpreter doing element lookup, the spike near 600 to 1,000x, with a purple tail where every element crosses a library boundary.");
-  }
-
-  // 5a. Every language, best to worst variant (make_language_ranges.py)
-  {
-    const s = content("Every language, from its best variant to its worst", "Results");
-    const iw = CW, ih = iw * 1082 / 2562;
-    s.addImage({ path: IMG("fig7_language_ranges.png"), x: M, y: 1.25, w: iw, h: ih, objectName: "language ranges",
-      altText: "Run22 relative times for each of the 27 languages, one column each, sorted by best variant; the 15 new languages in red" });
-    T(s, [
-      { text: "Red labels: the 15 languages new in 2026, mostly one variant each. ", options: { bold: true, color: HEX.accent3 } },
-      { text: "The long bars are Keith's option sweeps (C/C++ alone has 60 variants) and changes of idiom: Python, PDL, Octave, R. Bars and dots are coloured by tier, green 1 to purple 8; (n) is the number of variants.", options: {} },
-    ], { x: M, y: 1.35 + ih, w: CW, h: 0.8, fontSize: 15 });
-    s.addNotes("~45 s. One column per language, counted the way Keith counted his 12, sorted by each language's best variant. Dots are variants; the bar spans best to worst. The new languages mostly have a single, optimised variant, so they sit as single dots in tiers 3 and 4: D and Zig right behind C and Fortran. The tall bars are where the story is: the same language spanning three to five decades depending on compiler flags, runtime or idiom. Figure from talk/make_language_ranges.py, reading run22.");
+    s.addNotes("~1 min. Reference first: 1.00 is Keith's hand-written NEON assembler; the best C is 1.19, so a good C compiler gets within 20% of hand-written assembler (the 1.19 test is labelled g++ in Run.py, but g++ on macOS is Apple clang; the clang-named run is 1.20). 27 languages, 15 of them new, counted the way Keith counted his 12 (C/C++ as one, Perl/PDL as one). 131 variants, all passing in run22, the frozen reference. The range is 4.8e5 rather than Keith's million, partly from the new reference and partly the PDL correction. Three peaks. CLICK: native code, 1 to 15x, where tier 3 (2.5 to 7x) is the crowd, 41 of 131. CLICK: whole-array expressions and half measures, 15 to 100x. CLICK: an interpreter doing element lookup, the spike near 600 to 1,000x, and the last arrow, pathological, beyond 20,000x, where every element crosses a library boundary: PyPy + numpy, the Octave loop, R reference classes.");
   }
 
   // 5b. The code wall: one kernel in a dozen languages, straight from the repo sources
@@ -508,13 +497,13 @@ async function main() {
 
   // 6. Python ladder (headline)
   {
-    const s = content("Same Python source, three orders of magnitude", "Results");
-    const labels = ["CPython + numpy, element lookup", "CPython, plain lists", "PyPy, plain lists", "numpy, vectorised (rewrite)", "numba @jit, element loop"];
-    const values = [2882.58, 644.02, 36.17, 16.10, 3.15];
-    const colors = values.map((v, i) => (i === 3 ? "9AA3B2" : tierColor(v)));
+    const s = content("Same Python source, almost four orders of magnitude", "Results");
+    const labels = ["PyPy + numpy, element lookup", "CPython + numpy, element lookup", "CPython, plain lists", "PyPy, plain lists", "numpy one-liner (rewrite)", "numba @jit, element loop"];
+    const values = [22015.37, 2882.58, 644.02, 36.17, 17.80, 3.15];
+    const colors = values.map((v, i) => (i === 4 ? "9AA3B2" : tierColor(v)));
     s.addChart(pres.charts.BAR, [{ name: "Relative time", labels, values }], {
       x: M, y: 1.3, w: 8.3, h: 3.65, barDir: "bar", barGapWidthPct: 40, chartColors: colors,
-      catAxisOrientation: "maxMin", valAxisLogScaleBase: 10, valAxisMinVal: 1, valAxisMaxVal: 10000,
+      catAxisOrientation: "maxMin", valAxisLogScaleBase: 10, valAxisMinVal: 1, valAxisMaxVal: 100000,
       showValue: true, dataLabelPosition: "outEnd", dataLabelFormatCode: "[>=100]#,##0;0.0#", dataLabelFontSize: 14,
       dataLabelColor: HEX.dk1, dataLabelFontBold: true,
       dataLabelFontFace: "+mn-lt", catAxisLabelFontFace: "+mn-lt", valAxisLabelFontFace: "+mn-lt",
@@ -534,11 +523,13 @@ async function main() {
     const rx = M + 8.7, rw = CW - 8.7;
     card(s, rx, 1.4, rw, 2.45, "decorator callout");
     T(s, "915×", { x: rx + 0.25, y: 1.5, w: rw - 0.5, h: 1.0, fontSize: 54, bold: true, color: HEX.accent1, fontFace: "+mj-lt", valign: "middle" });
-    T(s, "from one decorator: numpy element loop 2,883 → numba 3.15", { x: rx + 0.25, y: 2.55, w: rw - 0.5, h: 1.1, fontSize: 16 });
+    T(s, [{ text: "from one decorator: numpy element loop 2,883 → numba 3.15", options: { breakLine: true } },
+           { text: "Keith found this in 2019: over 2,500× on x86.", options: { fontSize: 13, italic: true, color: MUTED } }],
+      { x: rx + 0.25, y: 2.5, w: rw - 0.5, h: 1.25, fontSize: 16, valign: "top" });
     card(s, rx, 4.1, rw, 2.45, "interpreter callout");
     T(s, "17.8×", { x: rx + 0.25, y: 4.2, w: rw - 0.5, h: 1.0, fontSize: 54, bold: true, color: HEX.accent5, fontFace: "+mj-lt", valign: "middle" });
     T(s, "from swapping the interpreter: CPython lists 644 → PyPy 36.2", { x: rx + 0.25, y: 5.25, w: rw - 0.5, h: 1.1, fontSize: 16 });
-    s.addNotes("~1.5 min. THE headline slide. Same element-loop source throughout, except the grey bar, which is the vectorised rewrite for comparison. The default pattern for someone told 'use numpy' — looping over numpy elements — is the worst: 4.5x slower than plain lists. One @numba.jit decorator, the red line on the slide, from Keith's own csubnp-numba.py: 915x. Swapping the interpreter for PyPy: 17.8x. The choice that matters most is the runtime, not the language.");
+    s.addNotes("~1.5 min. THE headline slide. Two pairs share source: the list loop (CPython 644, PyPy 36) and the numpy element loop (CPython 2,883, PyPy 22,015, numba 3.15); the grey bar is my whole-array one-liner from slide 3, for comparison. Credit Keith: numba was his 2019 finding (over 2,500x on x86); what 2026 adds is PyPy, and the PyPy + numpy trap. The default pattern for someone told 'use numpy' — looping over numpy elements — is 4.5x slower than plain lists. Worse still, the top bar: the same numpy loop under PyPy, 22,015, because every element access crosses PyPy's C-extension emulation layer (more on that in the surprises). One @numba.jit decorator, the red line on the slide, from Keith's own csubnp-numba.py: 915x. Swapping the interpreter for PyPy: 17.8x. The choice that matters most is the runtime, not the language.");
   }
 
   // 7. Within vs across
@@ -561,7 +552,7 @@ async function main() {
       T(s, f, { x: M + 5.05, y, w: 0.85, h: 0.95, fontSize: 17, bold: true, color: C.text2, align: "right", valign: "middle" });
     });
     const rx = M + 6.5, rw = CW - 6.5;
-    T(s, "Across compiled languages: under 10×", { x: rx, y: 1.3, w: rw, h: 0.45, fontSize: 20, bold: true, color: C.text2, fontFace: "+mj-lt" });
+    T(s, "Compiled languages: mostly under 10×", { x: rx, y: 1.3, w: rw, h: 0.45, fontSize: 20, bold: true, color: C.text2, fontFace: "+mj-lt" });
     const langs = ["Julia (int32)", "C (best)", "Fortran -O3 native", "D", "Zig", "Nim", "Crystal", "Java", "Go"];
     const lv = [1.17, 1.19, 2.05, 2.76, 2.84, 3.31, 3.67, 3.70, 6.91];
     s.addChart(pres.charts.BAR, [{ name: "Relative time", labels: langs, values: lv }], {
@@ -573,7 +564,7 @@ async function main() {
       valGridLine: { color: "D9DEE7", size: 0.5 }, catGridLine: { style: "none" }, showLegend: false,
       objectName: "compiled languages",
     });
-    T(s, "Caveat: the C, Fortran, Julia and Java kernels use 32-bit floats; the D, Zig, Nim, Crystal and Go ports use 64-bit, which halves the values per NEON instruction.",
+    T(s, "Not shown: F# 7.2, Rust 6.8 (iterators), Haskell 9.2, OCaml 9.4, Swift 17.9. Caveat: Keith's C, Fortran, Julia and Java are 32-bit floats; the 2026 ports are 64-bit, half the values per NEON instruction.",
       { x: rx, y: 6.25, w: rw, h: 0.6, fontSize: 12, italic: true, color: MUTED });
     s.addNotes("~1 min. Precision caveat, say it briefly: Keith's compiled kernels and the assembler are single precision; the 2026 ports of D, Zig, Nim, Crystal and Go (and C#, F#, Kotlin, OCaml, Haskell, Lisp) are double. NEON holds 4 floats or 2 doubles per register, so part of the spread here may be precision, not language. To fix after the conference. Also: Octave vectorised builds its index vectors once, outside the timed loop; numpy and PDL arrays rebuild them per call. Left: inside one language, the runtime or idiom spans two to three orders of magnitude (Ruby's YJIT gain is the modest one). Right: across the compiled languages the whole spread is under 7x, on a linear axis. Pick your runtime and idiom carefully; the language matters less.");
   }
@@ -584,7 +575,7 @@ async function main() {
     const cols = [
       { head: "In Keith's 2019 study", rows: [["Java (HotSpot JIT)", 3.70, "3.70"], ["Node.js (V8)", 25.88, "25.9"], ["Julia", 1.17, "1.17"], ["numba", 3.15, "3.15"]] },
       { head: "Old technology, first time here", rows: [["LuaJIT (2005)", 7.59, "7.59"], ["PyPy (2007)", 36.17, "36.2"], ["C# .NET JIT", 5.31, "5.31"], ["Lisp (SBCL), typed", 10.63, "10.6"], ["J", 8.24, "8.24"]] },
-      { head: "Genuinely post-2019", rows: [["Deno (2020)", 24.43, "24.4"], ["Ruby YJIT (2021)", 284.40, "284"], ["Bun (2023)", 12.29, "12.3"], [".NET native AOT (2023)", 5.39, "5.39"]] },
+      { head: "Genuinely post-2019", rows: [["Deno (2020)", 24.43, "24.4"], ["Ruby YJIT (2021)", 284.40, "284"], ["Bun (2023)", 12.29, "12.3"], [".NET native AOT (2022)", 5.39, "5.39"]] },
     ];
     const cw = (CW - 2 * 0.3) / 3, top = 1.35, ch = 4.0;
     cols.forEach((c, i) => {
@@ -599,10 +590,14 @@ async function main() {
     });
     const by = top + ch + 0.25;
     s.addText([
-      { text: "LuaJIT at 7.59 beats safe Rust -O3 (12.0) and Swift -O (18.1). ", options: { bold: true, color: C.text2 } },
-      { text: "Bun is about 2× Node. Julia runs the same loop shape as Python's list loop at 1.17 against 644.", options: {} },
-    ], { isTextBox: true, x: M, y: by, w: CW, h: 0.9, margin: 0, fontSize: 17, color: C.text1, valign: "top" });
-    s.addNotes("~1.5 min. Why 'new'? New to this benchmark, not new technology. Java, V8, Julia and numba were all in Keith's 2019 study. LuaJIT and PyPy are old, just never measured here. Genuinely newer than 2019: Deno, Ruby YJIT, Bun, .NET native AOT. Don't claim V8's optimiser makes Node fast here: Node --no-opt is 26.5, almost the same. If asked: CPython 3.13's experimental JIT isn't tested; run22 used Python 3.12.7.");
+      { text: "A good JIT turns a dynamic language into a compiled one: ", options: { bold: true, color: C.text2 } },
+      { text: "LuaJIT 7.59 beats safe Rust -O3 (12.0); PyPy is 18× CPython. Not all JITs are equal: YJIT gives Ruby only 2.7×.", options: { breakLine: true } },
+      { text: "Age doesn't predict speed: ", options: { bold: true, color: C.text2 } },
+      { text: "LuaJIT (2005) beats Deno, Bun and YJIT, all newer than 2019.", options: { breakLine: true } },
+      { text: "For C#'s hot loop, JIT versus ahead-of-time makes no difference: ", options: { bold: true, color: C.text2 } },
+      { text: "5.31 JIT, 5.39 AOT.", options: {} },
+    ], { isTextBox: true, x: M, y: by, w: CW, h: 1.25, margin: 0, fontSize: 15, color: C.text1, valign: "top", paraSpaceAfter: 4, objectName: "runtime takeaways" });
+    s.addNotes("~1.5 min. Why 'new'? New to this benchmark, not new technology. Java, V8, Julia and numba were all in Keith's 2019 study. LuaJIT and PyPy are old, just never measured here. Genuinely newer than 2019: Deno, Ruby YJIT, Bun, .NET native AOT. Don't claim V8's optimiser makes Node fast here: Node --no-opt is 26.5, almost the same. Takeaways: a good JIT is what separates fast dynamic languages from slow ones (LuaJIT, PyPy, V8, Bun), but YJIT shows not every JIT gets there on this kernel (Ruby 755 to 284). The oldest runtime here is the fastest. And C#'s JIT and native AOT are within 2%: for a hot loop, warm JIT code is as good as compiled. Bun is about 2x Node. If asked: CPython 3.13's experimental JIT isn't tested; run22 used Python 3.12.7.");
   }
 
   // 9. Three small surprises
@@ -612,7 +607,7 @@ async function main() {
       { head: "PyPy + numpy", v: 22015.37, big: "22,015", meme: true,
         body: "Also 7.6× slower than CPython + numpy. Every numpy call crosses PyPy's C-extension layer: use one or the other." },
       { head: "PDL element lookup", v: 9206.51, big: "103,570 → 9,207",
-        body: "->at / ->set instead of ->slice: about 11× faster. Flagged by Keith in 2019, fixed in 2026. The LLM ran the old code and reported “PDL is just slow”." },
+        body: "->at / ->set instead of ->slice: about 11× faster. In 2019 Keith distrusted ->slice; ->at and ->set are the 2026 change. The LLM ran the old code and reported “PDL is just slow”." },
       { head: "Lisp type declarations", v: 10.63, big: "167 → 10.6",
         body: "Common Lisp, compiled by SBCL (Steel Bank Common Lisp): 15.7× from type declarations alone. Same lesson as numba: give the compiler the types." },
     ];
@@ -651,66 +646,44 @@ async function main() {
   // ===================================================== Part C: the LLM
   pres.addSection({ title: "The LLM" });
 
-  // 10. What the LLM did well
+  // 10. The LLM: what it did, and what it didn't
   {
-    const s = content("What the LLM did well", "The LLM");
+    const s = content("What the LLM did, and what it didn't", "The LLM");
+    const lw = 6.0, rx = M + lw + 0.4, rw = CW - lw - 0.4;
+    T(s, "Did well", { x: M, y: 1.25, w: lw, h: 0.45, fontSize: 20, bold: true, color: C.text2, fontFace: "+mj-lt" });
     const rows = [
-      [fa.FaCode, "Porting at scale", "15 new languages in about four days, each kernel adapted to the language's idioms. J came out in 9 lines, with no hints from me."],
-      [fa.FaTools, "Environment wrangling", "PyPy's python3 symlink hijacked 7 numpy tests; conda's Octave shipped its own perl and python; GHC and Ruby baked install paths into 235 files."],
-      [fa.FaChartBar, "The whole pipeline", "Figures and the 131-row appendix, all regenerated from one frozen log."],
-      [fa.FaPenNib, "Decent first drafts", "Of the 21-page report, and of this deck. Not of the abstract: I rewrote that one, as it “would appeal only to an LLM not a human”."],
-      [fa.FaRedo, "Reproducibility", "One script rebuilds every toolchain in 7.5 minutes; a fresh re-run passed 131/131."],
+      [fa.FaCode, "Porting at scale", "15 new languages in about four days; J in 9 lines, unprompted."],
+      [fa.FaTools, "Environment wrangling", "PyPy's python3 hijacked 7 numpy tests; GHC and Ruby baked paths into 235 files."],
+      [fa.FaChartBar, "The whole pipeline", "Figures and the 131-row appendix, regenerated from one frozen log."],
+      [fa.FaPenNib, "Decent first drafts", "Of the 21-page report and this deck. Not the abstract: it “would appeal only to an LLM not a human”."],
+      [fa.FaRedo, "Reproducibility", "One script rebuilds every toolchain; a fresh re-run passed 131/131."],
     ];
     for (let i = 0; i < rows.length; i++) {
       const [Ic, head, body] = rows[i];
-      const y = 1.3 + i * 1.12;
-      s.addShape(pres.shapes.OVAL, { x: M, y: y + 0.05, w: 0.8, h: 0.8, fill: { color: C.text2 }, line: { color: C.text2 }, objectName: `icon circle ${head}` });
-      s.addImage({ data: await icon(Ic, HEX.lt1), x: M + 0.2, y: y + 0.25, w: 0.4, h: 0.4, objectName: `icon ${head}`, altText: head });
+      const y = 1.85 + i * 1.0;
+      s.addShape(pres.shapes.OVAL, { x: M, y: y + 0.08, w: 0.62, h: 0.62, fill: { color: C.text2 }, line: { color: C.text2 }, objectName: `icon circle ${head}` });
+      s.addImage({ data: await icon(Ic, HEX.lt1), x: M + 0.16, y: y + 0.24, w: 0.3, h: 0.3, objectName: `icon ${head}`, altText: head });
       s.addText([
-        { text: head, options: { bold: true, fontSize: 19, color: C.text2, breakLine: true } },
-        { text: body, options: { fontSize: 16 } },
-      ], { isTextBox: true, x: M + 1.1, y, w: CW - 1.1, h: 1.05, margin: 0, color: C.text1, valign: "top", paraSpaceAfter: 3 });
+        { text: head, options: { bold: true, fontSize: 16, color: C.text2, breakLine: true } },
+        { text: body, options: { fontSize: 13 } },
+      ], { isTextBox: true, x: M + 0.85, y, w: lw - 0.85, h: 0.92, margin: 0, color: C.text1, valign: "top", paraSpaceAfter: 2 });
     }
-    s.addNotes("~1.5 min. A partner, not a search bar. Weeks of porting done in days. The unglamorous bulk was the environment: tools hijacking each other's python, perl and gfortran. It also kept the report tied to one log, and made the whole toolchain reproducible. Its first drafts of the report and of these slides were decent; its abstract was not, and I rewrote it.");
-  }
-
-  // 11. What it didn't do, and the audit loop
-  {
-    const s = content("What it didn't do, and the audit loop", "The LLM");
-    // loop diagram (left)
-    const cx = M + 2.55, cy = 4.1, r = 1.95;
-    const nodes = [["Write or update", "report and figures"], ["Criticise", "ChatGPT audits"], ["Re-check", "every number vs run22.log"]];
-    const pos = nodes.map((_, i) => { const a = -Math.PI / 2 + i * 2 * Math.PI / 3; return [cx + r * Math.cos(a), cy + r * Math.sin(a)]; });
-    for (let i = 0; i < 3; i++) {
-      const [x1, y1] = pos[i], [x2, y2] = pos[(i + 1) % 3];
-      const sx = x1 + (x2 - x1) * 0.36, sy = y1 + (y2 - y1) * 0.36, ex = x1 + (x2 - x1) * 0.64, ey = y1 + (y2 - y1) * 0.64;
-      s.addShape(pres.shapes.LINE, { x: Math.min(sx, ex), y: Math.min(sy, ey), w: Math.abs(ex - sx), h: Math.abs(ey - sy),
-        flipH: ex < sx, flipV: ey < sy, line: { color: MUTED, width: 2, endArrowType: "triangle" }, objectName: `loop arrow ${i + 1}` });
-    }
-    nodes.forEach(([h, sub], i) => {
-      const [x, y] = pos[i];
-      s.addShape(pres.shapes.ROUNDED_RECTANGLE, { x: x - 1.1, y: y - 0.5, w: 2.2, h: 1.0, rectRadius: 0.1,
-        fill: { color: C.text2 }, line: { color: C.text2 }, objectName: `loop node ${h}` });
-      s.addText([{ text: h, options: { bold: true, fontSize: 16, breakLine: true } }, { text: sub, options: { fontSize: 12, color: MUTED_ON_DARK } }],
-        { isTextBox: true, x: x - 1.1, y: y - 0.5, w: 2.2, h: 1.0, margin: 0, color: C.background1, align: "center", valign: "middle" });
-    });
-    // failures (right)
-    const rx = M + 5.6, rw = CW - 5.6;
+    T(s, "Didn't do", { x: rx, y: 1.25, w: rw, h: 0.45, fontSize: 20, bold: true, color: C.text2, fontFace: "+mj-lt" });
     const fails = [
       ["Missed the PDL problem", "Ran the 2019 code faithfully and accepted 103,570 as “PDL is just slow”. I caught it."],
-      ["Silent drift", "Fixed the prose but not the table, or the reverse. ChatGPT's audits caught it (examples in the backup slides)."],
+      ["Silent drift", "Mis-copied numbers from the logs into the prose and tables. About seven rounds of ChatGPT audits caught them (backup slides)."],
       ["No sense of what's interesting", "Asked what to add, it gave a long, flat list; choosing was my job."],
-      ["I didn't write the ports", "Unlike Keith, I trusted the LLM's code. His write-up shows how much layout and idiom matter, and I can't vouch that each port is what an expert would write."],
+      ["I didn't write the ports", "Unlike Keith, I trusted the LLM's code. I can't vouch that each port is what an expert would write."],
     ];
     fails.forEach(([h, b], i) => {
-      const y = 1.3 + i * 1.28, hh = i === 3 ? 1.38 : 1.16;
+      const y = 1.85 + i * 1.12, hh = 1.0;
       card(s, rx, y, rw, hh, `failure ${h}`, i === 3 ? "FDE7E4" : C.background2);
       s.addText([{ text: h, options: { bold: true, fontSize: 16, color: i === 3 ? HEX.accent3 : C.text2, breakLine: true } }, { text: b, options: { fontSize: 13 } }],
-        { isTextBox: true, x: rx + 0.25, y: y + 0.1, w: rw - 0.5, h: hh - 0.15, margin: 0, color: C.text1, valign: "top", paraSpaceAfter: 2 });
+        { isTextBox: true, x: rx + 0.2, y: y + 0.08, w: rw - 0.4, h: hh - 0.12, margin: 0, color: C.text1, valign: "top", paraSpaceAfter: 2 });
     });
     T(s, "Future work: expert and multi-LLM review of the kernels themselves, not just the numbers.",
-      { x: rx, y: 6.55, w: rw, h: 0.35, fontSize: 13, bold: true, color: C.text2 });
-    s.addNotes("~1.5 min. Honesty about limits. It did not catch the PDL problem: domain expertise did. Its worst habit is silent numerical drift, which is why we ran an audit loop with ChatGPT as critic, about seven rounds (the exact ChatGPT model wasn't recorded). The big caveat: unlike Keith, I did not write the ported code; I trusted it. Keith's 53-page write-up is full of obscure gotchas and alternative ways to structure the same loop in one language, the kind of thing an expert in that language would spot. How expert is the LLM in Zig or OCaml or J? I don't know. One example we know about: the 2026 ports use 64-bit doubles where Keith's kernels use 32-bit floats. Future work: have experts, and other LLMs, review the kernels themselves. If asked about INTERCAL: it compiled, but C-INTERCAL's runtime has an arm64 va_arg bug that breaks even hello.i.");
+      { x: rx, y: 6.4, w: rw, h: 0.4, fontSize: 13, bold: true, color: C.text2 });
+    s.addNotes("~2 min. A partner, not a search bar. Weeks of porting done in days. The unglamorous bulk was the environment: tools hijacking each other's python, perl and gfortran. It kept the report tied to one log and made the toolchain reproducible. Its first drafts of the report and of these slides were decent; its abstract was not, and I rewrote it. Then the limits. It did not catch the PDL problem: domain expertise did. Its worst habit is silent numerical drift, which is why we ran an audit loop with ChatGPT as critic, about seven rounds (the exact ChatGPT model wasn't recorded); the errors were transcriptions from the logs, not bugs in the kernels, each of which checks its own output. The big caveat: unlike Keith, I did not write the ported code; I trusted it. Keith's 53-page write-up is full of language-specific gotchas an expert would spot. One we know about: the 2026 ports use 64-bit doubles where Keith's kernels use 32-bit floats. Future work: have experts, and other LLMs, review the kernels themselves. If asked about INTERCAL: it compiled, but C-INTERCAL's runtime has an arm64 va_arg bug that breaks even hello.i.");
   }
 
   // 12. Take-home: five conclusions, set against Keith's 2019 ones
@@ -718,15 +691,15 @@ async function main() {
     const s = content("What to take home", "The LLM");
     const recs = [
       ["Runtime, not language, sets your speed",
-        "The same Python source: CPython 644 → PyPy 36 → numba 3.15. Optimised C is 1.19."],
-      ["Compiled languages have converged: choose for ergonomics",
-        "The best variant of every compiled or JIT language sits between 1.17 and about 12: D 2.8, Zig 2.8, Java 3.7, C# 5.3, Go 6.9."],
+        "Python: reach for @njit before C (2,883 → 3.15); never PyPy with numpy; don't loop over numpy elements. Lists: CPython 644 → PyPy 36."],
+      ["Compiled languages are close: choose for ergonomics",
+        "Keith said it in 2019; 15 more languages agree. Best variants: D 2.8, Zig 2.8, Java 3.7, C# 5.3, Go 6.9, Rust 6.8; Swift the outlier at 17.9."],
       ["Cross the interpreter boundary once, not per element",
         "numpy element lookup 2,883 → vectorised 16. PDL 9,207 → PDL::PP 5.5. Octave loop 46,705 → vectorised 57."],
       ["Flags, types and idiom are free orders of magnitude",
         "Swift -Onone → -O: about 200×. Lisp type declarations: 16×. Rust iterators 6.8 against indexed loops 12.0."],
-      ["LLMs port fast; humans must audit and own the code",
-        "15 languages in 4 days, but the audits found 14 numeric errors in the first four rounds, and nobody expert has reviewed the kernels."],
+      ["LLMs port fast; humans must audit the numbers and own the code",
+        "15 languages in 4 days, no bugs found in the ports; but 14 numbers mis-copied into the prose, and no expert has reviewed the kernels."],
     ];
     const rh = 0.92, top = 1.3;
     recs.forEach(([h, b], i) => {
@@ -738,17 +711,16 @@ async function main() {
         { isTextBox: true, x: M + 1.0, y: y + 0.06, w: CW - 1.2, h: rh - 0.12, margin: 0, color: C.text1, valign: "middle", paraSpaceAfter: 2 });
     });
     s.addText([
-      { text: "In 2019 the question was ", options: {} }, { text: "which language", options: { italic: true } },
-      { text: "; in 2026 it is ", options: {} }, { text: "which runtime, which idiom, which flag", options: { italic: true } },
-      { text: ". And whoever wrote the code, check every number against the log.", options: {} },
+      { text: "2019: flags, idiom and JITs beat language. 2026: ", options: {} }, { text: "15 more languages agree", options: { italic: true } },
+      { text: ". Check every number against the log.", options: {} },
     ], { isTextBox: true, x: M, y: top + 5 * (rh + 0.08) + 0.02, w: CW, h: 0.6, margin: 0, fontSize: 17, bold: true, color: C.text2,
       fontFace: "+mj-lt", align: "center", valign: "middle", objectName: "closing line" });
-    s.addNotes("~1.5 min. Keith's 2019 conclusions, all of which still hold: the range is the result; optimisation flags are the cheapest win; compilers make hand-written assembler not worth it; element-at-a-time numpy or PDL is pathological; and 'the solution to long execution times is very rarely to change the implementation language'. What 2026 adds: compiled languages have converged, and dynamic languages split by whether they have a JIT. "
+    s.addNotes("~1.5 min. Keith's 2019 conclusions, all of which still hold: the range is the result; optimisation flags are the cheapest win; compilers make hand-written assembler not worth it; element-at-a-time numpy or PDL is pathological; and 'the solution to long execution times is very rarely to change the implementation language'. Points 2 and 4 are Keith's, confirmed; Keith also said 'JIT compilers (Javascript, Python/Numba) can be very efficient'. What 2026 adds: PyPy, LuaJIT, YJIT and Bun, the PyPy + numpy trap, the PDL correction, and the LLM lesson. "
       + "1: numba is the one decorator on the Python ladder slide; never PyPy with numpy (22,015). "
-      + "2: caveat, Keith's C and the assembler are 32-bit floats, the 2026 ports are 64-bit doubles, so part of this spread is precision; Bun is the top of the range at 12.3. "
+      + "2: caveat, Keith's C and the assembler are 32-bit floats, the 2026 ports are 64-bit doubles, so part of this spread is precision. Swift's 17.9 is its arrays of arrays: each row a separate copy-on-write object; bounds checks are not the cost (-Ounchecked 17.9). "
       + "3: element-by-element numpy is 4.5x slower than plain Python lists; in PDL use ->at/->set or, better, broadcast or PP; Octave vectorised builds its index vectors outside the timed loop, so flag it. "
       + "4: Keith's 2019 point, still true on arm64. Boost without asserts, unoptimised 878 to 3.2 at -O3. "
-      + "5: the weakest-supported point: one project, and the kernels have not been reviewed by people expert in each language. "
+      + "5: as far as we know the LLM's kernels are correct (each one verifies its output); the errors the ChatGPT audits caught were numbers mis-transcribed from the logs into the report prose and tables. This is the weakest-supported point: one project, and the kernels have not been reviewed by people expert in each language. "
       + "If asked about Apple Silicon: every toolchain ran natively on arm64 except Python 2.7, an x86_64 conda build running under Rosetta 2. If asked about reproducibility: fast tiers agree within a few percent between runs, slow entries move 25-45%: trust the tier, not the digit.");
   }
 
@@ -766,11 +738,28 @@ async function main() {
       { text: "github.com/karlglazebrook/ADASS2026", options: { fontSize: 16, color: MUTED_ON_DARK,
           hyperlink: { url: "https://github.com/karlglazebrook/ADASS2026" } } },
     ], { placeholder: "body" });
-    s.addNotes("Thank Keith first and by name. The 2026 material is in the ADASS2026 folder of the fork.");
+    // xkcd-style invitation, from make_nerdsnipe.py
+    const nw = 5.0, nh = nw * 4.4 / 6.4;
+    s.addImage({ path: IMG("nerdsnipe.png"), x: W - M - nw, y: 7.5 - nh - 0.16, w: nw, h: nh, objectName: "nerd-snipe cartoon",
+      altText: "Hand-drawn style chart of languages benchmarked: 12 in 2019 by Keith, 27 in 2026, a red dashed line to 'YOU?', and INTERCAL marked 'still undefeated'" });
+    s.addNotes("The cartoon: consider yourself nerd-sniped. Pull requests welcome, and INTERCAL is still waiting for someone. Thank Keith first and by name. The 2026 material is in the ADASS2026 folder of the fork.");
   }
 
   // ===================================================== Backup
   pres.addSection({ title: "Backup" });
+  // 5a. Every language, best to worst variant (make_language_ranges.py)
+  {
+    const s = content("Backup: every language, from its best variant to its worst", "Backup");
+    const iw = CW, ih = iw * 1082 / 2562;
+    s.addImage({ path: IMG("fig7_language_ranges.png"), x: M, y: 1.25, w: iw, h: ih, objectName: "language ranges",
+      altText: "Run22 relative times for each of the 27 languages, one column each, sorted by best variant; the 15 new languages in red" });
+    T(s, [
+      { text: "Red labels: the 15 languages new in 2026, mostly one variant each. ", options: { bold: true, color: HEX.accent3 } },
+      { text: "The long bars are Keith's option sweeps (C/C++ alone has 60 variants) and changes of idiom: Python, PDL, Octave, R. Bars and dots are coloured by tier, green 1 to purple 8; (n) is the number of variants.", options: {} },
+    ], { x: M, y: 1.35 + ih, w: CW, h: 0.8, fontSize: 15 });
+    s.addNotes("Backup. One column per language, counted the way Keith counted his 12, sorted by each language's best variant. Dots are variants; the bar spans best to worst. The new languages mostly have a single, optimised variant, so they sit as single dots in tiers 3 and 4: D and Zig right behind C and Fortran. The tall bars are where the story is: the same language spanning three to five decades depending on compiler flags, runtime or idiom. Figure from talk/make_language_ranges.py, reading run22.");
+  }
+
   {
     const s = content("Backup: reproducibility, run22 vs run23", "Backup");
     const iw = CW, ih = iw * 1100 / 2400;
