@@ -57,6 +57,8 @@ HEAD_PATHS=(
     "$TOOLS/ghcup-prefix/.ghcup/bin"
     "$TOOLS/ldc/bin"
     "$TOOLS/nim-2.0.8/bin"
+    "$TOOLS/codon/bin"          # holds only the codon binary
+    "$TOOLS/rakudo/bin"         # raku, moar, nqp (its perl6 is Raku, not perl)
     "$CONDA_ROOT/envs/adass-ocaml/bin"
     "$CONDA_ROOT/envs/adass-sbcl/bin"
     "$TOOLS/ruby/bin"

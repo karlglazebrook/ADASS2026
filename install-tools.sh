@@ -61,6 +61,12 @@ RUSTC_VER=1.95.0
 DOTNET_CHANNEL=8.0
 BOOST_VER=1.85.0
 BOOST_VER_UNDER=1_85_0           # boost archive uses underscores
+# Compiled-Python tests (added 1 Nov 2026, after run22).
+CODON_VER=0.20.4
+CYTHON_VER=3.3.0
+PYTHRAN_VER=0.19.0
+MOJO_VER=1.2.0
+RAKUDO_VER=2026.09               # binary release, build revision 01
 
 # ---------------------------------------------------------------------------
 # Paths
@@ -261,6 +267,65 @@ install_pypy() {
     "$TOOLS/pypy/bin/pypy3" -m ensurepip 2>/dev/null
     "$TOOLS/pypy/bin/pypy3" -m pip install --upgrade pip wheel 2>&1 | tail -3
     "$TOOLS/pypy/bin/pypy3" -m pip install numpy 2>&1 | tail -3
+}
+
+install_codon() {
+    should_run codon || return 0
+    say "Codon $CODON_VER"
+    [[ $LIST_ONLY -eq 1 ]] && { note "would install codon $CODON_VER"; return; }
+    if [[ $FORCE -eq 0 ]] && have_target "$TOOLS/codon/bin/codon" "$CODON_VER"; then
+        skip "codon $CODON_VER already at $TOOLS/codon"; return
+    fi
+    local tarball="$DOWNLOADS/codon-$CODON_VER-darwin-arm64.tar.gz"
+    fetch "https://github.com/exaloop/codon/releases/download/v$CODON_VER/codon-darwin-arm64.tar.gz" "$tarball"
+    rm -rf "$TOOLS/codon" && mkdir -p "$TOOLS/codon"
+    tar -C "$TOOLS/codon" -xzf "$tarball" --strip-components=1
+    "$TOOLS/codon/bin/codon" --version
+}
+
+install_pyext() {
+    # Cython and Pythran, in a venv on the Anaconda base python (which
+    # supplies numpy).  Reached only through bin/pyext-python: the venv's
+    # own bin/ has python and python3, so it must never go on PATH.
+    should_run pyext || return 0
+    say "Cython $CYTHON_VER + Pythran $PYTHRAN_VER (venv tools/pyext)"
+    [[ $LIST_ONLY -eq 1 ]] && { note "would create tools/pyext with cython $CYTHON_VER, pythran $PYTHRAN_VER"; return; }
+    local py="${CONDA_ROOT:-$HOME/anaconda3}/bin/python3"
+    if [[ $FORCE -eq 1 ]] || [[ ! -x "$TOOLS/pyext/bin/python" ]]; then
+        rm -rf "$TOOLS/pyext"
+        "$py" -m venv --system-site-packages "$TOOLS/pyext"
+    fi
+    "$TOOLS/pyext/bin/python" -m pip install -q "cython==$CYTHON_VER" "pythran==$PYTHRAN_VER"
+    "$TOOLS/pyext/bin/python" -m cython --version
+}
+
+install_mojo() {
+    # Mojo from PyPI, in its own venv; reached only through bin/mojo.
+    should_run mojo || return 0
+    say "Mojo $MOJO_VER (venv tools/mojo)"
+    [[ $LIST_ONLY -eq 1 ]] && { note "would create tools/mojo with mojo $MOJO_VER"; return; }
+    if [[ $FORCE -eq 0 ]] && have_target "$TOOLS/mojo/bin/mojo" "Mojo $MOJO_VER"; then
+        skip "mojo $MOJO_VER already at $TOOLS/mojo"; return
+    fi
+    local py="${CONDA_ROOT:-$HOME/anaconda3}/bin/python3"
+    rm -rf "$TOOLS/mojo"
+    "$py" -m venv "$TOOLS/mojo"
+    "$TOOLS/mojo/bin/python" -m pip install -q "mojo==$MOJO_VER"
+    "$TOOLS/mojo/bin/mojo" --version
+}
+
+install_rakudo() {
+    should_run rakudo || return 0
+    say "Rakudo $RAKUDO_VER"
+    [[ $LIST_ONLY -eq 1 ]] && { note "would install rakudo $RAKUDO_VER"; return; }
+    if [[ $FORCE -eq 0 ]] && have_target "$TOOLS/rakudo/bin/raku" "v$RAKUDO_VER"; then
+        skip "rakudo $RAKUDO_VER already at $TOOLS/rakudo"; return
+    fi
+    local tarball="$DOWNLOADS/rakudo-moar-$RAKUDO_VER-01-macos-arm64-clang.tar.gz"
+    fetch "https://rakudo.org/dl/rakudo/rakudo-moar-$RAKUDO_VER-01-macos-arm64-clang.tar.gz" "$tarball"
+    rm -rf "$TOOLS/rakudo" && mkdir -p "$TOOLS/rakudo"
+    tar -C "$TOOLS/rakudo" -xzf "$tarball" --strip-components=1
+    "$TOOLS/rakudo/bin/raku" --version | head -1
 }
 
 install_zig() {
@@ -491,6 +556,10 @@ EOF
     run_step nim
     run_step ruby
     run_step ghc
+    run_step codon
+    run_step pyext
+    run_step mojo
+    run_step rakudo
 
     say "Installation summary"
     if [[ ${#FAILED_STEPS[@]} -eq 0 ]]; then

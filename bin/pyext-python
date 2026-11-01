@@ -1,0 +1,5 @@
+#!/bin/bash
+# Shim for the Cython/Pythran venv (tools/pyext, 2026). Like bin/pypy3: the
+# venv's own bin/ has python and python3, which would hijack every CPython
+# test if it went on PATH, so only this one command is exposed.
+exec "$(cd "$(dirname "$0")"/.. && pwd)/tools/pyext/bin/python" "$@"

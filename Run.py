@@ -1547,15 +1547,172 @@ SwiftOunchecked = [
 #  FullTests is simply a list of all the structures that define tests to
 #  be run. The order is not particularly important.
 
+#  Compiled Python, 2026.  Four routes to native code for the same loops:
+#  Codon compiles Keith's csubraw.py list version ahead of time to a native
+#  executable (bin/codon-pybuild drops only its __future__ import); Cython
+#  and Pythran compile the csubnp.py numpy subroutine to a CPython extension
+#  module, driven by csubext.py, in the tools/pyext venv (bin/pyext-python);
+#  Mojo is a port of csubraw.py to Mojo's typed lists.  Variant labels are
+#  kept to 20 characters, the width of the harness's summary column.
+
+CodonLists = [
+   "Python : lists",
+   "Codon",
+   "codon-pybuild csubraw.py /tmp/csub_codon",
+   "",
+   "/tmp/csub_codon",
+   300000,
+   "rm -f /tmp/csub_codon"]
+
+CythonUntyped = [
+   "Python : numpy raw",
+   "Cython untyped",
+   "pyext-python -m Cython.Build.Cythonize -i -3 csubcy_untyped.pyx",
+   "",
+   "pyext-python csubext.py csubcy_untyped",
+   2000,
+   "rm -rf csubcy_untyped.c csubcy_untyped.cpython-*.so build"]
+
+CythonTyped = [
+   "Python : numpy raw",
+   "Cython typed",
+   "pyext-python -m Cython.Build.Cythonize -i -3 csubcy_typed.pyx",
+   "",
+   "pyext-python csubext.py csubcy_typed",
+   1000000,
+   "rm -rf csubcy_typed.c csubcy_typed.cpython-*.so build"]
+
+CythonChecked = [
+   "Python : numpy raw",
+   "Cython typed+checks",
+   "pyext-python -m Cython.Build.Cythonize -i -3 csubcy_checked.pyx",
+   "",
+   "pyext-python csubext.py csubcy_checked",
+   500000,
+   "rm -rf csubcy_checked.c csubcy_checked.cpython-*.so build"]
+
+Pythran = [
+   "Python : numpy raw",
+   "Pythran",
+   "pyext-python -m pythran.run -O3 csubpt.py",
+   "",
+   "pyext-python csubext.py csubpt",
+   1000000,
+   "rm -f csubpt.cpython-*.so"]
+
+Mojo = [
+   "Mojo",
+   "mojo build",
+   "mojo build csubraw.mojo -o /tmp/csub_mojo",
+   "",
+   "/tmp/csub_mojo",
+   100000,
+   "rm -f /tmp/csub_mojo"]
+
+MojoNoAssert = [
+   "Mojo",
+   "mojo -D ASSERT=none",
+   "mojo build -D ASSERT=none csubraw.mojo -o /tmp/csub_mojo",
+   "",
+   "/tmp/csub_mojo",
+   300000,
+   "rm -f /tmp/csub_mojo"]
+
+#  Perl without PDL, 2026: the csub() kernel in C via Inline::C (compiled
+#  and cached on first use, so Build1 is a one-repeat warm-up run, as for
+#  PDL::PP).  csubinlav.pl keeps csubraw.pl's arrays of Perl scalars and
+#  walks them through the Perl API; csubinlpk.pl uses packed doubles.
+
+PerlInlineAV = [
+   "Perl : Inline::C AV",
+   "Perl",
+   "perl csubinlav.pl 1 2000 10",
+   "",
+   "perl csubinlav.pl",
+   50000,
+   ""]
+
+PerlInlinePacked = [
+   "Perl : Inline::C packed",
+   "Perl",
+   "perl csubinlpk.pl 1 2000 10",
+   "",
+   "perl csubinlpk.pl",
+   1000000,
+   ""]
+
+#  Raku (Rakudo on MoarVM), 2026.  Four idioms: Arrays of Arrays ("raw",
+#  csubraw.raku), native num rows with native int counters (csubnat.raku),
+#  one shaped native 2D array (csubshp.raku) and whole-row hyperoperators
+#  (csubhyp.raku).  MVM_SPESH_DISABLE=1 switches off MoarVM's runtime
+#  specialiser and its JIT, leaving the plain bytecode interpreter.
+
+RakuRaw = [
+   "Raku : raw",
+   "rakudo",
+   "",
+   "",
+   "raku csubraw.raku",
+   300,
+   ""]
+
+RakuRawNoSpesh = [
+   "Raku : raw",
+   "rakudo no spesh",
+   "",
+   "",
+   "env MVM_SPESH_DISABLE=1 raku csubraw.raku",
+   60,
+   ""]
+
+RakuNative = [
+   "Raku : native",
+   "rakudo",
+   "",
+   "",
+   "raku csubnat.raku",
+   800,
+   ""]
+
+RakuNativeNoSpesh = [
+   "Raku : native",
+   "rakudo no spesh",
+   "",
+   "",
+   "env MVM_SPESH_DISABLE=1 raku csubnat.raku",
+   120,
+   ""]
+
+RakuShaped = [
+   "Raku : shaped",
+   "rakudo",
+   "",
+   "",
+   "raku csubshp.raku",
+   200,
+   ""]
+
+RakuHyper = [
+   "Raku : hyper",
+   "rakudo",
+   "",
+   "",
+   "raku csubhyp.raku",
+   600,
+   ""]
+
 FullTests = [
    Swift,SwiftOnone,SwiftO,SwiftOunchecked,
    Assembler,
    Fortran,FortranO,FortranO1,FortranO2,FortranO3,FortranO3native,
    RawR, Rref, Router,
    Perl,PerlPDLraw,PerlPDLvec,PerlPDLary,PerlPDLpp,
+   PerlInlineAV,PerlInlinePacked,
+   RakuRaw,RakuRawNoSpesh,RakuNative,RakuNativeNoSpesh,RakuShaped,RakuHyper,
    Python2,Python2np,Python2vec,Python2ary,
    Python3,Python3np,Python3vec,Python3ary,
    Python3npNumba,
+   CodonLists,CythonUntyped,CythonTyped,CythonChecked,Pythran,Mojo,MojoNoAssert,
    Rust,RustO,RustO3,RustO3native,
    RustO3nativeIter,RustO3nativeUnsafe,
    Java,
@@ -1625,6 +1782,11 @@ ListVersion("Swift    ","xcrun swiftc --version")
 ListVersion("Julia    ","julia --version")
 ListVersion("Rust     ","rustc --version")
 ListVersion("Perl/PDL ","pdl -V")
+ListVersion("Codon    ","codon --version")
+ListVersion("Cython   ","pyext-python -m cython --version")
+ListVersion("Pythran  ","pyext-python -m pythran.run --version")
+ListVersion("Mojo     ","mojo --version")
+ListVersion("Raku     ","raku --version")
 
 
 #  Set the size of the array to be used for the test. There isn't much of a

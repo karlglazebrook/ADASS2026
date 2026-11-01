@@ -1,0 +1,12 @@
+#!/bin/bash
+# codon-pybuild SOURCE.py OUTPUT  (2026)
+# Compile one of Keith's Python test scripts with Codon, unchanged except
+# for its `from __future__ import ...` line (a Python 2 compatibility shim
+# that Codon has no module for). Run.py runs commands without a shell, so
+# the strip-then-build step lives here.
+set -e
+src="$1"; out="$2"
+tmp="${out}.py"
+grep -v '^from __future__' "$src" > "$tmp"
+"$(cd "$(dirname "$0")"/.. && pwd)/tools/codon/bin/codon" build -release -o "$out" "$tmp"
+rm -f "$tmp"

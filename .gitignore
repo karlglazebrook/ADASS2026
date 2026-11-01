@@ -15,3 +15,8 @@ cs_aot_proj/obj/
 
 # Toolchains are installed locally by install-tools.sh (~3 GB)
 /tools
+
+# Cython and Pythran build products (2026 compiled-Python tests)
+csubcy_*.c
+*.cpython-*.so
+build/

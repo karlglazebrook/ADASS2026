@@ -1,0 +1,4 @@
+#!/bin/bash
+# Shim for Mojo (tools/mojo, a pip venv, 2026). The venv's bin/ also has
+# python and python3, so it cannot go on PATH; expose only mojo.
+exec "$(cd "$(dirname "$0")"/.. && pwd)/tools/mojo/bin/mojo" "$@"
