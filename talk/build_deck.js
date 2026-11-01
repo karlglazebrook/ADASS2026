@@ -713,27 +713,43 @@ async function main() {
     s.addNotes("~1.5 min. Honesty about limits. It did not catch the PDL problem: domain expertise did. Its worst habit is silent numerical drift, which is why we ran an audit loop with ChatGPT as critic, about seven rounds (the exact ChatGPT model wasn't recorded). The big caveat: unlike Keith, I did not write the ported code; I trusted it. Keith's 53-page write-up is full of obscure gotchas and alternative ways to structure the same loop in one language, the kind of thing an expert in that language would spot. How expert is the LLM in Zig or OCaml or J? I don't know. One example we know about: the 2026 ports use 64-bit doubles where Keith's kernels use 32-bit floats. Future work: have experts, and other LLMs, review the kernels themselves. If asked about INTERCAL: it compiled, but C-INTERCAL's runtime has an arm64 va_arg bug that breaks even hello.i.");
   }
 
-  // 12. Recommendations
+  // 12. Take-home: five conclusions, set against Keith's 2019 ones
   {
-    const s = content("What to tell a working astronomer", "The LLM");
+    const s = content("What to take home", "The LLM");
     const recs = [
-      ["Try numba first", "Before rewriting a hot loop in C, add one decorator: @numba.jit."],
-      ["PyPy for pure Python only", "Never with numpy: it is the slowest mainstream setup here."],
-      ["Don't loop over numpy", "Element-by-element numpy is 4.5× slower than plain lists."],
-      ["PDL: ->at, ->set, or PP", "For speed, broadcast or use PDL::PP. Don't slice single elements."],
-      ["Apple Silicon is fine", "Every toolchain ran natively on arm64, except Python 2.7, which runs translated by Rosetta 2."],
-      ["Audit your LLM co-author", "An audit loop for the numbers; domain experts for the code."],
+      ["Runtime, not language, sets your speed",
+        "The same Python source: CPython 644 → PyPy 36 → numba 3.15. Optimised C is 1.19."],
+      ["Compiled languages have converged: choose for ergonomics",
+        "The best variant of every compiled or JIT language sits between 1.17 and about 12: D 2.8, Zig 2.8, Java 3.7, C# 5.3, Go 6.9."],
+      ["Cross the interpreter boundary once, not per element",
+        "numpy element lookup 2,883 → vectorised 16. PDL 9,207 → PDL::PP 5.5. Octave loop 46,705 → vectorised 57."],
+      ["Flags, types and idiom are free orders of magnitude",
+        "Swift -Onone → -O: about 200×. Lisp type declarations: 16×. Rust iterators 6.8 against indexed loops 12.0."],
+      ["LLMs port fast; humans must audit and own the code",
+        "15 languages in 4 days, but the audits found 14 numeric errors in the first four rounds, and nobody expert has reviewed the kernels."],
     ];
-    const cw = (CW - 2 * 0.3) / 3, ch = 2.55;
+    const rh = 0.92, top = 1.3;
     recs.forEach(([h, b], i) => {
-      const x = M + (i % 3) * (cw + 0.3), y = 1.35 + Math.floor(i / 3) * (ch + 0.3);
-      card(s, x, y, cw, ch, `recommendation ${i + 1}`);
-      s.addShape(pres.shapes.OVAL, { x: x + 0.25, y: y + 0.25, w: 0.6, h: 0.6, fill: { color: TIER_COLORS[0] }, line: { color: TIER_COLORS[0] }, objectName: `number ${i + 1}` });
-      T(s, String(i + 1), { x: x + 0.25, y: y + 0.25, w: 0.6, h: 0.6, fontSize: 20, bold: true, color: "FFFFFF", align: "center", valign: "middle" });
-      T(s, h, { x: x + 0.25, y: y + 1.0, w: cw - 0.5, h: 0.5, fontSize: 18, bold: true, color: C.text2, fontFace: "+mj-lt" });
-      T(s, b, { x: x + 0.25, y: y + 1.5, w: cw - 0.5, h: 0.9, fontSize: 15 });
+      const y = top + i * (rh + 0.08);
+      card(s, M, y, CW, rh, `conclusion ${i + 1}`);
+      s.addShape(pres.shapes.OVAL, { x: M + 0.2, y: y + (rh - 0.58) / 2, w: 0.58, h: 0.58, fill: { color: C.text2 }, line: { color: C.text2 }, objectName: `number ${i + 1}` });
+      T(s, String(i + 1), { x: M + 0.2, y: y + (rh - 0.58) / 2, w: 0.58, h: 0.58, fontSize: 20, bold: true, color: "FFFFFF", align: "center", valign: "middle" });
+      s.addText([{ text: h, options: { bold: true, fontSize: 19, color: C.text2, fontFace: "+mj-lt", breakLine: true } }, { text: b, options: { fontSize: 14 } }],
+        { isTextBox: true, x: M + 1.0, y: y + 0.06, w: CW - 1.2, h: rh - 0.12, margin: 0, color: C.text1, valign: "middle", paraSpaceAfter: 2 });
     });
-    s.addNotes("~1 min. The corridor version: if your inner loop is slow, try @numba.jit before Cython or C. PyPy only for pure Python. Don't iterate over numpy elements. In PDL, use ->at and ->set. Apple Silicon is settled. An 'arm64 penalty' would be a toolchain with no native arm64 build, running translated by Rosetta 2, or a compiler that generates weaker code for arm64 than for x86. Here only Python 2.7 (an x86_64 conda build) runs under Rosetta; INTERCAL's runtime failed outright on an arm64 calling-convention bug. An LLM co-author works with an audit loop and domain expertise.");
+    s.addText([
+      { text: "In 2019 the question was ", options: {} }, { text: "which language", options: { italic: true } },
+      { text: "; in 2026 it is ", options: {} }, { text: "which runtime, which idiom, which flag", options: { italic: true } },
+      { text: ". And whoever wrote the code, check every number against the log.", options: {} },
+    ], { isTextBox: true, x: M, y: top + 5 * (rh + 0.08) + 0.02, w: CW, h: 0.6, margin: 0, fontSize: 17, bold: true, color: C.text2,
+      fontFace: "+mj-lt", align: "center", valign: "middle", objectName: "closing line" });
+    s.addNotes("~1.5 min. Keith's 2019 conclusions, all of which still hold: the range is the result; optimisation flags are the cheapest win; compilers make hand-written assembler not worth it; element-at-a-time numpy or PDL is pathological; and 'the solution to long execution times is very rarely to change the implementation language'. What 2026 adds: compiled languages have converged, and dynamic languages split by whether they have a JIT. "
+      + "1: numba is the one decorator on the Python ladder slide; never PyPy with numpy (22,015). "
+      + "2: caveat, Keith's C and the assembler are 32-bit floats, the 2026 ports are 64-bit doubles, so part of this spread is precision; Bun is the top of the range at 12.3. "
+      + "3: element-by-element numpy is 4.5x slower than plain Python lists; in PDL use ->at/->set or, better, broadcast or PP; Octave vectorised builds its index vectors outside the timed loop, so flag it. "
+      + "4: Keith's 2019 point, still true on arm64. Boost without asserts, unoptimised 878 to 3.2 at -O3. "
+      + "5: the weakest-supported point: one project, and the kernels have not been reviewed by people expert in each language. "
+      + "If asked about Apple Silicon: every toolchain ran natively on arm64 except Python 2.7, an x86_64 conda build running under Rosetta 2. If asked about reproducibility: fast tiers agree within a few percent between runs, slow entries move 25-45%: trust the tier, not the digit.");
   }
 
   // 13. Thanks

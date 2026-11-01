@@ -230,3 +230,9 @@ report, `run22.log`.
 - Slide 3 shows both 2019 one-liners, PDL and numpy, with run22 times.
 - "What the LLM did well" adds decent first drafts of the report and deck
   (not the abstract). The red-team slide moved to the backups.
+- The take-home slide is now "What to take home": five conclusions set
+  against Keith's 2019 ones (runtime over language; compiled languages have
+  converged; cross the interpreter boundary once; flags, types and idiom;
+  LLMs port fast but humans audit and own), plus a closing line. The old
+  practical tips (numba, PyPy, numpy loops, PDL ->at/->set, Apple Silicon)
+  are in the speaker notes. Slide 3 has xkcd 356's first panel.
