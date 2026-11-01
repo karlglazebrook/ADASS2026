@@ -220,3 +220,11 @@ report, `run22.log`.
   and nobody with language expertise has reviewed them; future work is
   expert and multi-LLM review of the kernels.
 - New slide after it: what the ChatGPT red team caught.
+- Suite-at-a-glance slide: three shaded range arrows over the histogram
+  (native 1–15×, arrays 15–100×, interpreted 100×+), with three boxes that
+  fade in one per click (`make_talk_histogram.py`; the animation is added
+  to the slide XML by `addClickReveal` in build_deck.js).
+- Language-range figure: tier colours on both vertical edges.
+- Slide 3 shows both 2019 one-liners, PDL and numpy, with run22 times.
+- "What the LLM did well" adds decent first drafts of the report and deck
+  (not the abstract). The red-team slide moved to the backups.

@@ -23,6 +23,9 @@ NEW = {"C#", "F#", "Go", "Kotlin", "Haskell", "D", "Zig", "Crystal", "Nim",
 MERGE = {"C": "C/C++", "C++": "C/C++", "Perl": "Perl/PDL", "Perl/PDL": "Perl/PDL",
          "Lisp": "Common Lisp", "Javascript": "JavaScript"}
 TIER_EDGES = [1.10, 2.50, 7.00, 15.00, 100.0, 600.0, 20000.0]
+# Tier colours, as in report/make_figures.py; drawn as strips on both vertical edges.
+TIER_COLOURS = ["#1a9850", "#66bd63", "#a6d96a", "#fee08b", "#fdae61", "#f46d43", "#d73027", "#7a0177"]
+YLIM = (0.7, 1e6)
 RED, OLD = "#D73027", "#3B4A6B"
 
 
@@ -49,14 +52,18 @@ def main():
     fig, ax = plt.subplots(figsize=(13.0, 5.6), dpi=200)
     for e in TIER_EDGES:
         ax.axhline(e, color="#D9DEE7", lw=0.8, zorder=0)
+    bounds = [YLIM[0], *TIER_EDGES, YLIM[1]]
+    for x0 in (-0.95, len(order) - 0.25):
+        for c, lo, hi in zip(TIER_COLOURS, bounds, bounds[1:]):
+            ax.add_patch(plt.Rectangle((x0, lo), 0.2, hi - lo, color=c, lw=0, zorder=1, clip_on=False))
     for i, k in enumerate(order):
         v = langs[k]
         c = RED if k in NEW else OLD
         ax.plot([i, i], [min(v), max(v)], color=c, lw=6, alpha=0.35, solid_capstyle="round", zorder=1)
         ax.scatter([i] * len(v), v, s=26, color=c, edgecolor="white", linewidth=0.6, zorder=2)
     ax.set_yscale("log")
-    ax.set_ylim(0.7, 1e6)
-    ax.set_xlim(-0.7, len(order) - 0.3)
+    ax.set_ylim(*YLIM)
+    ax.set_xlim(-0.95, len(order) - 0.05)
     ax.set_xticks(range(len(order)))
     ax.set_xticklabels([f"{k} ({len(langs[k])})" for k in order], rotation=50, ha="right", rotation_mode="anchor")
     for lab, k in zip(ax.get_xticklabels(), order):
@@ -65,7 +72,7 @@ def main():
     ax.set_yticks([1, 10, 100, 1e3, 1e4, 1e5, 1e6])
     ax.set_yticklabels(["1", "10", "100", "1,000", "10⁴", "10⁵", "10⁶"])
     ax.set_ylabel("Time relative to assembler (log)")
-    for side in ("top", "right"):
+    for side in ("top", "right", "left"):
         ax.spines[side].set_visible(False)
     ax.tick_params(axis="x", length=0)
     ax.scatter([], [], s=40, color=RED, label="New in 2026 (15)")
