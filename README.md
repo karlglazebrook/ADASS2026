@@ -14,19 +14,14 @@ covers 27 languages (Keith's 12 plus 15 new) in 131 variants. The new ports (`cs
 project directories) sit next to Keith's 2019 files and `Run.py`.
 
 Porting, toolchain work and analysis were done with Claude Sonnet 4.7 (Anthropic)
-as co-author. See the report for what that did and didn't contribute.
+as co-author. The talk and the full write-up are kept outside this repo.
 
 ## Contents
 
 | Path | What |
 |---|---|
-| `talk/ADASS2026-talk.pptx` | The talk, with speaker notes |
-| `talk/build_deck.js`, `talk/img/` | Regenerates the deck (pptxgenjs); numbers are read from `report/run22.log` |
-| `talk/Deck-outline.md`, `talk/Abstract-ADASS2026.md` | Outline and accepted abstract |
-| `report/Report-2026.pdf` | Full write-up (21 pp.) |
-| `report/run22.log` | The frozen reference run (30 Apr 2026). Every number in the talk and report comes from it |
-| `report/run23.log` | Re-run after a full toolchain rebuild (1 May 2026) |
-| `report/make_figures.py`, `make_raw_table.py`, `compare_runs.py` | Regenerate `figs/` and the appendix table from the logs |
+| `results/run22.log` | The frozen reference run (30 Apr 2026). Every number in the talk comes from it |
+| `results/run23.log` | Re-run after a full toolchain rebuild (1 May 2026) |
 | `run-benchmarks.sh` | Sets up PATH and environment for every toolchain, then runs `Run.py` |
 | `install-tools.sh` | Installs the pinned toolchains into `tools/` (about 3 GB, 7–10 min) |
 | `bin/` | Shims for PyPy and Kotlin, whose own `bin/` directories would hijack other tests |

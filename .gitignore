@@ -15,11 +15,3 @@ cs_aot_proj/obj/
 
 # Toolchains are installed locally by install-tools.sh (~3 GB)
 /tools
-
-# LaTeX and deck build by-products
-report/*.aux
-report/*.log
-!report/run22.log
-!report/run23.log
-report/*.out
-talk/render/
