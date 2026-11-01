@@ -353,7 +353,7 @@ async function main() {
       { yr: "2022", head: "Keith writes arm64 assembler",
         body: "A hand-written NEON kernel for Apple Silicon (August 2022)." },
       { yr: "Jan 2024", head: "PDL::PP and compiler flags",
-        body: "No optimise 9.3 s, -O1 2.9 s, -O2/-O3 2.2 s on my M1. Keith sends the assembler kernel: the 1.00 reference for 2026." },
+        body: "PDL::PP on my M1: 9.3 s unoptimised, 2.2 s at -O2. Keith sends his assembler: “the improvements you get over C are marginal and not worth the effort.”" },
     ];
     const n = items.length, cw = (CW - (n - 1) * 0.4) / n, ly = 1.75;
     s.addShape(pres.shapes.LINE, { x: M + cw / 2, y: ly, w: CW - cw, h: 0, line: { color: MUTED, width: 1.5 }, objectName: "timeline axis" });
@@ -364,7 +364,7 @@ async function main() {
       card(s, x, ly + 0.8, cw, 1.85, `milestone card ${it.yr}`);
       s.addText([
         { text: it.head, options: { bold: true, fontSize: 17, breakLine: true, color: C.text2 } },
-        { text: it.body, options: { fontSize: 15 } },
+        { text: it.body, options: { fontSize: 14 } },
       ], { isTextBox: true, x: x + 0.2, y: ly + 0.95, w: cw - 0.4, h: 1.6, margin: 0, color: C.text1, valign: "top", paraSpaceAfter: 6 });
     });
     // bottom row: what PDL is | the 2019 one-liner | Keith's quote
@@ -373,7 +373,8 @@ async function main() {
     s.addText([
       { text: "What is PDL?", options: { bold: true, fontSize: 17, color: C.text2, breakLine: true } },
       { text: "The Perl Data Language: fast n-dimensional numeric arrays for Perl, with the loops in compiled C. Perl's answer to IDL and numpy.", options: { breakLine: true } },
-      { text: "Whole-array maths with broadcasting; PDL::PP for writing your own C kernels inline.", options: {} },
+      { text: "Whole-array maths with broadcasting; PDL::PP for writing your own C kernels inline.", options: { breakLine: true } },
+      { text: "Declared bias: I wrote it, in 1996.", options: { color: MUTED, italic: true } },
     ], { isTextBox: true, x: M + 0.2, y: by + 0.15, w: pw - 0.4, h: bh - 0.3, margin: 0, fontSize: 14, color: C.text1, valign: "top", paraSpaceAfter: 5 });
     card(s, M + pw + 0.3, by, kw, bh, "PDL one-liner card", C.text2);
     // both 2019 one-liners, as in csubpdlary.pl and csubnpna.py (run22 times)
@@ -388,12 +389,13 @@ async function main() {
       { text: "  + numpy.arange(nx)[NA,:]", options: { breakLine: true } },
       { text: "  + numpy.arange(ny)[:,NA]", options: {} },
     ], { isTextBox: true, x: M + pw + 0.45, y: by, w: kw - 0.5, h: bh, margin: 0, fontFace: "Courier New", fontSize: 12, color: C.background1, valign: "middle" });
-    s.addText([
-      { text: "“The improvements you get over C are marginal and not worth the effort.”", options: { italic: true, fontSize: 16, color: C.text2, breakLine: true } },
-      { text: "Keith, on his assembler kernel (email, Jan 2024)", options: { fontSize: 11, color: MUTED } },
-    ], { isTextBox: true, x: qx, y: by + 0.05, w: qw, h: 1.65, margin: 0, valign: "top", paraSpaceAfter: 4 });
-    T(s, "Declared bias: I wrote PDL (1996).", { x: qx, y: by + 1.8, w: qw, h: 0.35, fontSize: 12, color: MUTED });
-    s.addNotes("~1 min. The personal thread. PDL in one breath: the Perl Data Language, n-dimensional arrays for Perl with the loops in C — what numpy is to Python, started in 1996. 2019: the one-line arrays tricks Keith credits me for. He already wrote that ->slice element access was 'emphatically not the way PDL should be used' (hold that for later). 2022: Keith's arm64 assembler. Jan 2024: our emails about PDL::PP optimisation flags; he sent me the assembler, which became the 1.00 reference.");
+    // xkcd 356, "Nerd Sniping", first panel (CC BY-NC 2.5)
+    const xh = bh - 0.3, xw = xh * 624 / 588;
+    s.addImage({ path: IMG("xkcd356_panel1.png"), x: qx + (qw - xw) / 2, y: by - 0.05, w: xw, h: xh, objectName: "xkcd nerd sniping",
+      altText: "xkcd 356 first panel: there's a certain type of brain that's easily disabled; if you show it an interesting problem, it involuntarily drops everything else to work on it" });
+    T(s, [{ text: "I got nerd-sniped.", options: { bold: true, color: C.text2, breakLine: true } }, { text: "xkcd.com/356 · Randall Munroe · CC BY-NC 2.5", options: { color: MUTED, fontSize: 9 } }],
+      { x: qx, y: by + xh, w: qw, h: 0.42, fontSize: 13, align: "center", valign: "top" });
+    s.addNotes("~1 min. The personal thread, and I got nerd-sniped (xkcd 356). PDL in one breath: the Perl Data Language, n-dimensional arrays for Perl with the loops in C — what numpy is to Python, started in 1996. 2019: the one-line arrays tricks Keith credits me for. He already wrote that ->slice element access was 'emphatically not the way PDL should be used' (hold that for later). 2022: Keith's arm64 assembler. Jan 2024: our emails about PDL::PP optimisation flags; he sent me the assembler, which became the 1.00 reference.");
   }
 
   // 4. Seven days in April
