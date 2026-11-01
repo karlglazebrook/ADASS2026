@@ -1,0 +1,11 @@
+#!/bin/bash
+# gdl-run PROCEDURE NRPT NX NY  (2026)
+# Runs a GDL procedure from the current directory with the harness's three
+# numbers as command_line_args(). GDL is the weekly macOS arm64 build in
+# tools/gdl (its bundled dylibs had duplicate LC_RPATHs, which macOS 15
+# rejects; install-tools.sh removes the duplicates and re-signs them).
+here="$(cd "$(dirname "$0")"/.. && pwd)"
+gdl="$here/tools/gdl/GNU Data Language.app/Contents/Resources/bin/gdl"
+[ "$1" = "--version" ] && exec "$gdl" --version
+proc="$1"; shift
+exec "$gdl" -quiet -e "$proc" -args "$@"

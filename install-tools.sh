@@ -35,6 +35,15 @@
 #       conda create -n adass-ocaml  -c conda-forge ocaml ocaml-base-compiler
 #       conda create -n adass-kotlin -c conda-forge kotlin
 #       conda create -n adass-rb     -c conda-forge ruby   # fallback only
+#   * brew clojure elixir chapel lua     (2026 second batch)
+#     Chapel pulls in python@3.15 and links it as /opt/homebrew/bin/python3;
+#     run `brew unlink python@3.15` afterwards (chapel still works).
+#   * brew php chezscheme mawk gawk bash, and Dart: brew tap dart-lang/dart
+#     && brew install dart-lang/dart/dart          (2026 third batch)
+#   * Dyalog APL 20.0: brew install --cask dyalog (accepts Dyalog's licence;
+#     asks for an admin password), which provides /usr/local/bin/dyalogscript
+#   * MATLAB, any recent release, in /Applications (licensed separately;
+#     bin/matlab-run uses the newest MATLAB_R*.app)
 
 set -e
 
@@ -67,6 +76,12 @@ CYTHON_VER=3.3.0
 PYTHRAN_VER=0.19.0
 MOJO_VER=1.2.0
 RAKUDO_VER=2026.09               # binary release, build revision 01
+GRAALPY_VER=25.4.4               # GraalPy community, Python 3.13
+TRUFFLERUBY_VER=40.0.0           # TruffleRuby community
+WASMTIME_VER=49.0.4
+GNAT_VER=15.3.0-1                # GNAT FSF build from alire-project
+# GDL publishes macOS arm64 builds only as a rolling "weekly-release", so it
+# cannot be pinned here; run26/27 used the 27 Oct 2026 one (v1.1.2-66).
 
 # ---------------------------------------------------------------------------
 # Paths
@@ -328,6 +343,98 @@ install_rakudo() {
     "$TOOLS/rakudo/bin/raku" --version | head -1
 }
 
+install_graalpy() {
+    # Reached only through bin/graalpy (its bin/ has python and python3).
+    should_run graalpy || return 0
+    say "GraalPy $GRAALPY_VER"
+    [[ $LIST_ONLY -eq 1 ]] && { note "would install graalpy $GRAALPY_VER + numpy"; return; }
+    if [[ $FORCE -eq 0 ]] && have_target "$TOOLS/graalpy/bin/graalpy" "$GRAALPY_VER"; then
+        skip "graalpy $GRAALPY_VER already at $TOOLS/graalpy"; return
+    fi
+    local tarball="$DOWNLOADS/graalpy3.13-community-$GRAALPY_VER-macos-aarch64.tar.gz"
+    fetch "https://github.com/oracle/graalpython/releases/download/graal-$GRAALPY_VER/graalpy3.13-community-$GRAALPY_VER-macos-aarch64.tar.gz" "$tarball"
+    rm -rf "$TOOLS/graalpy" && mkdir -p "$TOOLS/graalpy"
+    tar -C "$TOOLS/graalpy" -xzf "$tarball" --strip-components=1
+    "$TOOLS/graalpy/bin/graalpy" -m ensurepip >/dev/null
+    "$TOOLS/graalpy/bin/graalpy" -m pip install -q numpy   # builds from source, ~1-2 min
+    "$TOOLS/graalpy/bin/graalpy" --version
+}
+
+install_truffleruby() {
+    # Reached only through bin/truffleruby (its bin/ has ruby, gem, ...).
+    should_run truffleruby || return 0
+    say "TruffleRuby $TRUFFLERUBY_VER"
+    [[ $LIST_ONLY -eq 1 ]] && { note "would install truffleruby $TRUFFLERUBY_VER"; return; }
+    if [[ $FORCE -eq 0 ]] && have_target "$TOOLS/truffleruby/bin/truffleruby" "$TRUFFLERUBY_VER"; then
+        skip "truffleruby $TRUFFLERUBY_VER already at $TOOLS/truffleruby"; return
+    fi
+    local tarball="$DOWNLOADS/truffleruby-community-$TRUFFLERUBY_VER-macos-aarch64.tar.gz"
+    fetch "https://github.com/truffleruby/truffleruby/releases/download/graal-$TRUFFLERUBY_VER/truffleruby-community-$TRUFFLERUBY_VER-macos-aarch64.tar.gz" "$tarball"
+    rm -rf "$TOOLS/truffleruby" && mkdir -p "$TOOLS/truffleruby"
+    tar -C "$TOOLS/truffleruby" -xzf "$tarball" --strip-components=1
+    "$TOOLS/truffleruby/bin/truffleruby" --version
+}
+
+install_wasmtime() {
+    should_run wasmtime || return 0
+    say "wasmtime $WASMTIME_VER"
+    [[ $LIST_ONLY -eq 1 ]] && { note "would install wasmtime $WASMTIME_VER"; return; }
+    if [[ $FORCE -eq 0 ]] && have_target "$TOOLS/wasmtime/wasmtime" "$WASMTIME_VER"; then
+        skip "wasmtime $WASMTIME_VER already at $TOOLS/wasmtime"; return
+    fi
+    local tarball="$DOWNLOADS/wasmtime-v$WASMTIME_VER-aarch64-macos.tar.xz"
+    fetch "https://github.com/bytecodealliance/wasmtime/releases/download/v$WASMTIME_VER/wasmtime-v$WASMTIME_VER-aarch64-macos.tar.xz" "$tarball"
+    rm -rf "$TOOLS/wasmtime" && mkdir -p "$TOOLS/wasmtime"
+    tar -C "$TOOLS/wasmtime" -xJf "$tarball" --strip-components=1
+    "$TOOLS/wasmtime/wasmtime" --version
+}
+
+install_gnat() {
+    # Ada. Reached only through bin/gnatmake: GNAT's bin/ also has gcc, g++
+    # and c++, which would replace Apple clang in the C/C++ tests.
+    should_run gnat || return 0
+    say "GNAT $GNAT_VER"
+    [[ $LIST_ONLY -eq 1 ]] && { note "would install gnat $GNAT_VER"; return; }
+    if [[ $FORCE -eq 0 ]] && have_target "$TOOLS/gnat/bin/gnatmake" "${GNAT_VER%-*}"; then
+        skip "gnat $GNAT_VER already at $TOOLS/gnat"; return
+    fi
+    local tarball="$DOWNLOADS/gnat-aarch64-darwin-$GNAT_VER.tar.gz"
+    fetch "https://github.com/alire-project/GNAT-FSF-builds/releases/download/gnat-$GNAT_VER/gnat-aarch64-darwin-$GNAT_VER.tar.gz" "$tarball"
+    rm -rf "$TOOLS/gnat" && mkdir -p "$TOOLS/gnat"
+    tar -C "$TOOLS/gnat" -xzf "$tarball" --strip-components=1
+    "$TOOLS/gnat/bin/gnatmake" --version | head -1
+}
+
+install_gdl() {
+    # GDL's weekly macOS arm64 build ships dylibs with duplicate LC_RPATH
+    # entries, which macOS 15's dyld refuses to load; remove the duplicates
+    # and ad-hoc re-sign each file that changed.
+    should_run gdl || return 0
+    say "GDL (weekly macOS arm64 build)"
+    [[ $LIST_ONLY -eq 1 ]] && { note "would install the GDL weekly-release headless build"; return; }
+    local app="$TOOLS/gdl/GNU Data Language.app"
+    if [[ $FORCE -eq 0 ]] && [[ -x "$app/Contents/Resources/bin/gdl" ]]; then
+        skip "gdl already at $TOOLS/gdl"; return
+    fi
+    local dmg="$DOWNLOADS/gdl-macOS-arm64-headless.dmg" mnt
+    fetch "https://github.com/gnudatalanguage/gdl/releases/download/weekly-release/gdl-macOS-arm64-headless.dmg" "$dmg"
+    mnt=$(mktemp -d)
+    hdiutil attach -nobrowse -readonly -mountpoint "$mnt" "$dmg" >/dev/null
+    rm -rf "$TOOLS/gdl" && mkdir -p "$TOOLS/gdl"
+    cp -R "$mnt/GNU Data Language.app" "$TOOLS/gdl/"
+    hdiutil detach "$mnt" -quiet
+    local f p
+    for f in "$app"/Contents/Resources/bin/* "$app"/Contents/Resources/libs/*.dylib; do
+        for p in $(otool -l "$f" 2>/dev/null | awk '/LC_RPATH/{getline;getline;print $2}' | sort | uniq -d); do
+            while [[ $(otool -l "$f" | awk '/LC_RPATH/{getline;getline;print $2}' | grep -cxF "$p") -gt 1 ]]; do
+                install_name_tool -delete_rpath "$p" "$f" 2>/dev/null || break
+            done
+            codesign --force -s - "$f" 2>/dev/null
+        done
+    done
+    "$app/Contents/Resources/bin/gdl" --version
+}
+
 install_zig() {
     should_run zig || return 0
     say "Zig $ZIG_VER"
@@ -560,6 +667,11 @@ EOF
     run_step pyext
     run_step mojo
     run_step rakudo
+    run_step graalpy
+    run_step truffleruby
+    run_step wasmtime
+    run_step gdl
+    run_step gnat
 
     say "Installation summary"
     if [[ ${#FAILED_STEPS[@]} -eq 0 ]]; then

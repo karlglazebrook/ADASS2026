@@ -1701,6 +1701,455 @@ RakuHyper = [
    600,
    ""]
 
+#  More languages, 2026 (second batch).  MATLAB runs csubraw.m and
+#  csubvec.m ported to functions (csubraw_ml.m, csubvec_ml.m) through
+#  bin/matlab-run; its ~13 s startup is why its repeat counts are high.
+#  GDL (the open-source IDL) runs csubraw_gdl.pro and csubvec_gdl.pro
+#  through bin/gdl-run.  Clojure on persistent vectors and on Java double
+#  arrays; Elixir on Erlang :array and as a map over lists; Chapel built
+#  with and without --fast.
+
+MatlabLoop = [
+   "MATLAB",
+   "matlab loop",
+   "",
+   "",
+   "matlab-run csubraw_ml",
+   1000000,
+   ""]
+
+MatlabVec = [
+   "MATLAB",
+   "matlab vectorised",
+   "",
+   "",
+   "matlab-run csubvec_ml",
+   2000000,
+   ""]
+
+GDLLoop = [
+   "GDL",
+   "gdl loop",
+   "",
+   "",
+   "gdl-run csubraw_gdl",
+   3000,
+   ""]
+
+GDLVec = [
+   "GDL",
+   "gdl vectorised",
+   "",
+   "",
+   "gdl-run csubvec_gdl",
+   1000000,
+   ""]
+
+ClojureVec = [
+   "Clojure : vectors",
+   "clojure",
+   "",
+   "",
+   "clojure -M csubraw.clj",
+   4000,
+   ""]
+
+ClojureArr = [
+   "Clojure : arrays",
+   "clojure",
+   "",
+   "",
+   "clojure -M csubarr.clj",
+   700000,
+   ""]
+
+ElixirArray = [
+   "Elixir : array",
+   "elixir",
+   "",
+   "",
+   "elixir csubraw.exs",
+   4000,
+   ""]
+
+ElixirMap = [
+   "Elixir : map",
+   "elixir",
+   "",
+   "",
+   "elixir csubmap.exs",
+   6000,
+   ""]
+
+ChapelFast = [
+   "Chapel",
+   "chpl --fast",
+   "chpl --fast csubraw.chpl -o /tmp/csub_chpl",
+   "",
+   "/tmp/csub_chpl",
+   1500000,
+   "rm -f /tmp/csub_chpl"]
+
+Chapel = [
+   "Chapel",
+   "chpl",
+   "chpl csubraw.chpl -o /tmp/csub_chpl",
+   "",
+   "/tmp/csub_chpl",
+   5000,
+   "rm -f /tmp/csub_chpl"]
+
+#  Runtime variants, 2026: the same source under another runtime.  Plain
+#  PUC Lua beside LuaJIT; CPython 3.14 with its experimental JIT switched
+#  on; GraalPy and TruffleRuby (GraalVM's Truffle JITs, via shims in bin/
+#  because their own bin/ has python and ruby); and Keith's C kernel
+#  (cmain.cpp + csub.cpp) compiled to WebAssembly with zig cc, with and
+#  without 128-bit SIMD, run in wasmtime and in Node (wasirun.mjs).
+
+LuaPUC = [
+   "Lua",
+   "lua 5.5",
+   "",
+   "",
+   "lua csubraw.lua",
+   20000,
+   ""]
+
+Python3JIT = [
+   "Python : lists",
+   "Python3 JIT",
+   "",
+   "",
+   "env PYTHON_JIT=1 python3 csubraw.py",
+   8000,
+   ""]
+
+Python3npJIT = [
+   "Python : numpy raw",
+   "Python3 JIT",
+   "",
+   "",
+   "env PYTHON_JIT=1 python3 csubnp.py",
+   1600,
+   ""]
+
+GraalPy = [
+   "Python : lists",
+   "GraalPy",
+   "",
+   "",
+   "graalpy csubraw.py",
+   40000,
+   ""]
+
+GraalPyNumpy = [
+   "Python : numpy raw",
+   "GraalPy",
+   "",
+   "",
+   "graalpy csubnp.py",
+   150,
+   ""]
+
+TruffleRuby = [
+   "Ruby : raw",
+   "TruffleRuby",
+   "",
+   "",
+   "truffleruby csubraw.rb",
+   400000,
+   ""]
+
+WasmWasmtime = [
+   "C : raw",
+   "wasm wasmtime",
+   "zig cc -target wasm32-wasi -O3 -fno-exceptions -x c++ cmain.cpp csub.cpp -o /tmp/csub.wasm",
+   "",
+   "wasmtime /tmp/csub.wasm",
+   600000,
+   "rm -f /tmp/csub.wasm"]
+
+WasmWasmtimeSimd = [
+   "C : raw",
+   "wasm simd wasmtime",
+   "zig cc -target wasm32-wasi -O3 -msimd128 -fno-exceptions -x c++ cmain.cpp csub.cpp -o /tmp/csub.wasm",
+   "",
+   "wasmtime /tmp/csub.wasm",
+   2000000,
+   "rm -f /tmp/csub.wasm"]
+
+WasmNode = [
+   "C : raw",
+   "wasm Node.js",
+   "zig cc -target wasm32-wasi -O3 -fno-exceptions -x c++ cmain.cpp csub.cpp -o /tmp/csub.wasm",
+   "",
+   "node wasirun.mjs /tmp/csub.wasm",
+   250000,
+   "rm -f /tmp/csub.wasm"]
+
+WasmNodeSimd = [
+   "C : raw",
+   "wasm simd Node.js",
+   "zig cc -target wasm32-wasi -O3 -msimd128 -fno-exceptions -x c++ cmain.cpp csub.cpp -o /tmp/csub.wasm",
+   "",
+   "node wasirun.mjs /tmp/csub.wasm",
+   400000,
+   "rm -f /tmp/csub.wasm"]
+
+#  APL (Dyalog 20.0), 2026: Keith's kernel as explicit :For loops
+#  (csubraw.apls) and as the one-line array form in+(⍳ny)∘.+⍳nx
+#  (csubary.apls), run with dyalogscript.
+
+AplLoop = [
+   "APL",
+   "dyalog loop",
+   "",
+   "",
+   "dyalogscript csubraw.apls",
+   200,
+   ""]
+
+AplArray = [
+   "APL",
+   "dyalog array",
+   "",
+   "",
+   "dyalogscript csubary.apls",
+   700000,
+   ""]
+
+#  Third batch, 2026.  Swift with one flat array (cstestflat.swift: Keith's
+#  cstest.swift with [Float] indexed Iy*Nx+Ix instead of arrays of rows);
+#  Dart under its JIT and compiled ahead of time; PHP 8 without and with
+#  its opcache JIT; Chez Scheme at the default and the unsafe optimize
+#  level; awk (string-keyed 2D arrays) in mawk and gawk; bash (integer-only,
+#  flat arrays); Ada with its default checks and with -gnatp.  GNAT comes
+#  through bin/gnatmake, which keeps GNAT's own gcc/g++ off PATH.
+
+SwiftFlatO = [
+   "Swift : flat",
+   "Swiftc -O",
+   "xcrun swiftc -o /tmp/cstestflat -O cstestflat.swift",
+   "",
+   "/tmp/cstestflat",
+   300000,
+   "rm -f /tmp/cstestflat"]
+
+SwiftFlatOunchecked = [
+   "Swift : flat",
+   "Swiftc -Ounchecked",
+   "xcrun swiftc -o /tmp/cstestflat -Ounchecked cstestflat.swift",
+   "",
+   "/tmp/cstestflat",
+   2000000,
+   "rm -f /tmp/cstestflat"]
+
+DartJIT = [
+   "Dart",
+   "dart run",
+   "",
+   "",
+   "dart run csubraw.dart",
+   500000,
+   ""]
+
+DartAOT = [
+   "Dart",
+   "dart compile exe",
+   "dart compile exe csubraw.dart -o /tmp/csub_dart",
+   "",
+   "/tmp/csub_dart",
+   300000,
+   "rm -f /tmp/csub_dart"]
+
+PHP = [
+   "PHP",
+   "php 8.5",
+   "",
+   "",
+   "php csubraw.php",
+   15000,
+   ""]
+
+PHPJIT = [
+   "PHP",
+   "php 8.5 JIT",
+   "",
+   "",
+   "php -d opcache.enable_cli=1 -d opcache.jit=tracing -d opcache.jit_buffer_size=64M csubraw.php",
+   70000,
+   ""]
+
+ChezScheme = [
+   "Scheme",
+   "chez",
+   "",
+   "",
+   "chez --script csubraw.ss",
+   150000,
+   ""]
+
+ChezSchemeO3 = [
+   "Scheme",
+   "chez opt-level 3",
+   "",
+   "",
+   "chez --optimize-level 3 --script csubraw.ss",
+   500000,
+   ""]
+
+Mawk = [
+   "awk",
+   "mawk",
+   "",
+   "",
+   "mawk -f csubraw.awk",
+   600,
+   ""]
+
+Gawk = [
+   "awk",
+   "gawk",
+   "",
+   "",
+   "gawk -f csubraw.awk",
+   900,
+   ""]
+
+Bash = [
+   "bash",
+   "bash 5.3",
+   "",
+   "",
+   "/opt/homebrew/bin/bash csubraw.sh",
+   40,
+   ""]
+
+AdaO3 = [
+   "Ada",
+   "gnatmake -O3",
+   "gnatmake -q -f -O3 csubraw.adb -o /tmp/csub_ada -D /tmp",
+   "",
+   "/tmp/csub_ada",
+   700000,
+   "rm -f /tmp/csub_ada /tmp/csubraw.ali /tmp/csubraw.o"]
+
+AdaO3gnatp = [
+   "Ada",
+   "gnatmake -O3 -gnatp",
+   "gnatmake -q -f -O3 -gnatp csubraw.adb -o /tmp/csub_ada -D /tmp",
+   "",
+   "/tmp/csub_ada",
+   900000,
+   "rm -f /tmp/csub_ada /tmp/csubraw.ali /tmp/csubraw.o"]
+
+#  Fourth batch, 2026: idiom and precision variants of existing languages.
+#  Keith's C in double precision (csubd.cpp/cmaind.cpp, float -> double and
+#  nothing else); Fortran array syntax and do concurrent (cfsubarr.f90,
+#  cfsubdc.f90, drop-in replacements for cfsub.f linked with his cfmain.f);
+#  Julia dot-broadcast (csubbcast.jl); JavaScript on flat Float64Arrays
+#  (cjstestflat.js) in Node, Bun and Deno; Swift with a 2D Grid struct over
+#  one flat array (cstestgrid.swift).
+
+RawCdclangO3 = [
+   "C : raw double",
+   "clang -O3",
+   "c++ -c -O3 csubd.cpp -o csubd.o",
+   "c++ -o cmaind -O3 cmaind.cpp csubd.o",
+   "./cmaind",
+   1500000,
+   "rm -f cmaind csubd.o"]
+
+RawCdclangO3native = [
+   "C : raw double",
+   "clang -O3 native",
+   "c++ -c -O3 -march=native csubd.cpp -o csubd.o",
+   "c++ -o cmaind -O3 -march=native cmaind.cpp csubd.o",
+   "./cmaind",
+   1500000,
+   "rm -f cmaind csubd.o"]
+
+FortranArray = [
+   "Fortran : array",
+   "gfortran -O3 native",
+   "gfortran -c -o cfsubarr.o -O3 -march=native cfsubarr.f90",
+   "gfortran -o cfmain -O3 -march=native cfmain.f cfsubarr.o",
+   "./cfmain",
+   300000,
+   "rm -f cfmain cfsubarr.o"]
+
+FortranDoConc = [
+   "Fortran : do concurrent",
+   "gfortran -O3 native",
+   "gfortran -c -o cfsubdc.o -O3 -march=native cfsubdc.f90",
+   "gfortran -o cfmain -O3 -march=native cfmain.f cfsubdc.o",
+   "./cfmain",
+   2000000,
+   "rm -f cfmain cfsubdc.o"]
+
+JuliaBcast = [
+   "Julia : broadcast",
+   "julia",
+   "",
+   "",
+   "julia csubbcast.jl",
+   1500000,
+   ""]
+
+JuliaBcastO3 = [
+   "Julia : broadcast",
+   "julia -O3",
+   "",
+   "",
+   "julia -O3 csubbcast.jl",
+   1500000,
+   ""]
+
+JavascriptFlat = [
+   "Javascript : flat",
+   "Node.js",
+   "",
+   "",
+   "node cjstestflat.js",
+   400000,
+   ""]
+
+JavascriptFlatBun = [
+   "Javascript : flat",
+   "Bun",
+   "",
+   "",
+   "bun cjstestflat.js",
+   500000,
+   ""]
+
+JavascriptFlatDeno = [
+   "Javascript : flat",
+   "Deno",
+   "",
+   "",
+   "deno run cjstestflat.js",
+   200000,
+   ""]
+
+SwiftGridO = [
+   "Swift : grid",
+   "Swiftc -O",
+   "xcrun swiftc -o /tmp/cstestgrid -O cstestgrid.swift",
+   "",
+   "/tmp/cstestgrid",
+   400000,
+   "rm -f /tmp/cstestgrid"]
+
+SwiftGridOunchecked = [
+   "Swift : grid",
+   "Swiftc -Ounchecked",
+   "xcrun swiftc -o /tmp/cstestgrid -Ounchecked cstestgrid.swift",
+   "",
+   "/tmp/cstestgrid",
+   2000000,
+   "rm -f /tmp/cstestgrid"]
+
 FullTests = [
    Swift,SwiftOnone,SwiftO,SwiftOunchecked,
    Assembler,
@@ -1709,6 +2158,10 @@ FullTests = [
    Perl,PerlPDLraw,PerlPDLvec,PerlPDLary,PerlPDLpp,
    PerlInlineAV,PerlInlinePacked,
    RakuRaw,RakuRawNoSpesh,RakuNative,RakuNativeNoSpesh,RakuShaped,RakuHyper,
+   MatlabLoop,MatlabVec,GDLLoop,GDLVec,ClojureVec,ClojureArr,
+   ElixirArray,ElixirMap,ChapelFast,Chapel,
+   LuaPUC,Python3JIT,Python3npJIT,GraalPy,GraalPyNumpy,TruffleRuby,
+   WasmWasmtime,WasmWasmtimeSimd,WasmNode,WasmNodeSimd,
    Python2,Python2np,Python2vec,Python2ary,
    Python3,Python3np,Python3vec,Python3ary,
    Python3npNumba,
@@ -1725,6 +2178,12 @@ FullTests = [
    PyPy,Zig,SBCLUntyped,SBCLTyped,Haskell,
    FSharp,CSharpAOT,DLang,Nim,KotlinJVM,PyPyNumpy,
    OctaveLoop,OctaveVec,J,
+   AplLoop,AplArray,
+   SwiftFlatO,SwiftFlatOunchecked,DartJIT,DartAOT,PHP,PHPJIT,
+   ChezScheme,ChezSchemeO3,Mawk,Gawk,Bash,AdaO3,AdaO3gnatp,
+   RawCdclangO3,RawCdclangO3native,FortranArray,FortranDoConc,
+   JuliaBcast,JuliaBcastO3,JavascriptFlat,JavascriptFlatBun,JavascriptFlatDeno,
+   SwiftGridO,SwiftGridOunchecked,
    RawCclang,RawCclangO,RawCclangO1,RawCclangO2,RawCclangO3,RawCclangO3native,
    RawCgcc,RawCgccO,RawCgccO1,RawCgccO2,RawCgccO3,RawCgccO3native,
    VecCclang,VecCclangO,VecCclangO1,VecCclangO2,VecCclangO3,VecCclangO3native,
@@ -1787,6 +2246,24 @@ ListVersion("Cython   ","pyext-python -m cython --version")
 ListVersion("Pythran  ","pyext-python -m pythran.run --version")
 ListVersion("Mojo     ","mojo --version")
 ListVersion("Raku     ","raku --version")
+ListVersion("GDL      ","gdl-run --version")
+ListVersion("Clojure  ","clojure --version")
+ListVersion("Elixir   ","elixir --version")
+ListVersion("Chapel   ","chpl --version")
+ListVersion("Lua      ","lua -v")
+ListVersion("GraalPy  ","graalpy --version")
+ListVersion("TruffleRb","truffleruby --version")
+ListVersion("wasmtime ","wasmtime --version")
+ListVersion("APL      ","dyalogscript verAPL.apls")
+ListVersion("Dart     ","dart --version")
+ListVersion("PHP      ","php -v")
+ListVersion("Chez     ","chez --version")
+ListVersion("mawk     ","mawk -W version")
+ListVersion("gawk     ","gawk --version")
+ListVersion("bash     ","/opt/homebrew/bin/bash --version")
+ListVersion("GNAT     ","gnatmake --version")
+#  MATLAB's version is not listed here: starting it costs ~13 s. It is
+#  whichever /Applications/MATLAB_R*.app bin/matlab-run picks (R2026b).
 
 
 #  Set the size of the array to be used for the test. There isn't much of a

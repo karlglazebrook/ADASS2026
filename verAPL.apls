@@ -1,0 +1,3 @@
+#!/usr/local/bin/dyalogscript
+⍝ verAPL.apls -- print the Dyalog version, for Run.py's version list (2026).
+⎕←'Dyalog APL ',2⊃'.'⎕WG'APLVersion'

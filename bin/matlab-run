@@ -1,0 +1,8 @@
+#!/bin/bash
+# matlab-run FUNCTION NRPT NX NY  (2026)
+# Run.py appends the three numbers as words, but MATLAB needs them inside a
+# -batch expression, so this builds "FUNCTION(NRPT,NX,NY)". The MATLAB
+# install is taken from $MATLAB_APP (default: the newest /Applications/MATLAB_R*.app).
+app="${MATLAB_APP:-$(ls -d /Applications/MATLAB_R*.app 2>/dev/null | tail -1)}"
+fn="$1"; shift
+exec "$app/bin/matlab" -batch "$fn($(IFS=,; echo "$*"))"

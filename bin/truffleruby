@@ -1,0 +1,6 @@
+#!/bin/bash
+# Shim for truffleruby (tools/truffleruby, 2026). Its own bin/ directory holds
+# commands (python, python3, ruby, ...) that would hijack other tests if it
+# went on PATH, so only this one command is exposed, as for PyPy.
+export LANG=en_US.UTF-8   # TruffleRuby warns about a US-ASCII locale otherwise
+exec "$(cd "$(dirname "$0")"/.. && pwd)/tools/truffleruby/bin/truffleruby" "$@"

@@ -1,0 +1,5 @@
+#!/bin/bash
+# Shim for graalpy (tools/graalpy, 2026). Its own bin/ directory holds
+# commands (python, python3, ruby, ...) that would hijack other tests if it
+# went on PATH, so only this one command is exposed, as for PyPy.
+exec "$(cd "$(dirname "$0")"/.. && pwd)/tools/graalpy/bin/graalpy" "$@"

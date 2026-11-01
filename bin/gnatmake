@@ -1,0 +1,6 @@
+#!/bin/bash
+# Shim for GNAT (Ada), tools/gnat (2026). GNAT's bin/ also holds gcc, g++
+# and c++, which would replace Apple clang in Keith's C and C++ tests if it
+# went on PATH, so it is added here only for the gnatmake run itself.
+gnat="$(cd "$(dirname "$0")"/.. && pwd)/tools/gnat/bin"
+PATH="$gnat:$PATH" exec "$gnat/gnatmake" "$@"

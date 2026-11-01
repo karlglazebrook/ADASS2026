@@ -1,0 +1,27 @@
+#!/usr/local/bin/dyalogscript
+⍝ csubraw.apls -- Dyalog APL, element-by-element loop (2026).
+⍝ Keith's kernel written as explicit :For loops over a ny×nx matrix, the
+⍝ form APL is not designed for; csubary.apls is the one-line array form.
+⍝ The input is offset by 0.5 so it stays floating point: Dyalog stores
+⍝ whole-number floats as integers, which would turn this into an integer
+⍝ test. Run as
+⍝    dyalogscript csubraw.apls 100 2000 10
+⎕IO←0
+∇ out←csub(in nx ny out);ix;iy
+  :For iy :In ⍳ny
+      :For ix :In ⍳nx
+          out[iy;ix]←in[iy;ix]+ix+iy
+      :EndFor
+  :EndFor
+∇
+args←2⎕NQ#'GetCommandLineArgs'
+(nrpt nx ny)←⍎¨¯3↑(1↓args),(0⌈4-≢args)↑'100' '2000' '10'
+in←0.5+(nx+ny)-(⍳ny)∘.+⍳nx
+out←ny nx⍴0.5
+⎕←'Arrays ',(⍕nx),' by ',(⍕ny),' count ',⍕nrpt
+:For r :In ⍳nrpt
+    out←csub in nx ny out
+:EndFor
+:If ∨/,out≠in+(⍳ny)∘.+⍳nx
+    ⎕←'Error: result does not match'
+:EndIf

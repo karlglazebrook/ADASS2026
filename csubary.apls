@@ -1,0 +1,20 @@
+#!/usr/local/bin/dyalogscript
+⍝ csubary.apls -- Dyalog APL, the array form (2026).
+⍝ The whole kernel is one expression: the input matrix plus the outer sum
+⍝ of the row and column index vectors, (⍳ny)∘.+⍳nx. Built each call, like
+⍝ numpy "arrays" and J's csubraw.ijs. Compare csubraw.apls (loops). The
+⍝ input is offset by 0.5 so it stays floating point (see csubraw.apls).
+⍝ Run as
+⍝    dyalogscript csubary.apls 1000 2000 10
+⎕IO←0
+csub←{in nx ny←⍵ ⋄ in+(⍳ny)∘.+⍳nx}
+args←2⎕NQ#'GetCommandLineArgs'
+(nrpt nx ny)←⍎¨¯3↑(1↓args),(0⌈4-≢args)↑'1000' '2000' '10'
+in←0.5+(nx+ny)-(⍳ny)∘.+⍳nx
+⎕←'Arrays ',(⍕nx),' by ',(⍕ny),' count ',⍕nrpt
+:For r :In ⍳nrpt
+    out←csub in nx ny
+:EndFor
+:If ∨/,out≠in+(⍳ny)∘.+⍳nx
+    ⎕←'Error: result does not match'
+:EndIf
