@@ -445,11 +445,15 @@ async function main() {
     const rows = [["27", "languages", "15 new since 2019"], ["131", "variants", "131 / 131 pass (run22)"],
                   ["4.8 × 10⁵", "range", "1.00 up to the R reference class at 481,009"]];
     rows.forEach(([n, l, sub], i) => {
-      const y = 1.4 + i * 1.75;
+      const y = 1.3 + i * 1.6;
       T(s, n, { x: M, y, w: 4.2, h: 0.9, fontSize: 48, bold: true, color: C.text2, fontFace: "+mj-lt", valign: "bottom" });
       T(s, [{ text: l, options: { bold: true, breakLine: true } }, { text: sub, options: { color: MUTED, fontSize: 14 } }],
         { x: M, y: y + 0.95, w: 4.2, h: 0.7, fontSize: 16 });
     });
+    card(s, M, 6.1, 4.2, 0.78, "reference card");
+    T(s, [{ text: "Reference: ", options: { bold: true, color: C.text2 } },
+          { text: "1.00 = Keith's hand-written arm64 NEON assembler. Best C: 1.19 (clang -O3 -march=native).", options: {} }],
+      { x: M + 0.15, y: 6.17, w: 3.9, h: 0.64, fontSize: 13, valign: "middle" });
     // histogram from make_talk_histogram.py, with its axes geometry, so the arrows sit on real values
     const G = JSON.parse(fs.readFileSync(IMG("talk_histogram.json"), "utf8"));
     const ix = M + 4.6, iw = CW - 4.6, ih = iw * G.fig[1] / G.fig[0], iy = 2.0;
@@ -479,7 +483,7 @@ async function main() {
         { x: ix + i * (bw + 0.15), y: by, w: bw, h: bh, margin: [6, 8, 6, 8], fill: { color: C.background2 },
           line: { color: g.color, width: 2.5 }, color: C.text1, valign: "top", paraSpaceAfter: 3, objectName: `group box ${i + 1}` });
     });
-    s.addNotes("~1 min. 27 languages, 15 of them new, counted the way Keith counted his 12 (C/C++ as one, Perl/PDL as one). 131 variants, all passing in run22, the frozen reference. The range is 4.8e5 rather than Keith's million, partly from the new reference and partly the PDL correction. Three peaks. CLICK: native code, 1 to 15x, where tier 3 (2.5 to 7x) is the crowd, 41 of 131. CLICK: whole-array expressions and half measures, 15 to 100x. CLICK: an interpreter doing element lookup, the spike near 600 to 1,000x, with a purple tail where every element crosses a library boundary.");
+    s.addNotes("~1 min. Reference first: 1.00 is Keith's hand-written NEON assembler; the best C is 1.19, so a good C compiler gets within 20% of hand-written assembler (the 1.19 test is labelled g++ in Run.py, but g++ on macOS is Apple clang; the clang-named run is 1.20). 27 languages, 15 of them new, counted the way Keith counted his 12 (C/C++ as one, Perl/PDL as one). 131 variants, all passing in run22, the frozen reference. The range is 4.8e5 rather than Keith's million, partly from the new reference and partly the PDL correction. Three peaks. CLICK: native code, 1 to 15x, where tier 3 (2.5 to 7x) is the crowd, 41 of 131. CLICK: whole-array expressions and half measures, 15 to 100x. CLICK: an interpreter doing element lookup, the spike near 600 to 1,000x, with a purple tail where every element crosses a library boundary.");
   }
 
   // 5a. Every language, best to worst variant (make_language_ranges.py)
@@ -489,8 +493,8 @@ async function main() {
     s.addImage({ path: IMG("fig7_language_ranges.png"), x: M, y: 1.25, w: iw, h: ih, objectName: "language ranges",
       altText: "Run22 relative times for each of the 27 languages, one column each, sorted by best variant; the 15 new languages in red" });
     T(s, [
-      { text: "Red: the 15 languages new in 2026, mostly one variant each. ", options: { bold: true, color: HEX.accent3 } },
-      { text: "The long bars are Keith's option sweeps (C/C++ alone has 60 variants) and changes of idiom: Python, PDL, Octave, R. Edge colours mark the tiers, green 1 to purple 8; (n) is the number of variants.", options: {} },
+      { text: "Red labels: the 15 languages new in 2026, mostly one variant each. ", options: { bold: true, color: HEX.accent3 } },
+      { text: "The long bars are Keith's option sweeps (C/C++ alone has 60 variants) and changes of idiom: Python, PDL, Octave, R. Bars and dots are coloured by tier, green 1 to purple 8; (n) is the number of variants.", options: {} },
     ], { x: M, y: 1.35 + ih, w: CW, h: 0.8, fontSize: 15 });
     s.addNotes("~45 s. One column per language, counted the way Keith counted his 12, sorted by each language's best variant. Dots are variants; the bar spans best to worst. The new languages mostly have a single, optimised variant, so they sit as single dots in tiers 3 and 4: D and Zig right behind C and Fortran. The tall bars are where the story is: the same language spanning three to five decades depending on compiler flags, runtime or idiom. Figure from talk/make_language_ranges.py, reading run22.");
   }
@@ -826,10 +830,10 @@ async function main() {
     "One kernel from each of Keith's 12 languages (C/C++ and Perl/PDL as one each), pulled verbatim from the 2019 sources and timed in run22. The PDL element-lookup card is the corrected ->at/->set form. R uses outer(), one whole-array expression.");
   {
     const s = content("Backup: every family at a glance", "Backup");
-    const ih = 5.5, iw = ih * 1787 / 1779;
+    const ih = 5.5, iw = ih * 1977 / 1962;
     s.addImage({ path: IMG("fig3_top30.png"), x: M, y: 1.3, w: iw, h: ih, objectName: "fig3 families",
-      altText: "Per-family best variant with min-max range and geometric mean" });
-    T(s, "Bar = best variant; whisker = range across that family's variants; diamond = geometric mean.",
+      altText: "Per-family best variant with min-max range and geometric mean; families new in 2026 labelled in red" });
+    T(s, "Bar = best variant; whisker = range across that family's variants; diamond = geometric mean. Red labels: languages new in 2026.",
       { x: M + iw + 0.4, y: 1.4, w: CW - iw - 0.4, h: 1.5, fontSize: 16, color: MUTED });
   }
 

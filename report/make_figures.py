@@ -294,7 +294,7 @@ def figure_tiers():
 # Figure 3: top 30 fastest tests, horizontal bar chart, log axis.
 # ----------------------------------------------------------------------
 
-def figure_top30():
+def figure_top30(highlight=None, out=None):
     """Per-language-family aggregate: best (= bar height), with whiskers
     showing the family's min/max range across all its variants and a
     diamond at the geometric mean.  Sorted by family-best so the
@@ -358,6 +358,11 @@ def figure_top30():
 
     ax.set_yticks(ypos)
     ax.set_yticklabels(labels, fontsize=7.5)
+    # Optional: families whose first word is in `highlight` get red bold labels.
+    for lab, k in zip(ax.get_yticklabels(), labels):
+        if highlight and k.split(" :")[0] in highlight:
+            lab.set_color("#d73027")
+            lab.set_fontweight("bold")
     ax.invert_yaxis()
     ax.set_xscale("log")
     ax.set_xlabel("Relative time (log scale; 1.0 = arm64 NEON assembler)")
@@ -368,8 +373,8 @@ def figure_top30():
         "diamond = geometric mean")
     ax.legend(loc="lower right", fontsize=8)
     plt.tight_layout()
-    out = os.path.join(OUT, "fig3_top30.pdf")
-    fig.savefig(out, bbox_inches="tight")
+    out = out or os.path.join(OUT, "fig3_top30.pdf")
+    fig.savefig(out, bbox_inches="tight", dpi=220)
     plt.close(fig)
     print("wrote", out)
 

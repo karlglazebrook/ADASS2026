@@ -3,7 +3,8 @@
 
 One column per language (27, counted as Keith counted his 12: C/C++ and
 Perl/PDL are one each, PyPy is Python). Dots are the variants, the bar
-spans best to worst. The 15 languages new in 2026 are drawn in red.
+spans best to worst; both are coloured by tier. The 15 languages new in
+2026 have red labels.
 
     python3 make_language_ranges.py      # writes img/fig7_language_ranges.png
 """
@@ -59,8 +60,8 @@ def main():
             a, b = max(lo, min(v)), min(hi, max(v))
             if a < b:
                 ax.plot([i, i], [a, b], color=col, lw=12, solid_capstyle="butt", zorder=1)
-        c = RED if k in NEW else OLD
-        ax.scatter([i] * len(v), v, s=34, color=c, edgecolor="white", linewidth=0.8, zorder=2)
+        cols = [TIER_COLOURS[sum(x >= e for e in TIER_EDGES)] for x in v]
+        ax.scatter([i] * len(v), v, s=46, color=cols, edgecolor="#1B1F2B", linewidth=0.9, zorder=2)
     ax.set_yscale("log")
     ax.set_ylim(*YLIM)
     ax.set_xlim(-0.7, len(order) - 0.3)
@@ -75,9 +76,8 @@ def main():
     for side in ("top", "right"):
         ax.spines[side].set_visible(False)
     ax.tick_params(axis="x", length=0)
-    ax.scatter([], [], s=40, color=RED, label="New in 2026 (15)")
-    ax.scatter([], [], s=40, color=OLD, label="Keith's 2019 languages (12)")
-    ax.legend(loc="upper left", frameon=False, fontsize=13)
+    ax.text(0.01, 0.97, "New in 2026 (15)", transform=ax.transAxes, color=RED, fontweight="bold", va="top", fontsize=14)
+    ax.text(0.01, 0.89, "Keith's 2019 languages (12)", transform=ax.transAxes, color=OLD, va="top", fontsize=14)
     fig.tight_layout()
     fig.savefig(OUT, bbox_inches="tight")
     print("wrote", OUT, "order:", ", ".join(order))
