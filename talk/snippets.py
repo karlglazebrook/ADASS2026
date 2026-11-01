@@ -22,34 +22,39 @@ GAP = "⋮"  # vertical ellipsis, marks omitted lines
 
 # (label, file, lines, lexer, run22 test name). Lines are 1-based and
 # inclusive; a jump in the list is drawn as a GAP line.
+# Main wall, 4 x 4: the fifteen languages new in 2026, plus Keith's C as the reference.
 WALL = [
-    ("Assembler (arm64 NEON)", "cnrsub_arm.s", [*range(275, 279), *range(286, 290)], "gas", "Assembler clang (arm64)"),
-    ("Julia", "csub.jl", range(84, 92), "julia", "Julia julia"),
-    ("Fortran", "cfsub.f", [55, *range(60, 66)], "fortran", "Fortran gfortran -O3 native"),
-    ("Python + numba", "csubnp-numba.py", range(113, 118), "python", "Python : numpy raw Python3 numba"),
-    ("Go", "csubraw.go", range(13, 22), "go", "Go go"),
-    ("LuaJIT", "csubraw.lua", range(9, 18), "lua", "Lua LuaJIT"),
+    ("C (Keith's, reference)", "csub.cpp", range(75, 80), "cpp", "C : raw clang -O3 native"),
+    ("C#", "csubraw.cs", range(9, 16), "csharp", "C# .NET 8"),
+    ("F#", "csubraw.fs", range(10, 16), "fsharp", "F# .NET 8"),
+    ("Go", "csubraw.go", range(14, 21), "go", "Go go"),
+    ("Zig", "csubraw.zig", range(12, 22), "zig", "Zig zig -O ReleaseFast"),
+    ("D", "csubraw.d", range(8, 16), "d", "D ldc2 -O3 -release"),
+    ("Nim", "csubraw.nim", range(14, 18), "nim", "Nim nim -d:danger"),
+    ("Kotlin", "csubraw.kt", range(10, 18), "kotlin", "Kotlin kotlinc + JVM"),
+    ("OCaml", "csubraw.ml", range(9, 18), "ocaml", "OCaml ocamlopt -O3"),
+    ("Haskell", "csubraw.hs", range(25, 30), "haskell", "Haskell GHC -O2"),
+    ("Crystal", "csubraw.cr", range(9, 16), "crystal", "Crystal crystal --release"),
+    ("Lua (LuaJIT)", "csubraw.lua", range(9, 18), "lua", "Lua LuaJIT"),
     ("J", "csubraw.ijs", range(10, 14), "j", "J jconsole"),
-    ("Nim", "csubraw.nim", range(12, 18), "nim", "Nim nim -d:danger"),
-    ("PDL (arrays)", "csubpdlary.pl", range(109, 113), "perl", "Perl/PDL : arrays Perl/PDL"),
-    ("R (outer)", "csubouter.r", range(122, 125), "r", "R : outer Rscript"),
-    ("Common Lisp (SBCL)", "csubraw.lisp", range(19, 24), "common-lisp", "Lisp SBCL untyped"),
-    ("Tcl", "ctest.tcl", [91, *range(94, 101)], "tcl", "Tcl : raw tclsh"),
-]
-# Second wall, for a backup slide: twelve more, none repeated from WALL.
-WALL2 = [
-    ("C (Numerical Recipes)", "cnrsub.cpp", [59, 60, *range(65, 71)], "cpp", "C : Num. rec. clang -O3 native"),
-    ("Java", "csub.java", range(96, 104), "java", "Java Java"),
-    ("JavaScript (Bun)", "cjstest.js", range(95, 102), "javascript", "Javascript Bun"),
-    ("Swift", "cstest.swift", range(103, 111), "swift", "Swift Swiftc -O"),
-    ("D", "csubraw.d", range(7, 17), "d", "D ldc2 -O3 -release"),
-    ("C#", "csubraw.cs", range(8, 17), "csharp", "C# .NET 8"),
-    ("Haskell", "csubraw.hs", range(23, 30), "haskell", "Haskell GHC -O2"),
+    ("Lisp (SBCL), typed", "csubraw-typed.lisp", range(19, 29), "common-lisp", "Lisp SBCL typed"),
     ("Ruby + YJIT", "csubraw.rb", range(26, 35), "ruby", "Ruby : raw ruby 3.3 +YJIT"),
-    ("Python + numpy, loop", "csub.py", range(103, 107), "python", "Python : numpy raw Python3"),
-    ("PDL raw (->at, ->set)", "csubpdl.pl", range(17, 25), "perl", "Perl/PDL : raw Perl/PDL"),
-    ("PDL::PP", "csubpdlpp.pl", [165, 166, 167, *range(169, 176)], "perl", "Perl/PDL : pp Perl/PDL"),
-    ("Octave, vectorised", "csubvec.m", [20, 21, *range(23, 26)], "octave", "Octave octave vectorised"),
+    ("Octave, loop", "csubraw.m", range(22, 29), "octave", "Octave octave loop"),
+]
+# Backup wall: one kernel from each of Keith's 12 languages (2019).
+WALL2 = [
+    ("Assembler (arm64 NEON)", "cnrsub_arm.s", [*range(275, 279), *range(286, 290)], "gas", "Assembler clang (arm64)"),
+    ("C (Numerical Recipes)", "cnrsub.cpp", [59, 60, *range(65, 71)], "cpp", "C : Num. rec. clang -O3 native"),
+    ("Fortran", "cfsub.f", [55, *range(60, 66)], "fortran", "Fortran gfortran -O3 native"),
+    ("Julia", "csub.jl", range(84, 92), "julia", "Julia julia"),
+    ("Java", "csub.java", range(96, 104), "java", "Java Java"),
+    ("JavaScript (Node.js)", "cjstest.js", range(95, 102), "javascript", "Javascript Node.js"),
+    ("Python + numba", "csubnp-numba.py", range(113, 118), "python", "Python : numpy raw Python3 numba"),
+    ("Rust", "crssub.rs", range(55, 60), "rust", "Rust Rustc -O3"),
+    ("Swift", "cstest.swift", range(103, 111), "swift", "Swift Swiftc -O"),
+    ("R (outer)", "csubouter.r", range(122, 125), "r", "R : outer Rscript"),
+    ("PDL element lookup (->at, ->set)", "csubpdl.pl", range(17, 25), "perl", "Perl/PDL : raw Perl/PDL"),
+    ("Tcl", "ctest.tcl", [91, *range(94, 101)], "tcl", "Tcl : raw tclsh"),
 ]
 NUMBA = ("Python + numba", "csubnp-numba.py", range(113, 118), "python", "Python : numpy raw Python3 numba")
 

@@ -59,7 +59,7 @@ Compiler Benchmark, Co-Authored with an LLM.* Karl Glazebrook
 
 ### 4. Then Claude Code: seven days in April 2026
 A timeline graphic of language families against day:
-- **25 Apr:** cloned KnaveAndVarlet/ADASS2019 and ran it. 58 of 104
+- **25 Apr:** cloned KnaveAndVarlet/ADASS2019 and ran it. 58 of 103
   tests passed. "The goal is maximum coverage."
 - **26 Apr:** 103/103. Assembler made the 1.00 reference. PDL::PP,
   Ruby, Bun and Deno added.
@@ -202,3 +202,21 @@ report, `run22.log`.
 - Caveats: Python 2.7 runs under Rosetta; the assembler reference
   drifts about 10% between runs.
 - Octave detail (`fig4_octave`); full ranked list (Appendix C).
+
+---
+
+## Revisions, 1 Nov 2026
+
+- New slide after "suite at a glance": every language from best to worst
+  variant, the 15 new ones in red (`make_language_ranges.py` →
+  `img/fig7_language_ranges.png`).
+- Main code wall is now 4 × 4: the 15 new languages plus Keith's C as the
+  reference. The backup wall holds one kernel from each of Keith's 12.
+- "Raw" is called "element lookup" on the slides (Keith's harness label
+  stays "raw"); the surprises slide has a one-line note.
+- PyPy + numpy meme uses the 1895 Gare Montparnasse photo (public domain,
+  Wikimedia Commons).
+- "What it didn't do" adds the authorship caveat: I didn't write the ports,
+  and nobody with language expertise has reviewed them; future work is
+  expert and multi-LLM review of the kernels.
+- New slide after it: what the ChatGPT red team caught.
