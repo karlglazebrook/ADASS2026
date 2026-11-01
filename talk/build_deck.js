@@ -123,6 +123,41 @@ async function addClickReveal(file, names) {
   throw new Error(`no slide has all of: ${names.join(", ")}`);
 }
 
+// Tier colours as hard-edged bands along a log axis from lo to hi: [[position 0-1, hex], ...].
+function tierBands(lo, hi) {
+  const l0 = Math.log10(lo), span = Math.log10(hi) - l0, stops = [];
+  const edges = [0, ...TIER_EDGES, Infinity];
+  for (let k = 0; k < TIER_COLORS.length; k++) {
+    const a = Math.max(edges[k], lo), b = Math.min(edges[k + 1], hi);
+    if (a >= b) continue;
+    stops.push([(Math.log10(a) - l0) / span, TIER_COLORS[k]], [(Math.log10(b) - l0) / span, TIER_COLORS[k]]);
+  }
+  return stops;
+}
+
+// pptxgenjs has no gradient fills; swap the solid fill of each named shape for a
+// left-to-right gradient with the given stops.
+async function shadeShapes(file, shades) {
+  const JSZip = require("jszip");
+  const zip = await JSZip.loadAsync(fs.readFileSync(file));
+  let left = Object.keys(shades).length;
+  for (const name of Object.keys(zip.files).filter((f) => /^ppt\/slides\/slide\d+\.xml$/.test(f))) {
+    let xml = await zip.file(name).async("string");
+    let hit = false;
+    for (const [shape, stops] of Object.entries(shades)) {
+      const re = new RegExp(`(<p:cNvPr id="\\d+" name="${shape}"[\\s\\S]*?<p:spPr>[\\s\\S]*?)<a:solidFill>[\\s\\S]*?</a:solidFill>`);
+      if (!re.test(xml)) continue;
+      const gs = stops.map(([p, c]) => `<a:gs pos="${Math.round(p * 100000)}"><a:srgbClr val="${c}"/></a:gs>`).join("");
+      xml = xml.replace(re, `$1<a:gradFill rotWithShape="1"><a:gsLst>${gs}</a:gsLst><a:lin ang="0" scaled="0"/></a:gradFill>`);
+      hit = true;
+      left--;
+    }
+    if (hit) zip.file(name, xml);
+  }
+  if (left) throw new Error(`shadeShapes: ${left} shape(s) not found`);
+  fs.writeFileSync(file, await zip.generateAsync({ type: "nodebuffer", compression: "DEFLATE" }));
+}
+
 // Highlighted kernels pulled from the repo sources by snippets.py.
 const SNIPPETS = JSON.parse(fs.readFileSync(path.join(HERE, "snippets.json"), "utf8"));
 
@@ -233,6 +268,7 @@ async function main() {
   };
 
   const vals = readRun22();
+  const arrowShades = {}; // shape name -> gradient stops, applied after writing
 
   // ===================================================== Part A: the story
   pres.addSection({ title: "The story" });
@@ -422,9 +458,9 @@ async function main() {
     const lx0 = Math.log10(G.xlim[0]), lx1 = Math.log10(G.xlim[1]);
     const xAt = (v) => ix + iw * (G.ax[0] + G.ax[2] * (Math.log10(v) - lx0) / (lx1 - lx0));
     const groups = [
-      { lo: 1, hi: 15, label: "native", color: TIER_COLORS[0], text: "FFFFFF",
+      { lo: 1, hi: 15, label: "native", color: TIER_COLORS[0], text: HEX.dk1,
         head: "Native code, 1–15×",
-        body: "Compiled to machine code ahead of time or by a good JIT: C, Fortran, Julia, D, Zig, Java, C#, Go, numba, LuaJIT, Haskell. Most new languages land here." },
+        body: "Compiled to machine code ahead of time or by a good JIT: C, Fortran, Julia, D, Zig, Java, C#, Go, LuaJIT, Haskell. Also numba and PDL::PP, which compile the loop for Python and Perl." },
       { lo: 15, hi: 100, label: "arrays", color: TIER_COLORS[4], text: HEX.dk1,
         head: "Whole arrays, half measures, 15–100×",
         body: "One whole-array expression in numpy, PDL, Numo or Octave; JavaScript engines; Swift -O; PyPy on lists; C or Fortran with no optimisation." },
@@ -436,8 +472,9 @@ async function main() {
     groups.forEach((g, i) => {
       const x0 = xAt(g.lo), x1 = xAt(g.hi);
       s.addText(g.label, { shape: pres.shapes.LEFT_RIGHT_ARROW, x: x0, y: 1.35, w: x1 - x0, h: 0.55, margin: 0,
-        fill: { color: g.color, transparency: 20 }, line: { color: g.color, width: 1 },
+        fill: { color: g.color }, line: { color: MUTED, width: 0.75 },
         fontSize: 13, bold: true, color: g.text, align: "center", valign: "middle", objectName: `group arrow ${i + 1}` });
+      arrowShades[`group arrow ${i + 1}`] = tierBands(g.lo, g.hi);
       s.addText([{ text: g.head, options: { bold: true, fontSize: 14, color: C.text2, breakLine: true } }, { text: g.body, options: { fontSize: 12 } }],
         { x: ix + i * (bw + 0.15), y: by, w: bw, h: bh, margin: [6, 8, 6, 8], fill: { color: C.background2 },
           line: { color: g.color, width: 2.5 }, color: C.text1, valign: "top", paraSpaceAfter: 3, objectName: `group box ${i + 1}` });
@@ -591,7 +628,7 @@ async function main() {
         altText: "1895 photograph of a steam locomotive that overran Gare Montparnasse and crashed nose-down into the street" });
       const meme = { isTextBox: true, x: px, w: pw, h: 0.42, margin: 0.04, align: "center", valign: "middle",
         fontFace: "Impact", fontSize: 17, color: "FFFFFF", outline: { size: 1.25, color: "000000" } };
-      s.addText("FAST + FAST = FASTER", Object.assign({}, meme, { y: py, objectName: "meme top" }));
+      s.addText("FAST + FAST ≠ FASTER", Object.assign({}, meme, { y: py, objectName: "meme top" }));
       s.addText("609× SLOWER THAN PYPY ALONE", Object.assign({}, meme, { y: py + ph - 0.42, objectName: "meme bottom" }));
       T(s, "Also 7.6× slower than CPython + numpy. Use one or the other.",
         { x: x + 0.25, y: py + ph + 0.12, w: cw - 0.5, h: 0.6, fontSize: 15 });
@@ -799,6 +836,7 @@ async function main() {
   await pres.writeFile({ fileName: OUT });
   await fixScatter(OUT);
   await addClickReveal(OUT, ["group box 1", "group box 2", "group box 3"]);
+  await shadeShapes(OUT, arrowShades);
   await applyTheme(OUT, THEME);
   console.log("wrote", OUT);
 }

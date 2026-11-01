@@ -224,7 +224,9 @@ report, `run22.log`.
   (native 1–15×, arrays 15–100×, interpreted 100×+), with three boxes that
   fade in one per click (`make_talk_histogram.py`; the animation is added
   to the slide XML by `addClickReveal` in build_deck.js).
-- Language-range figure: tier colours on both vertical edges.
+- Language-range figure: each bar coloured by tier along its length, twice
+  as thick. Slide 5's arrows are banded in the same tier colours
+  (`shadeShapes` in build_deck.js). Meme reads "FAST + FAST ≠ FASTER".
 - Slide 3 shows both 2019 one-liners, PDL and numpy, with run22 times.
 - "What the LLM did well" adds decent first drafts of the report and deck
   (not the abstract). The red-team slide moved to the backups.
