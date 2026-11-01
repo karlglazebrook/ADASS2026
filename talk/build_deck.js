@@ -497,7 +497,7 @@ async function main() {
 
   // 6. Python ladder (headline)
   {
-    const s = content("Same Python source, almost four orders of magnitude", "Results");
+    const s = content("Python variants, almost four orders of magnitude", "Results");
     const labels = ["PyPy + numpy, element lookup", "CPython + numpy, element lookup", "CPython, plain lists", "PyPy, plain lists", "numpy one-liner (rewrite)", "numba @jit, element loop"];
     const values = [22015.37, 2882.58, 644.02, 36.17, 17.80, 3.15];
     const colors = values.map((v, i) => (i === 4 ? "9AA3B2" : tierColor(v)));
@@ -566,7 +566,7 @@ async function main() {
     });
     T(s, "Not shown: F# 7.2, Rust 6.8 (iterators), Haskell 9.2, OCaml 9.4, Swift 17.9. Caveat: Keith's C, Fortran, Julia and Java are 32-bit floats; the 2026 ports are 64-bit, half the values per NEON instruction.",
       { x: rx, y: 6.25, w: rw, h: 0.6, fontSize: 12, italic: true, color: MUTED });
-    s.addNotes("~1 min. Precision caveat, say it briefly: Keith's compiled kernels and the assembler are single precision; the 2026 ports of D, Zig, Nim, Crystal and Go (and C#, F#, Kotlin, OCaml, Haskell, Lisp) are double. NEON holds 4 floats or 2 doubles per register, so part of the spread here may be precision, not language. To fix after the conference. Also: Octave vectorised builds its index vectors once, outside the timed loop; numpy and PDL arrays rebuild them per call. Left: inside one language, the runtime or idiom spans two to three orders of magnitude (Ruby's YJIT gain is the modest one). Right: across the compiled languages the whole spread is under 7x, on a linear axis. Pick your runtime and idiom carefully; the language matters less.");
+    s.addNotes("~1 min. Precision caveat, say it briefly: Keith's compiled kernels and the assembler are single precision; the 2026 ports of D, Zig, Nim, Crystal and Go (and C#, F#, Kotlin, OCaml, Haskell, Lisp) are double. NEON holds 4 floats or 2 doubles per register, so part of the spread here may be precision, not language. To fix after the conference. If asked why the Octave loop is so slow (measured 1 Nov, Octave 11.1, ns per element): empty nested loop 32; two scalar adds about 460; read ina(i,j) alone about 1,370; indexed write out(i,j)=0 alone about 1,250; full kernel about 2,700. So each A(i,j) read or write costs about a microsecond, roughly 90% of the total, and Octave's profiler puts 93% inside the kernel rather than in the 600,000 'binary +' calls. Wrapping it in a function, 1-based loop variables or linear indexing each change it by under 10%. No JIT: MATLAB fixed this with its R2015b execution engine. The loop number is also noisy: run23 had 25,920 against run22's 46,705. Also: Octave vectorised builds its index vectors once, outside the timed loop; numpy and PDL arrays rebuild them per call. Left: inside one language, the runtime or idiom spans two to three orders of magnitude (Ruby's YJIT gain is the modest one). Right: across the compiled languages the whole spread is under 7x, on a linear axis. Pick your runtime and idiom carefully; the language matters less.");
   }
 
   // 8. Runtimes new to the suite
