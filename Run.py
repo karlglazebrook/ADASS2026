@@ -208,7 +208,7 @@ def BuildAndTimeProgram (
 
    Status = None
    Secs = 0.0
-   InternalSecs = None
+   InternalOne = None
    
    #  We need at least two repeats, or we can't subtract off the overheads
    #  associated with starting the test and checking the results.
@@ -229,28 +229,7 @@ def BuildAndTimeProgram (
             (Status,Output,Errors) = ExecuteCommand(BuildCommand2)
    if (Status == None) :
    
-      #  No problems with the build, if any. Run the command that runs the
-      #  test program, forming the command to be executed from the supplied
-      #  command and the three parameters, Nrpt,Nx,Ny. Get the time at start
-      #  and end and compute the elapsed time.
-      
-      Command = "%s %d %d %d" % (ExecCommand,Nrpt,Nx,Ny)
-
-      #  (2026) Timed with a monotonic clock, and a run counts as failed if
-      #  the program reports an error in its own result check: every test
-      #  program prints "Error" and still exits with status 0. Before 2026
-      #  only the exit status was checked, and the one-repeat run below
-      #  overwrote the status of the timed run.
-
-      Start = time.perf_counter()
-      (Status,Output,Errors) = ExecuteCommand(Command)
-      Secs = time.perf_counter() - Start
-      if (Status == None and "Error" in Output) :
-         Status = "Result check failed in '" + Command + "'"
-         Errors = Output
-      InternalSecs = InternalTime(Output)
-
-   if (Status == None) :
+      #  No problems with the build, if any.
 
       #  One wrinkle. If Nrpt is very low, say less than 10, it suggests the
       #  code being tested is quite slow, and this means the time to setup and
@@ -259,11 +238,48 @@ def BuildAndTimeProgram (
       #  this takes to adjust the measured value of Secs. In fact, we might
       #  as well do this for all cases - the faster PDL tests, for example,
       #  still have very slow checking code.
+      #
+      #  (2026) An untimed one-repeat warm-up run comes first. macOS checks
+      #  a newly built executable when it is first launched (notarisation /
+      #  Gatekeeper), which takes about 0.8 s. Before 2026 the timed run was
+      #  the first launch, so it paid that cost and the one-repeat run that
+      #  is subtracted did not, which made every freshly compiled test look
+      #  slower. Both timed runs use a monotonic clock, and a run counts as
+      #  failed if the program reports an error in its own result check:
+      #  every test program prints "Error" and still exits with status 0.
+      #  Before 2026 only the exit status was checked, and the one-repeat
+      #  run overwrote the status of the timed run.
 
       Command = "%s %d %d %d" % (ExecCommand,1,Nx,Ny)
+      (Status,Output,Errors) = ExecuteCommand(Command)
+      if (Status == None and "Error" in Output) :
+         Status = "Result check failed in '" + Command + "'"
+         Errors = Output
+
+   if (Status == None) :
+
+      #  The one-repeat run, timed, whose time is subtracted from the timed
+      #  run's to remove start-up and checking costs.
+
       Start = time.perf_counter()
       (Status,Output,Errors) = ExecuteCommand(Command)
       Elapsed = time.perf_counter() - Start
+      if (Status == None and "Error" in Output) :
+         Status = "Result check failed in '" + Command + "'"
+         Errors = Output
+      InternalOne = InternalTime(Output)
+
+   if (Status == None) :
+
+      #  Run the command that runs the test program, forming the command to
+      #  be executed from the supplied command and the three parameters,
+      #  Nrpt,Nx,Ny. Get the time at start and end and compute the elapsed
+      #  time.
+
+      Command = "%s %d %d %d" % (ExecCommand,Nrpt,Nx,Ny)
+      Start = time.perf_counter()
+      (Status,Output,Errors) = ExecuteCommand(Command)
+      Secs = time.perf_counter() - Start
       if (Status == None and "Error" in Output) :
          Status = "Result check failed in '" + Command + "'"
          Errors = Output
@@ -274,9 +290,9 @@ def BuildAndTimeProgram (
       #  seconds from one launch to the next, which the wall-clock
       #  subtraction below cannot remove.
 
-      if (InternalSecs != None and InternalTime(Output) != None) :
-         Secs = InternalSecs
-         Elapsed = InternalTime(Output)
+      if (InternalOne != None and InternalTime(Output) != None) :
+         Secs = InternalTime(Output)
+         Elapsed = InternalOne
       Secs = (Secs - Elapsed) * float(Nrpt) / float(Nrpt - 1)
 
    #  If a cleanup command is supplied, we run it no matter what, but only
@@ -1779,7 +1795,7 @@ GDLVec = [
    "",
    "",
    "gdl-run csubvec_gdl",
-   1000000,
+   250000,
    ""]
 
 ClojureVec = [
@@ -2636,7 +2652,7 @@ GDLVecF = [
    "",
    "",
    "gdl-run csubvecf_gdl",
-   1200000,
+   300000,
    ""]
 
 #  ChatGPT: single precision, two separate precomputed coordinate planes, (ina+xx)+yy per call, cpu tpool_nthreads=1
@@ -2646,7 +2662,7 @@ GDLSingle = [
    "",
    "",
    "gdl-run csubsingle_gdl",
-   500000,
+   300000,
    ""]
 
 #  Keith's csub.jl with @inbounds only (Int64 counters), to separate bounds checks from the int32 effect in csubint32nb.jl

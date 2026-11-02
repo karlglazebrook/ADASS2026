@@ -1,7 +1,7 @@
 ; csubsingle_gdl.pro -- GDL whole-array form, single precision, with two
-; separate coordinate planes (2026, from the ChatGPT review): xx and yy are
-; built once, and each repeat does the two additions (ina + xx) + yy, so
-; the ix+iy sum is not precomputed. One thread via cpu, tpool_nthreads=1.
+; separate coordinate planes (2026, from the ChatGPT review): each repeat
+; builds xx and yy and does the two additions (ina + xx) + yy. Until
+; 2 Nov 2026 xx and yy were built once, outside the timed loop. One thread via cpu, tpool_nthreads=1.
 ; Run as
 ;    gdl -quiet -e csubsingle_gdl -args 1000 2000 10
 
@@ -17,7 +17,7 @@ pro csubsingle_gdl
   yy=rebin(transpose(findgen(ny)),nx,ny)
   ina=float(nx+ny)-xx-yy
   print, 'Arrays ', nx, ' by ', ny, ' count ', nrpt, format='(A,I0,A,I0,A,I0)'
-  for r=1L,nrpt do out=(ina+xx)+yy
+  for r=1L,nrpt do out=(ina+rebin(findgen(nx),nx,ny))+rebin(transpose(findgen(ny)),nx,ny)
   for y=0L,ny-1 do begin
     for x=0L,nx-1 do begin
       if out[x,y] ne (ina[x,y]+float(x))+float(y) then message, 'Error: mismatch'

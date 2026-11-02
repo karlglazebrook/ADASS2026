@@ -1,7 +1,8 @@
 # csubcoords.r -- R whole-array form with recycled coordinate vectors
 # (2026, from the ChatGPT review). Zero-based coordinate vectors x (length
-# nx) and yfull (length nx*ny, the column index repeated) are built once;
-# each repeat does the two input-dependent additions (ina + x) + yfull.
+# nx) and yfull (length nx*ny, the column index repeated) are rebuilt in
+# every repeat, then the two additions (ina + x) + yfull. Until 2 Nov 2026
+# x and yfull were built once, outside the timed loop.
 # Compare csubouter.r (outer() per call) and csubrecyc.r (rep() per call).
 a <- as.integer(commandArgs(TRUE))
 nrpt <- if (length(a) >= 1) a[1] else 1000L
@@ -13,7 +14,7 @@ x <- as.double(seq_len(nx) - 1L)
 y <- as.double(seq_len(ny) - 1L)
 yfull <- rep(y, each=nx)
 ina <- matrix(nx + ny, nx, ny) - x - yfull
-for (r in seq_len(nrpt)) out <- (ina + x) + yfull
+for (r in seq_len(nrpt)) out <- (ina + as.double(seq_len(nx) - 1L)) + rep(as.double(seq_len(ny) - 1L), each=nx)
 for (iy in seq_len(ny)) for (ix in seq_len(nx)) {
     if (!isTRUE(out[ix,iy] == (ina[ix,iy] + x[ix]) + y[iy]))
         stop("Error: result mismatch")

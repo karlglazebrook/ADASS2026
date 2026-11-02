@@ -23,7 +23,7 @@ grown to 41 languages in 192 variants (run30): the talk's 131 plus
 Then an expert code-idiom review (2 Nov 2026). Two independent reviewers, ChatGPT
 and seven Claude Fable reviewers each covering a group of languages, judged every
 kernel as an expert in its language would. The 168 variants they recommended are
-now tests too: 360 in all (run31). Each new test names the test it improves on,
+now tests too: 360 in all (run31, and run32 after the timing and fairness fixes below). Each new test names the test it improves on,
 and the kind of change: idiom, compiler flags, float32 precision, or a fairness
 fix such as integer data in a supposedly floating-point test. The reviews
 themselves are kept outside this repo.
@@ -45,6 +45,7 @@ as co-author, and the November 2026 extension with Claude Opus 5.5. The talk and
 | `results/run30.log` | The full 192-test suite (1 Nov 2026), 192/192 passed |
 | `results/run31.log` | The 360-test suite with the idiom-review variants (2 Nov 2026), 360/360 passed |
 | `results/run31-matlab.log` | The eight MATLAB tests re-run with MATLAB's internal timing (see below); use these in place of run31's MATLAB lines |
+| `results/run32.log` | The 360-test suite after the warm-up and index-array fixes below (2 Nov 2026), 360/360 passed: the current reference |
 | `run-benchmarks.sh` | Sets up PATH and environment for every toolchain, then runs `Run.py` |
 | `install-tools.sh` | Installs the pinned toolchains into `tools/` (about 3 GB, 7–10 min) |
 | `bin/` | Shims for tools whose own `bin/` directories would hijack other tests (they ship their own `python`, `ruby` or `gcc`), and for MATLAB, GDL and Mojo launchers |
@@ -56,7 +57,7 @@ as co-author, and the November 2026 extension with Claude Opus 5.5. The talk and
 ./run-benchmarks.sh | tee run32.log
 ```
 
-A full run of all 360 tests takes about 35 minutes on an M-series Mac.
+A full run of all 360 tests takes about 40 minutes on an M-series Mac.
 
 `install-tools.sh` does not install a few prerequisites: Homebrew gfortran,
 Octave and libyaml, Java 17+, Apple clang, the PDL distribution in
@@ -98,3 +99,16 @@ The labels of Keith's tests are unchanged, so results can still be matched to
 2019. Two of them are misleading on macOS: `g++` is Apple clang, the same
 compiler as `c++` (the `g++-15` tests are real GCC), and `-march=native` makes
 no difference to the generated code.
+
+Two more fixes followed (run32):
+- **macOS's first-launch check.** macOS checks a newly built executable the
+  first time it runs, which takes about 0.8 s. The timed run used to be that
+  first launch, so every freshly compiled test paid the cost and the
+  one-repeat run subtracted from it did not. `Run.py` now does an untimed
+  one-repeat warm-up run first, then the timed one-repeat run, then the timed
+  run.
+- **Index arrays outside the timed loop.** Nine whole-array tests (GDL ×3,
+  MATLAB ×2 files, Octave ×2, R coords) built their index arrays once, before
+  the repeat loop, and two of the GDL ones precomputed the whole ix + iy
+  sum. They now rebuild them on every repeat, as numpy, PDL and Numo always
+  did. An audit of every other test found no other case.

@@ -2,7 +2,8 @@
 %
 % Vector-language idiom: the inner kernel is one expression that adds
 % two index vectors broadcast across the array.  This is what an
-% Octave/Matlab programmer would actually write.
+% Octave/Matlab programmer would actually write.  The index vectors are
+% built in every repeat (until 2 Nov 2026, once outside the timed loop).
 
 args = argv();
 if length(args) >= 1, nrpt = str2num(args{1}); else nrpt = 1000; end
@@ -17,11 +18,8 @@ end
 
 printf('Arrays %d by %d count %d\n', nx, ny, nrpt);
 
-ix_row = 0:nx-1;
-iy_col = (0:ny-1)';
-
 for r = 1:nrpt
-   out = in + ix_row + iy_col;
+   out = in + (0:nx-1) + (0:ny-1)';
 end
 
 err_found = false;
