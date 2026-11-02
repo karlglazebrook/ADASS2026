@@ -1,0 +1,8 @@
+#!/bin/bash
+# matlab-run-1t FUNCTION NRPT NX NY  (2026)
+# As bin/matlab-run, but starts MATLAB with -singleCompThread so its
+# built-in array arithmetic uses one computational thread. The MATLAB
+# install is taken from $MATLAB_APP (default: the newest /Applications/MATLAB_R*.app).
+app="${MATLAB_APP:-$(ls -d /Applications/MATLAB_R*.app 2>/dev/null | tail -1)}"
+fn="$1"; shift
+exec "$app/bin/matlab" -singleCompThread -batch "$fn($(IFS=,; echo "$*"))"

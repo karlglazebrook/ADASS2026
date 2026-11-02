@@ -12,6 +12,9 @@ fs_proj/bin/
 fs_proj/obj/
 cs_aot_proj/bin/
 cs_aot_proj/obj/
+# .NET build output in every project directory, including the 2026 review variants
+*_proj/bin/
+*_proj/obj/
 
 # Toolchains are installed locally by install-tools.sh (~3 GB)
 /tools

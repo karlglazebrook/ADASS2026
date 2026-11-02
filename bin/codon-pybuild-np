@@ -1,0 +1,12 @@
+#!/bin/bash
+# codon-pybuild-np SOURCE.py OUTPUT [codon build flags...]  (2026)
+# As bin/codon-pybuild (strip the `from __future__` line Codon has no
+# module for, then `codon build -release`), with any further arguments
+# passed to codon build, e.g. --disable-exceptions.  Used for the numpy
+# tests: Codon ships its own numpy, so csubnp.py compiles unchanged.
+set -e
+src="$1"; out="$2"; shift 2
+tmp="${out}.py"
+grep -v '^from __future__' "$src" > "$tmp"
+"$(cd "$(dirname "$0")"/.. && pwd)/tools/codon/bin/codon" build -release "$@" -o "$out" "$tmp"
+rm -f "$tmp"

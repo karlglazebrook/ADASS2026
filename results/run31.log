@@ -1,0 +1,928 @@
+
+Versions:
+
+Clang     : Apple clang version 17.0.0 (clang-1700.6.4.2)
+Assembler : Apple clang version 17.0.0 (clang-1700.6.4.2)
+Gcc       : Apple clang version 17.0.0 (clang-1700.6.4.2)
+Gfortran  : GNU Fortran (Homebrew GCC 15.2.0_1) 15.2.0
+R         : Rscript (R) version 4.6.0 (2026-04-24)
+Python2   : Python 2.7.15
+Python3   : Python 3.14.6
+Java      : openjdk version "17.0.17" 2025-10-21
+Node.js   : v24.14.1
+Bun       : 1.3.13
+Deno      : deno 2.7.13 (stable, release, aarch64-apple-darwin)
+Ruby      : ruby 3.3.6 (2024-11-05 revision 75015d4c1f) [arm64-darwin24]
+Go        : go version go1.22.0 darwin/arm64
+LuaJIT    : LuaJIT 2.1.1774896198 -- Copyright (C) 2005-2026 Mike Pall. https://luajit.org/
+C#/.NET   : 8.0.420
+Crystal   : Crystal 1.16.3 [3f369d2c7] (2025-05-12)
+OCaml     : 5.4.0
+PyPy      : Python 3.10.14 (75b3de9d9035, Apr 21 2024, 10:55:50)
+Zig       : 0.13.0
+SBCL      : SBCL 2.4.0
+GHC       : The Glorious Glasgow Haskell Compilation System, version 9.10.1
+D (LDC)   : LDC - the LLVM D compiler (1.41.0-beta1):
+Nim       : Nim Compiler Version 2.0.8 [MacOSX: arm64]
+Octave    : GNU Octave (aarch64-apple-darwin24.6.0) version 11.1.0
+Kotlin    : info: kotlinc-jvm 2.3.255-SNAPSHOT (JRE 17.0.17+10)
+J         : j9.6.3/j64arm/darwin/commercial/www.jsoftware.com/2025-04-05T16:34:55/clang-15-0-0/SLEEF=1
+Tcl       : 8.6
+Swift     : Apple Swift version 6.2.4 (swiftlang-6.2.4.1.4 clang-1700.6.4.2)
+Swift     : swift-driver version: 1.127.15 
+Julia     : julia version 1.10.4
+Rust      : rustc 1.95.0 (59807616e 2026-04-14)
+Perl/PDL  : perlDL shell v1.357
+Codon     : 0.20.4
+Cython    : Cython version 3.3.0
+Cython    : Cython version 3.3.0
+Pythran   : 0.19.0
+Mojo      : Mojo 1.2.0 (2016d0cd)
+Raku      : Welcome to Rakudo™ v2026.09.
+GDL       : GDL - GNU Data Language, Version v1.1.2-66-g420c6591
+Clojure   : Clojure CLI version 1.12.6.1673
+Elixir    : Erlang/OTP 29 [erts-17.1.1] [source] [64-bit] [smp:16:16] [ds:16:16:10] [async-threads:1] [jit] [dtrace]
+Chapel    : chpl version 2.10.0
+Lua       : Lua 5.5.0  Copyright (C) 1994-2025 Lua.org, PUC-Rio
+GraalPy   : GraalPy 3.13.14 (GraalVM CE Native 25.4.4.1.1)
+TruffleRb : truffleruby 40.0.0 (2026-09-17), like ruby 4.0.2, GraalVM CE Native [arm64-darwin23]
+wasmtime  : wasmtime 49.0.4 (2c2970205 2026-10-19)
+APL       : Dyalog APL 20.0.53963.0
+Dart      : Dart SDK version: 3.13.7 (stable) (Thu Oct 22 14:28:57 2026 -0700) on "macos_arm64"
+PHP       : PHP 8.5.12 (cli) (built: Oct 19 2026 17:02:46) (NTS)
+Chez      : 10.4.1
+mawk      : mawk 1.3.4 20260302
+gawk      : GNU Awk 5.4.1, API 4.1, PMA Avon 8-g1, (GNU MPFR 4.2.2, GNU MP 6.3.0)
+bash      : GNU bash, version 5.3.20(1)-release (aarch64-apple-darwin24.6.0)
+GNAT      : GNATMAKE 15.3.0
+
+Running through full set of timing tests
+
+Arrays used: 2000 columns, 10 rows
+
+                   Swift               Swiftc Rept:     1000 Elap:       4.10 1K Iter:        4.1
+                   Swift        Swiftc -Onone Rept:     1000 Elap:       4.12 1K Iter:        4.1
+                   Swift            Swiftc -O Rept:   300000 Elap:       6.38 1K Iter:      0.021
+                   Swift   Swiftc -Ounchecked Rept:   500000 Elap:      10.10 1K Iter:       0.02
+               Assembler        clang (arm64) Rept:  5000000 Elap:       6.12 1K Iter:     0.0012
+   Assembler : ABI fixed        clang (arm64) Rept:  4000000 Elap:       5.02 1K Iter:     0.0013
+                 Fortran             gfortran Rept:   160000 Elap:       3.70 1K Iter:      0.023
+                 Fortran          gfortran -O Rept:   500000 Elap:       2.80 1K Iter:     0.0056
+                 Fortran         gfortran -O1 Rept:   500000 Elap:       2.66 1K Iter:     0.0053
+                 Fortran         gfortran -O2 Rept:  1500000 Elap:       3.76 1K Iter:     0.0025
+                 Fortran         gfortran -O3 Rept:  1500000 Elap:       3.75 1K Iter:     0.0025
+                 Fortran  gfortran -O3 native Rept:  5000000 Elap:      11.79 1K Iter:     0.0024
+                 Fortran  gfortran -O3 unroll Rept:  2500000 Elap:       6.08 1K Iter:     0.0024
+                 R : raw              Rscript Rept:     5000 Elap:       4.33 1K Iter:       0.87
+           R : ref class              Rscript Rept:        7 Elap:       4.24 1K Iter:    6.1e+02
+             R : env ref              Rscript Rept:     4000 Elap:       3.47 1K Iter:       0.87
+               R : outer              Rscript Rept:    20000 Elap:       3.53 1K Iter:       0.18
+             R : recycle              Rscript Rept:    35000 Elap:       3.67 1K Iter:        0.1
+              R : coords              Rscript Rept:   100000 Elap:       3.11 1K Iter:      0.031
+                    Perl                 Perl Rept:     5000 Elap:       4.06 1K Iter:       0.81
+             Perl : rows                 Perl Rept:     6000 Elap:       3.76 1K Iter:       0.63
+          Perl/PDL : raw             Perl/PDL Rept:     1000 Elap:      10.37 1K Iter:         10
+       Perl/PDL : raw XS             Perl/PDL Rept:      600 Elap:       3.64 1K Iter:        6.1
+      Perl/PDL : vectors             Perl/PDL Rept:    50000 Elap:       3.88 1K Iter:      0.078
+       Perl/PDL : arrays             Perl/PDL Rept:   140000 Elap:       4.03 1K Iter:      0.029
+      Perl/PDL : arrays2             Perl/PDL Rept:   200000 Elap:       3.99 1K Iter:       0.02
+  Perl/PDL : arrays2 f32             Perl/PDL Rept:   200000 Elap:       3.76 1K Iter:      0.019
+   Perl/PDL : arrays f32             Perl/PDL Rept:   150000 Elap:       4.12 1K Iter:      0.027
+           Perl/PDL : pp             Perl/PDL Rept:  1000000 Elap:       6.27 1K Iter:     0.0063
+  Perl/PDL : pp prealloc             Perl/PDL Rept:  1300000 Elap:       6.89 1K Iter:     0.0053
+       Perl/PDL : pp f32             Perl/PDL Rept:  1300000 Elap:       7.18 1K Iter:     0.0055
+     Perl : Inline::C AV                 Perl Rept:    50000 Elap:       4.44 1K Iter:      0.089
+  Perl : Inline::C AvARR                 Perl Rept:   250000 Elap:      11.40 1K Iter:      0.046
+ Perl : Inline::C packed                 Perl Rept:  1000000 Elap:       5.27 1K Iter:     0.0053
+    Perl : Inline::C f32                 Perl Rept:  1200000 Elap:       6.26 1K Iter:     0.0052
+              Raku : raw               rakudo Rept:      300 Elap:       5.00 1K Iter:         17
+         Raku : raw rows               rakudo Rept:      300 Elap:       3.66 1K Iter:         12
+              Raku : raw      rakudo no spesh Rept:       60 Elap:       3.84 1K Iter:         64
+           Raku : native               rakudo Rept:      800 Elap:       4.34 1K Iter:        5.4
+       Raku : native nqp               rakudo Rept:    10000 Elap:       3.98 1K Iter:        0.4
+           Raku : native      rakudo no spesh Rept:      120 Elap:       4.08 1K Iter:         34
+       Raku : native nqp      rakudo no spesh Rept:     8000 Elap:       3.88 1K Iter:       0.49
+           Raku : shaped               rakudo Rept:      200 Elap:       5.05 1K Iter:         25
+            Raku : hyper               rakudo Rept:      800 Elap:       3.94 1K Iter:        4.9
+                  MATLAB          matlab loop Rept:  1000000 Elap:      17.75 1K Iter:      0.018
+   MATLAB : loop (nx,ny)          matlab loop Rept:   250000 Elap:       0.09 1K Iter:    0.00037
+         MATLAB : single          matlab loop Rept:   250000 Elap:      -0.06 1K Iter:   -0.00022
+ MATLAB : single (nx,ny)   matlab serial loop Rept:   250000 Elap:      -0.44 1K Iter:    -0.0018
+                  MATLAB matlab loop 1 thread Rept:   250000 Elap:       0.03 1K Iter:    0.00013
+                  MATLAB    matlab vectorised Rept:  2000000 Elap:      20.53 1K Iter:       0.01
+         MATLAB : single    matlab vectorised Rept:   400000 Elap:       0.00 1K Iter:    2.7e-06
+                  MATLAB  matlab vec 1 thread Rept:   400000 Elap:      -0.07 1K Iter:   -0.00017
+                     GDL             gdl loop Rept:     3000 Elap:       4.59 1K Iter:        1.5
+                     GDL       gdl vectorised Rept:  1000000 Elap:       4.18 1K Iter:     0.0042
+  GDL : vec per-call idx       gdl vectorised Rept:   120000 Elap:       3.82 1K Iter:      0.032
+            GDL : single       gdl vectorised Rept:  1200000 Elap:       2.34 1K Iter:      0.002
+     GDL : single 2 adds     gdl serial array Rept:   500000 Elap:       1.91 1K Iter:     0.0038
+       Clojure : vectors              clojure Rept:     4000 Elap:       2.81 1K Iter:        0.7
+    Clojure : transients              clojure Rept:    14000 Elap:       3.67 1K Iter:       0.26
+        Clojure : arrays              clojure Rept:   700000 Elap:       3.79 1K Iter:     0.0054
+    Clojure : arrays f32              clojure Rept:   700000 Elap:       4.44 1K Iter:     0.0063
+          Elixir : array               elixir Rept:     4000 Elap:       3.83 1K Iter:       0.96
+            Elixir : map               elixir Rept:     6000 Elap:       3.74 1K Iter:       0.62
+         Elixir : binary               elixir Rept:     4500 Elap:       1.26 1K Iter:       0.28
+     Elixir : binary f32               elixir Rept:     4500 Elap:       1.17 1K Iter:       0.26
+        Elixir : map rec               elixir Rept:     4500 Elap:       1.62 1K Iter:       0.36
+                  Chapel          chpl --fast Rept:  1500000 Elap:       4.45 1K Iter:      0.003
+                  Chapel                 chpl Rept:     5000 Elap:       4.41 1K Iter:       0.88
+       Chapel : real(32)          chpl --fast Rept:   800000 Elap:       4.56 1K Iter:     0.0057
+                     Lua              lua 5.5 Rept:    20000 Elap:       4.23 1K Iter:       0.21
+             Lua : float              lua 5.5 Rept:    18000 Elap:       3.97 1K Iter:       0.22
+          Python : lists          Python3 JIT Rept:     8000 Elap:       4.02 1K Iter:        0.5
+      Python : numpy raw          Python3 JIT Rept:     1600 Elap:       3.83 1K Iter:        2.4
+          Python : lists              GraalPy Rept:    40000 Elap:       4.49 1K Iter:       0.11
+          Python : lists        GraalPy float Rept:   300000 Elap:       1.70 1K Iter:     0.0057
+      Python : numpy raw              GraalPy Rept:      150 Elap:       6.24 1K Iter:         42
+              Ruby : raw          TruffleRuby Rept:   400000 Elap:       4.32 1K Iter:      0.011
+            Ruby : while          TruffleRuby Rept:   350000 Elap:       3.77 1K Iter:      0.011
+                 C : raw        wasm wasmtime Rept:   600000 Elap:       4.53 1K Iter:     0.0075
+                 C : raw   wasm simd wasmtime Rept:  2000000 Elap:       4.79 1K Iter:     0.0024
+                 C : raw         wasm Node.js Rept:   250000 Elap:       4.73 1K Iter:      0.019
+                 C : raw    wasm simd Node.js Rept:   400000 Elap:       4.84 1K Iter:      0.012
+                 C : raw wasm Node no-liftoff Rept:   250000 Elap:       1.33 1K Iter:     0.0053
+                 C : raw wasm simd Node nolft Rept:   400000 Elap:       0.96 1K Iter:     0.0024
+          Python : lists              Python2 Rept:     3000 Elap:       3.03 1K Iter:          1
+      Python : numpy raw              Python2 Rept:      600 Elap:       4.25 1K Iter:        7.1
+        Python : vectors              Python2 Rept:   110000 Elap:       3.93 1K Iter:      0.036
+         Python : arrays              Python2 Rept:    90000 Elap:       4.22 1K Iter:      0.047
+          Python : lists              Python3 Rept:     9000 Elap:       4.08 1K Iter:       0.45
+          Python : lists        Python3 float Rept:     6000 Elap:       3.88 1K Iter:       0.65
+     Python : lists rows              Python3 Rept:     6500 Elap:       3.89 1K Iter:        0.6
+      Python : numpy raw              Python3 Rept:     1500 Elap:       3.47 1K Iter:        2.3
+      Python : numpy raw      Python3 .item() Rept:     2300 Elap:       3.83 1K Iter:        1.7
+        Python : vectors              Python3 Rept:   200000 Elap:       3.80 1K Iter:      0.019
+        Python : vectors     Python3 in-place Rept:   350000 Elap:       3.77 1K Iter:      0.011
+         Python : arrays              Python3 Rept:   180000 Elap:       3.86 1K Iter:      0.021
+         Python : arrays     Python3 in-place Rept:   300000 Elap:       4.02 1K Iter:      0.013
+         Python : arrays Python3 in-place f32 Rept:   550000 Elap:       3.62 1K Iter:     0.0066
+      Python : numpy raw        Python3 numba Rept:  1400000 Elap:       4.02 1K Iter:     0.0029
+      Python : numpy raw    Python3 numba f32 Rept:  1600000 Elap:       4.01 1K Iter:     0.0025
+          Python : lists                Codon Rept:   300000 Elap:       4.61 1K Iter:      0.015
+      Python : numpy raw                Codon Rept:   550000 Elap:       4.31 1K Iter:     0.0078
+      Python : numpy raw  Codon no exceptions Rept:  1500000 Elap:       4.32 1K Iter:     0.0029
+      Python : numpy raw       Cython untyped Rept:     2000 Elap:       4.68 1K Iter:        2.3
+      Python : numpy raw         Cython typed Rept:  1000000 Elap:       3.70 1K Iter:     0.0037
+      Python : numpy raw    Cython -O3 native Rept:  1100000 Elap:       4.05 1K Iter:     0.0037
+      Python : numpy raw     Cython typed f32 Rept:  1500000 Elap:       4.03 1K Iter:     0.0027
+      Python : numpy raw  Cython typed+checks Rept:   500000 Elap:       6.21 1K Iter:      0.012
+      Python : numpy raw              Pythran Rept:  1000000 Elap:       2.85 1K Iter:     0.0029
+      Python : numpy raw   Pythran -O3 native Rept:  1400000 Elap:       4.17 1K Iter:      0.003
+      Python : numpy raw          Pythran f32 Rept:  1500000 Elap:       4.09 1K Iter:     0.0027
+                    Mojo           mojo build Rept:   100000 Elap:       3.23 1K Iter:      0.032
+                    Mojo  mojo -D ASSERT=none Rept:   300000 Elap:       2.63 1K Iter:     0.0088
+        Mojo : flat SIMD           mojo build Rept:  1250000 Elap:       4.18 1K Iter:     0.0033
+    Mojo : flat SIMD f32           mojo build Rept:  2400000 Elap:       4.04 1K Iter:     0.0017
+         Mojo : rows ptr           mojo build Rept:   730000 Elap:       4.10 1K Iter:     0.0056
+        Mojo : lists f32  mojo -D ASSERT=none Rept:   500000 Elap:       4.17 1K Iter:     0.0083
+                    Rust                Rustc Rept:     8000 Elap:       1.69 1K Iter:       0.21
+                    Rust             Rustc -O Rept:   300000 Elap:       3.43 1K Iter:      0.011
+                    Rust            Rustc -O3 Rept:   300000 Elap:       3.31 1K Iter:      0.011
+                    Rust     Rustc -O3 native Rept:   300000 Elap:       3.32 1K Iter:      0.011
+                    Rust      Rustc iterators Rept:   500000 Elap:       3.31 1K Iter:     0.0066
+                    Rust         Rustc unsafe Rept:   450000 Elap:       3.71 1K Iter:     0.0082
+             Rust : flat     Rustc -O3 native Rept:   700000 Elap:       4.21 1K Iter:      0.006
+     Rust : flat u32 idx     Rustc -O3 native Rept:  3200000 Elap:       3.75 1K Iter:     0.0012
+        Rust : rows safe     Rustc -O3 native Rept:   700000 Elap:       4.25 1K Iter:     0.0061
+                    Java                 Java Rept:   500000 Elap:       2.10 1K Iter:     0.0042
+           Java : double                 Java Rept:   800000 Elap:       3.82 1K Iter:     0.0048
+       Java : Vector API                 Java Rept:  1800000 Elap:       3.61 1K Iter:      0.002
+                    Java           java -Xint Rept:    14000 Elap:       2.10 1K Iter:       0.15
+               Tcl : raw                tclsh Rept:      200 Elap:       3.18 1K Iter:         16
+            Tcl : braced                tclsh Rept:      900 Elap:       3.86 1K Iter:        4.3
+             Tcl : lists                tclsh Rept:     1700 Elap:       3.94 1K Iter:        2.3
+                   Julia                julia Rept:  1500000 Elap:       4.34 1K Iter:     0.0029
+                   Julia            julia -O0 Rept:    50000 Elap:       4.79 1K Iter:      0.096
+                   Julia            julia -O1 Rept:   200000 Elap:      10.46 1K Iter:      0.052
+                   Julia            julia -O2 Rept:  1500000 Elap:       4.34 1K Iter:     0.0029
+                   Julia            julia -O3 Rept:  1500000 Elap:       4.35 1K Iter:     0.0029
+                   Julia        julia (int32) Rept:  5000000 Elap:       6.59 1K Iter:     0.0013
+                   Julia     julia (inbounds) Rept:  1500000 Elap:       3.90 1K Iter:     0.0026
+                   Julia  julia (int32, main) Rept:  3000000 Elap:       4.05 1K Iter:     0.0014
+          Julia : double        julia (int32) Rept:  1300000 Elap:       4.19 1K Iter:     0.0032
+              Javascript              Node.js Rept:   100000 Elap:       2.74 1K Iter:      0.027
+              Javascript     Node.js --no-opt Rept:   125000 Elap:       3.96 1K Iter:      0.032
+              Javascript     Node.js baseline Rept:    13000 Elap:       3.88 1K Iter:        0.3
+              Javascript  Node.js interpreter Rept:     8500 Elap:       3.92 1K Iter:       0.46
+       Javascript : rows              Node.js Rept:   240000 Elap:       3.54 1K Iter:      0.015
+              Javascript                  Bun Rept:  1000000 Elap:      13.13 1K Iter:      0.013
+       Javascript : rows                  Bun Rept:   340000 Elap:       3.62 1K Iter:      0.011
+              Javascript                 Deno Rept:   500000 Elap:      13.32 1K Iter:      0.027
+       Javascript : rows                 Deno Rept:   240000 Elap:       3.34 1K Iter:      0.014
+              Ruby : raw             ruby 2.6 Rept:     5000 Elap:       4.40 1K Iter:       0.88
+            Ruby : while             ruby 2.6 Rept:     5000 Elap:       3.81 1K Iter:       0.76
+              Ruby : raw             ruby 3.3 Rept:     5000 Elap:       4.18 1K Iter:       0.84
+            Ruby : while             ruby 3.3 Rept:     5000 Elap:       3.62 1K Iter:       0.72
+              Ruby : raw       ruby 3.3 +YJIT Rept:    10000 Elap:       3.18 1K Iter:       0.32
+            Ruby : while       ruby 3.3 +YJIT Rept:    18000 Elap:       3.77 1K Iter:       0.21
+             Ruby : Numo             ruby 3.3 Rept:   150000 Elap:       4.09 1K Iter:      0.027
+     Ruby : Numo inplace             ruby 3.3 Rept:   250000 Elap:       4.06 1K Iter:      0.016
+    Ruby : Numo inpl f32             ruby 3.3 Rept:   300000 Elap:       4.00 1K Iter:      0.013
+         Ruby : Numo f32             ruby 3.3 Rept:   190000 Elap:       3.80 1K Iter:       0.02
+             Ruby : Numo       ruby 3.3 +YJIT Rept:   150000 Elap:       4.01 1K Iter:      0.027
+     Ruby : Numo inplace       ruby 3.3 +YJIT Rept:   250000 Elap:       4.04 1K Iter:      0.016
+                      Go                   go Rept:  1000000 Elap:       7.66 1K Iter:     0.0077
+                      Go       go -B (no BCE) Rept:  1000000 Elap:       6.64 1K Iter:     0.0066
+              Go : range                   go Rept:   700000 Elap:       4.05 1K Iter:     0.0058
+          Go : range f32                   go Rept:   720000 Elap:       3.99 1K Iter:     0.0055
+                     Lua               LuaJIT Rept:  1000000 Elap:       8.40 1K Iter:     0.0084
+               Lua : FFI               LuaJIT Rept:   600000 Elap:       3.86 1K Iter:     0.0064
+           Lua : FFI f32               LuaJIT Rept:   600000 Elap:       4.22 1K Iter:      0.007
+             Lua : float               LuaJIT Rept:   450000 Elap:       3.87 1K Iter:     0.0086
+                      C#               .NET 8 Rept:  1000000 Elap:       6.04 1K Iter:      0.006
+            C# : float32               .NET 8 Rept:   800000 Elap:       4.58 1K Iter:     0.0057
+               C# : SIMD               .NET 8 Rept:  1000000 Elap:       7.37 1K Iter:     0.0074
+                 Crystal    crystal --release Rept:  1000000 Elap:       3.87 1K Iter:     0.0039
+           Crystal : f32    crystal --release Rept:  2700000 Elap:       3.99 1K Iter:     0.0015
+      Crystal : ptr rows    crystal --release Rept:  1200000 Elap:       4.35 1K Iter:     0.0036
+                   OCaml         ocamlopt -O3 Rept:  1000000 Elap:      10.66 1K Iter:      0.011
+        OCaml : unrolled     ocamlopt -unsafe Rept:  1000000 Elap:       4.29 1K Iter:     0.0043
+    OCaml : bigarray f32     ocamlopt -unsafe Rept:   400000 Elap:       4.91 1K Iter:      0.012
+            OCaml : mapi     ocamlopt -unsafe Rept:    90000 Elap:       4.68 1K Iter:      0.052
+          Python : lists                PyPy3 Rept:   500000 Elap:      20.29 1K Iter:      0.041
+          Python : lists          PyPy3 float Rept:   120000 Elap:       3.93 1K Iter:      0.033
+     Python : lists rows                PyPy3 Rept:   250000 Elap:       3.88 1K Iter:      0.016
+                     Zig   zig -O ReleaseFast Rept:  1000000 Elap:       3.10 1K Iter:     0.0031
+               Zig : f32   zig -O ReleaseFast Rept:  1550000 Elap:       4.14 1K Iter:     0.0027
+               Zig : for   zig -O ReleaseFast Rept:  1250000 Elap:       3.86 1K Iter:     0.0031
+                    Lisp         SBCL untyped Rept:    20000 Elap:       3.74 1K Iter:       0.19
+                    Lisp           SBCL typed Rept:  1000000 Elap:      11.94 1K Iter:      0.012
+             Lisp : flat           SBCL typed Rept:   600000 Elap:       4.01 1K Iter:     0.0067
+         Lisp : flat f32           SBCL typed Rept:   600000 Elap:       4.00 1K Iter:     0.0067
+              Lisp : f32           SBCL typed Rept:   400000 Elap:       4.73 1K Iter:      0.012
+                 Haskell              GHC -O2 Rept:  1000000 Elap:      10.29 1K Iter:       0.01
+           Haskell : Ptr              GHC -O2 Rept:   450000 Elap:       4.76 1K Iter:      0.011
+       Haskell : Ptr f32              GHC -O2 Rept:   450000 Elap:       4.74 1K Iter:      0.011
+  Haskell : IOUArray Int              GHC -O2 Rept:   300000 Elap:       4.75 1K Iter:      0.016
+           Haskell : f32              GHC -O2 Rept:   450000 Elap:       4.78 1K Iter:      0.011
+                      F#               .NET 8 Rept:  1000000 Elap:       8.23 1K Iter:     0.0082
+              F# : while               .NET 8 Rept:   650000 Elap:       3.76 1K Iter:     0.0058
+            F# : float32               .NET 8 Rept:   550000 Elap:       4.34 1K Iter:     0.0079
+      F# : while float32               .NET 8 Rept:   800000 Elap:       4.52 1K Iter:     0.0057
+                      C#           .NET 8 AOT Rept:  1000000 Elap:       6.04 1K Iter:      0.006
+            C# : float32           .NET 8 AOT Rept:   800000 Elap:       4.45 1K Iter:     0.0056
+                      C#     .NET 8 AOT Speed Rept:   650000 Elap:       3.88 1K Iter:      0.006
+                       D    ldc2 -O3 -release Rept:  1000000 Elap:       3.39 1K Iter:     0.0034
+               D : float    ldc2 -O3 -release Rept:  1550000 Elap:       4.23 1K Iter:     0.0027
+                       D ldc2 -O3 mcpu=native Rept:  1250000 Elap:       3.67 1K Iter:     0.0029
+                     Nim        nim -d:danger Rept:  1000000 Elap:       3.67 1K Iter:     0.0037
+          Nim : rows ptr        nim -d:danger Rept:  1150000 Elap:       4.19 1K Iter:     0.0036
+      Nim : rows ptr f32        nim -d:danger Rept:  1600000 Elap:       4.32 1K Iter:     0.0027
+              Nim : flat        nim -d:danger Rept:  1350000 Elap:       3.92 1K Iter:     0.0029
+          Nim : flat f32        nim -d:danger Rept:  1550000 Elap:       4.13 1K Iter:     0.0027
+               Nim : f32        nim -d:danger Rept:  1600000 Elap:       4.32 1K Iter:     0.0027
+                     Nim nim -d:danger native Rept:  1150000 Elap:       4.19 1K Iter:     0.0036
+                  Kotlin        kotlinc + JVM Rept:   500000 Elap:       2.40 1K Iter:     0.0048
+        Kotlin : float32        kotlinc + JVM Rept:   900000 Elap:       3.76 1K Iter:     0.0042
+      Python : numpy raw                PyPy3 Rept:      200 Elap:       5.18 1K Iter:         26
+                  Octave          octave loop Rept:      100 Elap:       5.40 1K Iter:         54
+   Octave : loop (nx,ny)          octave loop Rept:       80 Elap:       4.34 1K Iter:         54
+                  Octave    octave vectorised Rept:    60000 Elap:       4.09 1K Iter:      0.068
+         Octave : single    octave vectorised Rept:    60000 Elap:       3.91 1K Iter:      0.065
+                       J             jconsole Rept:  1000000 Elap:       9.26 1K Iter:     0.0093
+               J : float             jconsole Rept:   450000 Elap:       3.98 1K Iter:     0.0088
+           J : float idx             jconsole Rept:   550000 Elap:       3.98 1K Iter:     0.0072
+                J : loop             jconsole Rept:      900 Elap:       3.97 1K Iter:        4.4
+                     APL          dyalog loop Rept:      200 Elap:       5.17 1K Iter:         26
+              APL : rows          dyalog loop Rept:   100000 Elap:       3.71 1K Iter:      0.037
+                     APL         dyalog array Rept:   700000 Elap:       4.69 1K Iter:     0.0067
+                     APL          dyalog rank Rept:   270000 Elap:       4.10 1K Iter:      0.015
+            Swift : flat            Swiftc -O Rept:   300000 Elap:       3.37 1K Iter:      0.011
+            Swift : flat   Swiftc -Ounchecked Rept:  2000000 Elap:       5.45 1K Iter:     0.0027
+                    Dart             dart run Rept:   500000 Elap:       3.89 1K Iter:     0.0078
+             Dart : flat             dart run Rept:   340000 Elap:       4.09 1K Iter:      0.012
+          Dart : float32             dart run Rept:   380000 Elap:       3.89 1K Iter:       0.01
+                    Dart     dart compile exe Rept:   300000 Elap:       4.86 1K Iter:      0.016
+             Dart : flat     dart compile exe Rept:   250000 Elap:       2.91 1K Iter:      0.012
+          Dart : float32     dart compile exe Rept:   250000 Elap:       4.35 1K Iter:      0.017
+                     PHP              php 8.5 Rept:    15000 Elap:       4.01 1K Iter:       0.27
+              PHP : rows              php 8.5 Rept:    30000 Elap:       3.76 1K Iter:       0.13
+                     PHP          php 8.5 JIT Rept:    70000 Elap:       4.05 1K Iter:      0.058
+              PHP : rows          php 8.5 JIT Rept:   110000 Elap:       3.93 1K Iter:      0.036
+                     PHP php 8.5 JIT function Rept:    20000 Elap:       3.80 1K Iter:       0.19
+                  Scheme                 chez Rept:   150000 Elap:       4.25 1K Iter:      0.028
+                  Scheme     chez opt-level 3 Rept:   500000 Elap:       3.90 1K Iter:     0.0078
+        Scheme : no trap     chez opt-level 3 Rept:   600000 Elap:       4.14 1K Iter:     0.0069
+ Scheme : bytevector f32     chez opt-level 3 Rept:   400000 Elap:       4.08 1K Iter:       0.01
+                     awk                 mawk Rept:      600 Elap:       4.13 1K Iter:        6.9
+              awk : flat                 mawk Rept:     4000 Elap:       3.93 1K Iter:       0.98
+                     awk                 gawk Rept:      900 Elap:       4.08 1K Iter:        4.5
+              awk : flat                 gawk Rept:     2000 Elap:       3.84 1K Iter:        1.9
+  awk : arrays of arrays                 gawk Rept:     2000 Elap:       3.82 1K Iter:        1.9
+                    bash             bash 5.3 Rept:       40 Elap:       3.68 1K Iter:         92
+            bash : arith             bash 5.3 Rept:       60 Elap:       3.76 1K Iter:         63
+                     Ada         gnatmake -O3 Rept:   700000 Elap:       4.24 1K Iter:     0.0061
+                     Ada  gnatmake -O3 -gnatp Rept:   900000 Elap:       4.76 1K Iter:     0.0053
+            Ada : 'Range         gnatmake -O3 Rept:   800000 Elap:       4.46 1K Iter:     0.0056
+            Ada : 'Range  gnatmake -O3 -gnatp Rept:   800000 Elap:       4.24 1K Iter:     0.0053
+        Ada : 'Range f32         gnatmake -O3 Rept:  1600000 Elap:       4.21 1K Iter:     0.0026
+        Ada : 'Range f32  gnatmake -O3 -gnatp Rept:  1600000 Elap:       4.21 1K Iter:     0.0026
+               Ada : f32  gnatmake -O3 -gnatp Rept:  1600000 Elap:       4.13 1K Iter:     0.0026
+                     Ada   gnatp -mcpu=native Rept:   800000 Elap:       4.27 1K Iter:     0.0053
+          C : raw double            clang -O3 Rept:  1500000 Elap:       5.16 1K Iter:     0.0034
+          C : raw double     clang -O3 native Rept:  1500000 Elap:       5.02 1K Iter:     0.0033
+  C : raw dbl single-add            clang -O3 Rept:  1200000 Elap:       3.89 1K Iter:     0.0032
+         Fortran : array  gfortran -O3 native Rept:   300000 Elap:       4.42 1K Iter:      0.015
+      Fortran : sections  gfortran -O3 native Rept:  1500000 Elap:       2.82 1K Iter:     0.0019
+ Fortran : do concurrent  gfortran -O3 native Rept:  2000000 Elap:       4.95 1K Iter:     0.0025
+        Fortran : double  gfortran -O3 native Rept:  1200000 Elap:       6.15 1K Iter:     0.0051
+       Julia : broadcast                julia Rept:  1500000 Elap:       4.59 1K Iter:     0.0031
+       Julia : broadcast            julia -O3 Rept:  1500000 Elap:       4.61 1K Iter:     0.0031
+   Julia : broadcast i32                julia Rept:  3000000 Elap:       4.38 1K Iter:     0.0015
+       Javascript : flat              Node.js Rept:   400000 Elap:       4.59 1K Iter:      0.011
+ Javascript : typed rows              Node.js Rept:   330000 Elap:       3.66 1K Iter:      0.011
+   Javascript : flat f32              Node.js Rept:   300000 Elap:       3.75 1K Iter:      0.013
+  Javascript : f32 round              Node.js Rept:   170000 Elap:       3.53 1K Iter:      0.021
+       Javascript : flat                  Bun Rept:   500000 Elap:       4.39 1K Iter:     0.0088
+ Javascript : typed rows                  Bun Rept:   550000 Elap:       3.70 1K Iter:     0.0067
+   Javascript : flat f32                  Bun Rept:   450000 Elap:       4.33 1K Iter:     0.0096
+  Javascript : f32 round                  Bun Rept:   500000 Elap:       5.90 1K Iter:      0.012
+       Javascript : flat                 Deno Rept:   200000 Elap:       4.40 1K Iter:      0.022
+ Javascript : typed rows                 Deno Rept:   160000 Elap:       3.43 1K Iter:      0.021
+   Javascript : flat f32                 Deno Rept:   170000 Elap:       3.81 1K Iter:      0.022
+            Swift : grid            Swiftc -O Rept:   400000 Elap:       4.44 1K Iter:      0.011
+            Swift : grid   Swiftc -Ounchecked Rept:  2000000 Elap:       5.41 1K Iter:     0.0027
+          Swift : flat32            Swiftc -O Rept:  2100000 Elap:       4.03 1K Iter:     0.0019
+          Swift : flat32   Swiftc -Ounchecked Rept:  2800000 Elap:       3.93 1K Iter:     0.0014
+         Swift : buffers            Swiftc -O Rept:  1500000 Elap:       4.12 1K Iter:     0.0027
+         Swift : buffers   Swiftc -Ounchecked Rept:  1500000 Elap:       4.13 1K Iter:     0.0028
+            Swift : rows            Swiftc -O Rept:  1450000 Elap:       4.14 1K Iter:     0.0029
+            Swift : rows   Swiftc -Ounchecked Rept:  1400000 Elap:       4.00 1K Iter:     0.0029
+                 C : raw                clang Rept:   100000 Elap:       2.68 1K Iter:      0.027
+                 C : raw             clang -O Rept:  1000000 Elap:       5.35 1K Iter:     0.0053
+                 C : raw            clang -O1 Rept:  1000000 Elap:       5.20 1K Iter:     0.0052
+                 C : raw            clang -O2 Rept:  2500000 Elap:       3.56 1K Iter:     0.0014
+                 C : raw            clang -O3 Rept:  2000000 Elap:       2.95 1K Iter:     0.0015
+                 C : raw     clang -O3 native Rept:  5000000 Elap:       6.84 1K Iter:     0.0014
+                 C : raw                  g++ Rept:   100000 Elap:       2.53 1K Iter:      0.025
+                 C : raw               g++ -O Rept:  1000000 Elap:       5.22 1K Iter:     0.0052
+                 C : raw              g++ -O1 Rept:  1000000 Elap:       5.20 1K Iter:     0.0052
+                 C : raw              g++ -O2 Rept:  2800000 Elap:       3.82 1K Iter:     0.0014
+                 C : raw              g++ -O3 Rept:  2700000 Elap:       3.72 1K Iter:     0.0014
+                 C : raw       g++ -O3 native Rept:  5000000 Elap:       6.80 1K Iter:     0.0014
+      C : raw single-add            clang -O3 Rept:  3000000 Elap:       4.28 1K Iter:     0.0014
+        C : raw restrict     clang -O3 native Rept:  3000000 Elap:       4.38 1K Iter:     0.0015
+                 C : VLA               cc -O3 Rept:  3000000 Elap:       4.27 1K Iter:     0.0014
+                 C : VLA    gcc-15 -O3 native Rept:  3000000 Elap:       7.29 1K Iter:     0.0024
+                 C : raw    g++-15 -O3 native Rept:  3000000 Elap:       7.28 1K Iter:     0.0024
+             C : vectors                clang Rept:   100000 Elap:       6.28 1K Iter:      0.063
+             C : vectors             clang -O Rept:  1000000 Elap:       5.38 1K Iter:     0.0054
+             C : vectors            clang -O1 Rept:  1000000 Elap:       5.24 1K Iter:     0.0052
+             C : vectors            clang -O2 Rept:  2400000 Elap:       3.59 1K Iter:     0.0015
+             C : vectors            clang -O3 Rept:  2400000 Elap:       3.59 1K Iter:     0.0015
+             C : vectors     clang -O3 native Rept:  5000000 Elap:       7.20 1K Iter:     0.0014
+             C : vectors                  g++ Rept:   100000 Elap:       6.09 1K Iter:      0.061
+             C : vectors               g++ -O Rept:  1000000 Elap:       5.25 1K Iter:     0.0052
+             C : vectors              g++ -O1 Rept:  1000000 Elap:       5.24 1K Iter:     0.0052
+             C : vectors              g++ -O2 Rept:  2600000 Elap:       3.80 1K Iter:     0.0015
+             C : vectors              g++ -O3 Rept:  2600000 Elap:       3.81 1K Iter:     0.0015
+             C : vectors       g++ -O3 native Rept:  5000000 Elap:       7.17 1K Iter:     0.0014
+             C++ : Boost                clang Rept:     5000 Elap:       5.31 1K Iter:        1.1
+             C++ : Boost             clang -O Rept:   230000 Elap:       3.77 1K Iter:      0.016
+             C++ : Boost            clang -O1 Rept:   100000 Elap:       1.59 1K Iter:      0.016
+             C++ : Boost            clang -O2 Rept:   220000 Elap:       3.50 1K Iter:      0.016
+             C++ : Boost            clang -O3 Rept:   290000 Elap:       3.44 1K Iter:      0.012
+             C++ : Boost     clang -O3 native Rept:   320000 Elap:       3.42 1K Iter:      0.011
+             C++ : Boost                  g++ Rept:     5000 Elap:       5.15 1K Iter:          1
+             C++ : Boost               g++ -O Rept:   250000 Elap:       3.88 1K Iter:      0.016
+             C++ : Boost              g++ -O1 Rept:    70000 Elap:       1.16 1K Iter:      0.017
+             C++ : Boost              g++ -O2 Rept:   240000 Elap:       3.71 1K Iter:      0.015
+             C++ : Boost              g++ -O3 Rept:   340000 Elap:       3.69 1K Iter:      0.011
+             C++ : Boost       g++ -O3 native Rept:   330000 Elap:       3.55 1K Iter:      0.011
+   C++ : Boost no assert                clang Rept:     5000 Elap:       5.05 1K Iter:          1
+   C++ : Boost no assert             clang -O Rept:   520000 Elap:       2.89 1K Iter:     0.0056
+   C++ : Boost no assert            clang -O1 Rept:    85000 Elap:       0.56 1K Iter:     0.0066
+   C++ : Boost no assert            clang -O2 Rept:   770000 Elap:       2.23 1K Iter:     0.0029
+   C++ : Boost no assert            clang -O3 Rept:   740000 Elap:       2.17 1K Iter:     0.0029
+   C++ : Boost no assert     clang -O3 native Rept:  1050000 Elap:       2.79 1K Iter:     0.0027
+   C++ : Boost no assert                  g++ Rept:     5000 Elap:       4.90 1K Iter:       0.98
+   C++ : Boost no assert               g++ -O Rept:   370000 Elap:       2.02 1K Iter:     0.0055
+   C++ : Boost no assert              g++ -O1 Rept:   625000 Elap:       3.29 1K Iter:     0.0053
+   C++ : Boost no assert              g++ -O2 Rept:  1000000 Elap:       2.67 1K Iter:     0.0027
+   C++ : Boost no assert              g++ -O3 Rept:  1000000 Elap:       2.67 1K Iter:     0.0027
+   C++ : Boost no assert       g++ -O3 native Rept:  1050000 Elap:       2.80 1K Iter:     0.0027
+   C++ : Boost no assert    g++-15 -O3 native Rept:  1000000 Elap:       2.68 1K Iter:     0.0027
+     C++ : Boost int idx            clang -O3 Rept:  3000000 Elap:       4.33 1K Iter:     0.0014
+ C++ : Boost direct data     clang -O3 native Rept:  3000000 Elap:       4.29 1K Iter:     0.0014
+            C++ : mdspan            clang -O3 Rept:  3000000 Elap:       4.28 1K Iter:     0.0014
+           C : Num. rec.                clang Rept:   100000 Elap:       2.71 1K Iter:      0.027
+           C : Num. rec.             clang -O Rept:  1000000 Elap:       5.31 1K Iter:     0.0053
+           C : Num. rec.            clang -O1 Rept:  1000000 Elap:       5.15 1K Iter:     0.0052
+           C : Num. rec.            clang -O2 Rept:  2500000 Elap:       3.64 1K Iter:     0.0015
+           C : Num. rec.            clang -O3 Rept:  2500000 Elap:       3.55 1K Iter:     0.0014
+           C : Num. rec.     clang -O3 native Rept:  5000000 Elap:       6.73 1K Iter:     0.0013
+           C : Num. rec.                  g++ Rept:   100000 Elap:       2.57 1K Iter:      0.026
+           C : Num. rec.               g++ -O Rept:   500000 Elap:       2.65 1K Iter:     0.0053
+           C : Num. rec.              g++ -O1 Rept:   500000 Elap:       2.65 1K Iter:     0.0053
+           C : Num. rec.              g++ -O2 Rept:  2700000 Elap:       3.71 1K Iter:     0.0014
+           C : Num. rec.              g++ -O3 Rept:  2800000 Elap:       3.81 1K Iter:     0.0014
+           C : Num. rec.       g++ -O3 native Rept:  5000000 Elap:       6.74 1K Iter:     0.0013
+           C : Num. rec.    g++-15 -O3 native Rept:  3000000 Elap:       7.26 1K Iter:     0.0024
+Fastest combination is  MATLAB : single and matlab vectorised
+
+Summary of relative speeds:
+
+                   Swift               Swiftc 1K Iter:        4.1, Relative time   1525962.82
+                   Swift        Swiftc -Onone 1K Iter:        4.1, Relative time   1532555.02
+                   Swift            Swiftc -O 1K Iter:      0.021, Relative time      7915.20
+                   Swift   Swiftc -Ounchecked 1K Iter:       0.02, Relative time      7524.25
+               Assembler        clang (arm64) 1K Iter:     0.0012, Relative time       455.75
+   Assembler : ABI fixed        clang (arm64) 1K Iter:     0.0013, Relative time       467.22
+                 Fortran             gfortran 1K Iter:      0.023, Relative time      8607.17
+                 Fortran          gfortran -O 1K Iter:     0.0056, Relative time      2081.95
+                 Fortran         gfortran -O1 1K Iter:     0.0053, Relative time      1978.32
+                 Fortran         gfortran -O2 1K Iter:     0.0025, Relative time       933.54
+                 Fortran         gfortran -O3 1K Iter:     0.0025, Relative time       930.26
+                 Fortran  gfortran -O3 native 1K Iter:     0.0024, Relative time       877.89
+                 Fortran  gfortran -O3 unroll 1K Iter:     0.0024, Relative time       905.97
+                 R : raw              Rscript 1K Iter:       0.87, Relative time    322442.68
+           R : ref class              Rscript 1K Iter:    6.1e+02, Relative time 225723391.75
+             R : env ref              Rscript 1K Iter:       0.87, Relative time    323205.10
+               R : outer              Rscript 1K Iter:       0.18, Relative time     65757.90
+             R : recycle              Rscript 1K Iter:        0.1, Relative time     39041.88
+              R : coords              Rscript 1K Iter:      0.031, Relative time     11571.99
+                    Perl                 Perl 1K Iter:       0.81, Relative time    302474.77
+             Perl : rows                 Perl 1K Iter:       0.63, Relative time    233554.22
+          Perl/PDL : raw             Perl/PDL 1K Iter:         10, Relative time   3861794.64
+       Perl/PDL : raw XS             Perl/PDL 1K Iter:        6.1, Relative time   2261739.79
+      Perl/PDL : vectors             Perl/PDL 1K Iter:      0.078, Relative time     28864.06
+       Perl/PDL : arrays             Perl/PDL 1K Iter:      0.029, Relative time     10709.59
+      Perl/PDL : arrays2             Perl/PDL 1K Iter:       0.02, Relative time      7435.10
+  Perl/PDL : arrays2 f32             Perl/PDL 1K Iter:      0.019, Relative time      7009.66
+   Perl/PDL : arrays f32             Perl/PDL 1K Iter:      0.027, Relative time     10218.64
+           Perl/PDL : pp             Perl/PDL 1K Iter:     0.0063, Relative time      2336.20
+  Perl/PDL : pp prealloc             Perl/PDL 1K Iter:     0.0053, Relative time      1974.53
+       Perl/PDL : pp f32             Perl/PDL 1K Iter:     0.0055, Relative time      2057.89
+     Perl : Inline::C AV                 Perl 1K Iter:      0.089, Relative time     33059.14
+  Perl : Inline::C AvARR                 Perl 1K Iter:      0.046, Relative time     16976.64
+ Perl : Inline::C packed                 Perl 1K Iter:     0.0053, Relative time      1963.83
+    Perl : Inline::C f32                 Perl 1K Iter:     0.0052, Relative time      1943.81
+              Raku : raw               rakudo 1K Iter:         17, Relative time   6208520.24
+         Raku : raw rows               rakudo 1K Iter:         12, Relative time   4544898.22
+              Raku : raw      rakudo no spesh 1K Iter:         64, Relative time  23821426.18
+           Raku : native               rakudo 1K Iter:        5.4, Relative time   2019218.19
+       Raku : native nqp               rakudo 1K Iter:        0.4, Relative time    148340.52
+           Raku : native      rakudo no spesh 1K Iter:         34, Relative time  12658763.06
+       Raku : native nqp      rakudo no spesh 1K Iter:       0.49, Relative time    180754.01
+           Raku : shaped               rakudo 1K Iter:         25, Relative time   9399057.40
+            Raku : hyper               rakudo 1K Iter:        4.9, Relative time   1836195.54
+                  MATLAB          matlab loop 1K Iter:      0.018, Relative time      6609.63
+   MATLAB : loop (nx,ny)          matlab loop 1K Iter:    0.00037, Relative time       136.47
+         MATLAB : single          matlab loop 1K Iter:          0, Relative time         0.00
+ MATLAB : single (nx,ny)   matlab serial loop 1K Iter:          0, Relative time         0.00
+                  MATLAB matlab loop 1 thread 1K Iter:    0.00013, Relative time        46.89
+                  MATLAB    matlab vectorised 1K Iter:       0.01, Relative time      3822.70
+         MATLAB : single    matlab vectorised 1K Iter:    2.7e-06, Relative time         1.00
+                  MATLAB  matlab vec 1 thread 1K Iter:          0, Relative time         0.00
+                     GDL             gdl loop 1K Iter:        1.5, Relative time    569192.24
+                     GDL       gdl vectorised 1K Iter:     0.0042, Relative time      1556.49
+  GDL : vec per-call idx       gdl vectorised 1K Iter:      0.032, Relative time     11853.13
+            GDL : single       gdl vectorised 1K Iter:      0.002, Relative time       726.93
+     GDL : single 2 adds     gdl serial array 1K Iter:     0.0038, Relative time      1426.20
+       Clojure : vectors              clojure 1K Iter:        0.7, Relative time    261577.58
+    Clojure : transients              clojure 1K Iter:       0.26, Relative time     97582.57
+        Clojure : arrays              clojure 1K Iter:     0.0054, Relative time      2018.43
+    Clojure : arrays f32              clojure 1K Iter:     0.0063, Relative time      2362.10
+          Elixir : array               elixir 1K Iter:       0.96, Relative time    356333.64
+            Elixir : map               elixir 1K Iter:       0.62, Relative time    232421.19
+         Elixir : binary               elixir 1K Iter:       0.28, Relative time    104183.72
+     Elixir : binary f32               elixir 1K Iter:       0.26, Relative time     96812.71
+        Elixir : map rec               elixir 1K Iter:       0.36, Relative time    134121.13
+                  Chapel          chpl --fast 1K Iter:      0.003, Relative time      1105.10
+                  Chapel                 chpl 1K Iter:       0.88, Relative time    328552.39
+       Chapel : real(32)          chpl --fast 1K Iter:     0.0057, Relative time      2120.36
+                     Lua              lua 5.5 1K Iter:       0.21, Relative time     78794.44
+             Lua : float              lua 5.5 1K Iter:       0.22, Relative time     82166.94
+          Python : lists          Python3 JIT 1K Iter:        0.5, Relative time    187103.53
+      Python : numpy raw          Python3 JIT 1K Iter:        2.4, Relative time    891886.63
+          Python : lists              GraalPy 1K Iter:       0.11, Relative time     41809.65
+          Python : lists        GraalPy float 1K Iter:     0.0057, Relative time      2105.91
+      Python : numpy raw              GraalPy 1K Iter:         42, Relative time  15486793.46
+              Ruby : raw          TruffleRuby 1K Iter:      0.011, Relative time      4023.88
+            Ruby : while          TruffleRuby 1K Iter:      0.011, Relative time      4007.30
+                 C : raw        wasm wasmtime 1K Iter:     0.0075, Relative time      2809.64
+                 C : raw   wasm simd wasmtime 1K Iter:     0.0024, Relative time       892.47
+                 C : raw         wasm Node.js 1K Iter:      0.019, Relative time      7044.66
+                 C : raw    wasm simd Node.js 1K Iter:      0.012, Relative time      4507.41
+                 C : raw wasm Node no-liftoff 1K Iter:     0.0053, Relative time      1983.82
+                 C : raw wasm simd Node nolft 1K Iter:     0.0024, Relative time       896.94
+          Python : lists              Python2 1K Iter:          1, Relative time    376256.02
+      Python : numpy raw              Python2 1K Iter:        7.1, Relative time   2638027.12
+        Python : vectors              Python2 1K Iter:      0.036, Relative time     13293.88
+         Python : arrays              Python2 1K Iter:      0.047, Relative time     17472.71
+          Python : lists              Python3 1K Iter:       0.45, Relative time    168989.38
+          Python : lists        Python3 float 1K Iter:       0.65, Relative time    240719.52
+     Python : lists rows              Python3 1K Iter:        0.6, Relative time    222621.97
+      Python : numpy raw              Python3 1K Iter:        2.3, Relative time    860823.96
+      Python : numpy raw      Python3 .item() 1K Iter:        1.7, Relative time    619625.73
+        Python : vectors              Python3 1K Iter:      0.019, Relative time      7067.40
+        Python : vectors     Python3 in-place 1K Iter:      0.011, Relative time      4007.23
+         Python : arrays              Python3 1K Iter:      0.021, Relative time      7990.91
+         Python : arrays     Python3 in-place 1K Iter:      0.013, Relative time      4994.14
+         Python : arrays Python3 in-place f32 1K Iter:     0.0066, Relative time      2450.95
+      Python : numpy raw        Python3 numba 1K Iter:     0.0029, Relative time      1070.38
+      Python : numpy raw    Python3 numba f32 1K Iter:     0.0025, Relative time       933.66
+          Python : lists                Codon 1K Iter:      0.015, Relative time      5724.18
+      Python : numpy raw                Codon 1K Iter:     0.0078, Relative time      2919.90
+      Python : numpy raw  Codon no exceptions 1K Iter:     0.0029, Relative time      1072.06
+      Python : numpy raw       Cython untyped 1K Iter:        2.3, Relative time    872048.05
+      Python : numpy raw         Cython typed 1K Iter:     0.0037, Relative time      1377.06
+      Python : numpy raw    Cython -O3 native 1K Iter:     0.0037, Relative time      1371.92
+      Python : numpy raw     Cython typed f32 1K Iter:     0.0027, Relative time      1001.18
+      Python : numpy raw  Cython typed+checks 1K Iter:      0.012, Relative time      4628.52
+      Python : numpy raw              Pythran 1K Iter:     0.0029, Relative time      1062.06
+      Python : numpy raw   Pythran -O3 native 1K Iter:      0.003, Relative time      1109.21
+      Python : numpy raw          Pythran f32 1K Iter:     0.0027, Relative time      1015.18
+                    Mojo           mojo build 1K Iter:      0.032, Relative time     12013.04
+                    Mojo  mojo -D ASSERT=none 1K Iter:     0.0088, Relative time      3261.79
+        Mojo : flat SIMD           mojo build 1K Iter:     0.0033, Relative time      1246.30
+    Mojo : flat SIMD f32           mojo build 1K Iter:     0.0017, Relative time       627.09
+         Mojo : rows ptr           mojo build 1K Iter:     0.0056, Relative time      2092.60
+        Mojo : lists f32  mojo -D ASSERT=none 1K Iter:     0.0083, Relative time      3107.15
+                    Rust                Rustc 1K Iter:       0.21, Relative time     78899.45
+                    Rust             Rustc -O 1K Iter:      0.011, Relative time      4262.52
+                    Rust            Rustc -O3 1K Iter:      0.011, Relative time      4110.37
+                    Rust     Rustc -O3 native 1K Iter:      0.011, Relative time      4117.71
+                    Rust      Rustc iterators 1K Iter:     0.0066, Relative time      2464.37
+                    Rust         Rustc unsafe 1K Iter:     0.0082, Relative time      3069.63
+             Rust : flat     Rustc -O3 native 1K Iter:      0.006, Relative time      2240.60
+     Rust : flat u32 idx     Rustc -O3 native 1K Iter:     0.0012, Relative time       436.65
+        Rust : rows safe     Rustc -O3 native 1K Iter:     0.0061, Relative time      2259.28
+                    Java                 Java 1K Iter:     0.0042, Relative time      1565.96
+           Java : double                 Java 1K Iter:     0.0048, Relative time      1780.41
+       Java : Vector API                 Java 1K Iter:      0.002, Relative time       747.65
+                    Java           java -Xint 1K Iter:       0.15, Relative time     55807.01
+               Tcl : raw                tclsh 1K Iter:         16, Relative time   5915156.39
+            Tcl : braced                tclsh 1K Iter:        4.3, Relative time   1599159.54
+             Tcl : lists                tclsh 1K Iter:        2.3, Relative time    862036.51
+                   Julia                julia 1K Iter:     0.0029, Relative time      1076.74
+                   Julia            julia -O0 1K Iter:      0.096, Relative time     35707.61
+                   Julia            julia -O1 1K Iter:      0.052, Relative time     19467.93
+                   Julia            julia -O2 1K Iter:     0.0029, Relative time      1077.38
+                   Julia            julia -O3 1K Iter:     0.0029, Relative time      1080.43
+                   Julia        julia (int32) 1K Iter:     0.0013, Relative time       490.87
+                   Julia     julia (inbounds) 1K Iter:     0.0026, Relative time       969.09
+                   Julia  julia (int32, main) 1K Iter:     0.0014, Relative time       502.76
+          Julia : double        julia (int32) 1K Iter:     0.0032, Relative time      1199.72
+              Javascript              Node.js 1K Iter:      0.027, Relative time     10219.84
+              Javascript     Node.js --no-opt 1K Iter:      0.032, Relative time     11796.96
+              Javascript     Node.js baseline 1K Iter:        0.3, Relative time    111042.74
+              Javascript  Node.js interpreter 1K Iter:       0.46, Relative time    171555.36
+       Javascript : rows              Node.js 1K Iter:      0.015, Relative time      5488.79
+              Javascript                  Bun 1K Iter:      0.013, Relative time      4889.28
+       Javascript : rows                  Bun 1K Iter:      0.011, Relative time      3968.95
+              Javascript                 Deno 1K Iter:      0.027, Relative time      9920.87
+       Javascript : rows                 Deno 1K Iter:      0.014, Relative time      5178.09
+              Ruby : raw             ruby 2.6 1K Iter:       0.88, Relative time    327403.24
+            Ruby : while             ruby 2.6 1K Iter:       0.76, Relative time    283503.03
+              Ruby : raw             ruby 3.3 1K Iter:       0.84, Relative time    311453.65
+            Ruby : while             ruby 3.3 1K Iter:       0.72, Relative time    269342.00
+              Ruby : raw       ruby 3.3 +YJIT 1K Iter:       0.32, Relative time    118574.78
+            Ruby : while       ruby 3.3 +YJIT 1K Iter:       0.21, Relative time     78011.46
+             Ruby : Numo             ruby 3.3 1K Iter:      0.027, Relative time     10142.46
+     Ruby : Numo inplace             ruby 3.3 1K Iter:      0.016, Relative time      6052.69
+    Ruby : Numo inpl f32             ruby 3.3 1K Iter:      0.013, Relative time      4962.82
+         Ruby : Numo f32             ruby 3.3 1K Iter:       0.02, Relative time      7456.92
+             Ruby : Numo       ruby 3.3 +YJIT 1K Iter:      0.027, Relative time      9945.06
+     Ruby : Numo inplace       ruby 3.3 +YJIT 1K Iter:      0.016, Relative time      6011.07
+                      Go                   go 1K Iter:     0.0077, Relative time      2851.00
+                      Go       go -B (no BCE) 1K Iter:     0.0066, Relative time      2474.45
+              Go : range                   go 1K Iter:     0.0058, Relative time      2153.10
+          Go : range f32                   go 1K Iter:     0.0055, Relative time      2065.90
+                     Lua               LuaJIT 1K Iter:     0.0084, Relative time      3128.07
+               Lua : FFI               LuaJIT 1K Iter:     0.0064, Relative time      2396.63
+           Lua : FFI f32               LuaJIT 1K Iter:      0.007, Relative time      2619.75
+             Lua : float               LuaJIT 1K Iter:     0.0086, Relative time      3199.91
+                      C#               .NET 8 1K Iter:      0.006, Relative time      2249.94
+            C# : float32               .NET 8 1K Iter:     0.0057, Relative time      2130.42
+               C# : SIMD               .NET 8 1K Iter:     0.0074, Relative time      2744.52
+                 Crystal    crystal --release 1K Iter:     0.0039, Relative time      1439.85
+           Crystal : f32    crystal --release 1K Iter:     0.0015, Relative time       550.78
+      Crystal : ptr rows    crystal --release 1K Iter:     0.0036, Relative time      1348.54
+                   OCaml         ocamlopt -O3 1K Iter:      0.011, Relative time      3968.51
+        OCaml : unrolled     ocamlopt -unsafe 1K Iter:     0.0043, Relative time      1597.38
+    OCaml : bigarray f32     ocamlopt -unsafe 1K Iter:      0.012, Relative time      4572.52
+            OCaml : mapi     ocamlopt -unsafe 1K Iter:      0.052, Relative time     19351.60
+          Python : lists                PyPy3 1K Iter:      0.041, Relative time     15109.06
+          Python : lists          PyPy3 float 1K Iter:      0.033, Relative time     12197.34
+     Python : lists rows                PyPy3 1K Iter:      0.016, Relative time      5777.81
+                     Zig   zig -O ReleaseFast 1K Iter:     0.0031, Relative time      1156.20
+               Zig : f32   zig -O ReleaseFast 1K Iter:     0.0027, Relative time       995.19
+               Zig : for   zig -O ReleaseFast 1K Iter:     0.0031, Relative time      1149.49
+                    Lisp         SBCL untyped 1K Iter:       0.19, Relative time     69699.13
+                    Lisp           SBCL typed 1K Iter:      0.012, Relative time      4446.77
+             Lisp : flat           SBCL typed 1K Iter:     0.0067, Relative time      2486.79
+         Lisp : flat f32           SBCL typed 1K Iter:     0.0067, Relative time      2480.76
+              Lisp : f32           SBCL typed 1K Iter:      0.012, Relative time      4404.20
+                 Haskell              GHC -O2 1K Iter:       0.01, Relative time      3832.86
+           Haskell : Ptr              GHC -O2 1K Iter:      0.011, Relative time      3939.15
+       Haskell : Ptr f32              GHC -O2 1K Iter:      0.011, Relative time      3920.25
+  Haskell : IOUArray Int              GHC -O2 1K Iter:      0.016, Relative time      5892.85
+           Haskell : f32              GHC -O2 1K Iter:      0.011, Relative time      3951.84
+                      F#               .NET 8 1K Iter:     0.0082, Relative time      3063.37
+              F# : while               .NET 8 1K Iter:     0.0058, Relative time      2156.58
+            F# : float32               .NET 8 1K Iter:     0.0079, Relative time      2940.78
+      F# : while float32               .NET 8 1K Iter:     0.0057, Relative time      2104.79
+                      C#           .NET 8 AOT 1K Iter:      0.006, Relative time      2250.99
+            C# : float32           .NET 8 AOT 1K Iter:     0.0056, Relative time      2070.70
+                      C#     .NET 8 AOT Speed 1K Iter:      0.006, Relative time      2225.42
+                       D    ldc2 -O3 -release 1K Iter:     0.0034, Relative time      1262.77
+               D : float    ldc2 -O3 -release 1K Iter:     0.0027, Relative time      1015.15
+                       D ldc2 -O3 mcpu=native 1K Iter:     0.0029, Relative time      1093.11
+                     Nim        nim -d:danger 1K Iter:     0.0037, Relative time      1366.76
+          Nim : rows ptr        nim -d:danger 1K Iter:     0.0036, Relative time      1358.09
+      Nim : rows ptr f32        nim -d:danger 1K Iter:     0.0027, Relative time      1004.74
+              Nim : flat        nim -d:danger 1K Iter:     0.0029, Relative time      1081.41
+          Nim : flat f32        nim -d:danger 1K Iter:     0.0027, Relative time       992.19
+               Nim : f32        nim -d:danger 1K Iter:     0.0027, Relative time      1005.07
+                     Nim nim -d:danger native 1K Iter:     0.0036, Relative time      1356.68
+                  Kotlin        kotlinc + JVM 1K Iter:     0.0048, Relative time      1790.33
+        Kotlin : float32        kotlinc + JVM 1K Iter:     0.0042, Relative time      1555.83
+      Python : numpy raw                PyPy3 1K Iter:         26, Relative time   9648234.00
+                  Octave          octave loop 1K Iter:         54, Relative time  20095022.51
+   Octave : loop (nx,ny)          octave loop 1K Iter:         54, Relative time  20206778.40
+                  Octave    octave vectorised 1K Iter:      0.068, Relative time     25394.11
+         Octave : single    octave vectorised 1K Iter:      0.065, Relative time     24290.05
+                       J             jconsole 1K Iter:     0.0093, Relative time      3449.18
+               J : float             jconsole 1K Iter:     0.0088, Relative time      3295.31
+           J : float idx             jconsole 1K Iter:     0.0072, Relative time      2695.05
+                J : loop             jconsole 1K Iter:        4.4, Relative time   1644550.63
+                     APL          dyalog loop 1K Iter:         26, Relative time   9627698.62
+              APL : rows          dyalog loop 1K Iter:      0.037, Relative time     13823.86
+                     APL         dyalog array 1K Iter:     0.0067, Relative time      2493.37
+                     APL          dyalog rank 1K Iter:      0.015, Relative time      5649.39
+            Swift : flat            Swiftc -O 1K Iter:      0.011, Relative time      4180.03
+            Swift : flat   Swiftc -Ounchecked 1K Iter:     0.0027, Relative time      1013.99
+                    Dart             dart run 1K Iter:     0.0078, Relative time      2895.22
+             Dart : flat             dart run 1K Iter:      0.012, Relative time      4474.55
+          Dart : float32             dart run 1K Iter:       0.01, Relative time      3807.59
+                    Dart     dart compile exe 1K Iter:      0.016, Relative time      6033.06
+             Dart : flat     dart compile exe 1K Iter:      0.012, Relative time      4328.42
+          Dart : float32     dart compile exe 1K Iter:      0.017, Relative time      6472.97
+                     PHP              php 8.5 1K Iter:       0.27, Relative time     99491.85
+              PHP : rows              php 8.5 1K Iter:       0.13, Relative time     46656.92
+                     PHP          php 8.5 JIT 1K Iter:      0.058, Relative time     21560.54
+              PHP : rows          php 8.5 JIT 1K Iter:      0.036, Relative time     13291.83
+                     PHP php 8.5 JIT function 1K Iter:       0.19, Relative time     70698.17
+                  Scheme                 chez 1K Iter:      0.028, Relative time     10559.78
+                  Scheme     chez opt-level 3 1K Iter:     0.0078, Relative time      2904.45
+        Scheme : no trap     chez opt-level 3 1K Iter:     0.0069, Relative time      2566.90
+ Scheme : bytevector f32     chez opt-level 3 1K Iter:       0.01, Relative time      3797.83
+                     awk                 mawk 1K Iter:        6.9, Relative time   2561909.42
+              awk : flat                 mawk 1K Iter:       0.98, Relative time    365660.48
+                     awk                 gawk 1K Iter:        4.5, Relative time   1686129.93
+              awk : flat                 gawk 1K Iter:        1.9, Relative time    715689.66
+  awk : arrays of arrays                 gawk 1K Iter:        1.9, Relative time    712129.71
+                    bash             bash 5.3 1K Iter:         92, Relative time  34247932.57
+            bash : arith             bash 5.3 1K Iter:         63, Relative time  23340739.46
+                     Ada         gnatmake -O3 1K Iter:     0.0061, Relative time      2254.69
+                     Ada  gnatmake -O3 -gnatp 1K Iter:     0.0053, Relative time      1967.75
+            Ada : 'Range         gnatmake -O3 1K Iter:     0.0056, Relative time      2077.47
+            Ada : 'Range  gnatmake -O3 -gnatp 1K Iter:     0.0053, Relative time      1975.89
+        Ada : 'Range f32         gnatmake -O3 1K Iter:     0.0026, Relative time       978.92
+        Ada : 'Range f32  gnatmake -O3 -gnatp 1K Iter:     0.0026, Relative time       979.79
+               Ada : f32  gnatmake -O3 -gnatp 1K Iter:     0.0026, Relative time       962.15
+                     Ada   gnatp -mcpu=native 1K Iter:     0.0053, Relative time      1987.16
+          C : raw double            clang -O3 1K Iter:     0.0034, Relative time      1282.04
+          C : raw double     clang -O3 native 1K Iter:     0.0033, Relative time      1245.74
+  C : raw dbl single-add            clang -O3 1K Iter:     0.0032, Relative time      1207.46
+         Fortran : array  gfortran -O3 native 1K Iter:      0.015, Relative time      5481.32
+      Fortran : sections  gfortran -O3 native 1K Iter:     0.0019, Relative time       698.88
+ Fortran : do concurrent  gfortran -O3 native 1K Iter:     0.0025, Relative time       920.88
+        Fortran : double  gfortran -O3 native 1K Iter:     0.0051, Relative time      1909.58
+       Julia : broadcast                julia 1K Iter:     0.0031, Relative time      1139.72
+       Julia : broadcast            julia -O3 1K Iter:     0.0031, Relative time      1143.41
+   Julia : broadcast i32                julia 1K Iter:     0.0015, Relative time       543.37
+       Javascript : flat              Node.js 1K Iter:      0.011, Relative time      4276.39
+ Javascript : typed rows              Node.js 1K Iter:      0.011, Relative time      4128.12
+   Javascript : flat f32              Node.js 1K Iter:      0.013, Relative time      4659.29
+  Javascript : f32 round              Node.js 1K Iter:      0.021, Relative time      7726.39
+       Javascript : flat                  Bun 1K Iter:     0.0088, Relative time      3268.51
+ Javascript : typed rows                  Bun 1K Iter:     0.0067, Relative time      2507.90
+   Javascript : flat f32                  Bun 1K Iter:     0.0096, Relative time      3584.97
+  Javascript : f32 round                  Bun 1K Iter:      0.012, Relative time      4397.45
+       Javascript : flat                 Deno 1K Iter:      0.022, Relative time      8187.08
+ Javascript : typed rows                 Deno 1K Iter:      0.021, Relative time      7993.91
+   Javascript : flat f32                 Deno 1K Iter:      0.022, Relative time      8338.79
+            Swift : grid            Swiftc -O 1K Iter:      0.011, Relative time      4137.13
+            Swift : grid   Swiftc -Ounchecked 1K Iter:     0.0027, Relative time      1008.00
+          Swift : flat32            Swiftc -O 1K Iter:     0.0019, Relative time       715.48
+          Swift : flat32   Swiftc -Ounchecked 1K Iter:     0.0014, Relative time       523.01
+         Swift : buffers            Swiftc -O 1K Iter:     0.0027, Relative time      1022.60
+         Swift : buffers   Swiftc -Ounchecked 1K Iter:     0.0028, Relative time      1024.40
+            Swift : rows            Swiftc -O 1K Iter:     0.0029, Relative time      1062.73
+            Swift : rows   Swiftc -Ounchecked 1K Iter:     0.0029, Relative time      1063.36
+                 C : raw                clang 1K Iter:      0.027, Relative time      9988.70
+                 C : raw             clang -O 1K Iter:     0.0053, Relative time      1991.89
+                 C : raw            clang -O1 1K Iter:     0.0052, Relative time      1937.46
+                 C : raw            clang -O2 1K Iter:     0.0014, Relative time       530.58
+                 C : raw            clang -O3 1K Iter:     0.0015, Relative time       548.44
+                 C : raw     clang -O3 native 1K Iter:     0.0014, Relative time       509.18
+                 C : raw                  g++ 1K Iter:      0.025, Relative time      9423.66
+                 C : raw               g++ -O 1K Iter:     0.0052, Relative time      1942.48
+                 C : raw              g++ -O1 1K Iter:     0.0052, Relative time      1937.83
+                 C : raw              g++ -O2 1K Iter:     0.0014, Relative time       508.44
+                 C : raw              g++ -O3 1K Iter:     0.0014, Relative time       513.40
+                 C : raw       g++ -O3 native 1K Iter:     0.0014, Relative time       506.36
+      C : raw single-add            clang -O3 1K Iter:     0.0014, Relative time       531.14
+        C : raw restrict     clang -O3 native 1K Iter:     0.0015, Relative time       543.88
+                 C : VLA               cc -O3 1K Iter:     0.0014, Relative time       530.02
+                 C : VLA    gcc-15 -O3 native 1K Iter:     0.0024, Relative time       905.25
+                 C : raw    g++-15 -O3 native 1K Iter:     0.0024, Relative time       903.80
+             C : vectors                clang 1K Iter:      0.063, Relative time     23385.15
+             C : vectors             clang -O 1K Iter:     0.0054, Relative time      2003.43
+             C : vectors            clang -O1 1K Iter:     0.0052, Relative time      1951.31
+             C : vectors            clang -O2 1K Iter:     0.0015, Relative time       557.35
+             C : vectors            clang -O3 1K Iter:     0.0015, Relative time       556.66
+             C : vectors     clang -O3 native 1K Iter:     0.0014, Relative time       535.92
+             C : vectors                  g++ 1K Iter:      0.061, Relative time     22691.10
+             C : vectors               g++ -O 1K Iter:     0.0052, Relative time      1953.44
+             C : vectors              g++ -O1 1K Iter:     0.0052, Relative time      1949.97
+             C : vectors              g++ -O2 1K Iter:     0.0015, Relative time       544.89
+             C : vectors              g++ -O3 1K Iter:     0.0015, Relative time       545.24
+             C : vectors       g++ -O3 native 1K Iter:     0.0014, Relative time       534.26
+             C++ : Boost                clang 1K Iter:        1.1, Relative time    395550.55
+             C++ : Boost             clang -O 1K Iter:      0.016, Relative time      6110.77
+             C++ : Boost            clang -O1 1K Iter:      0.016, Relative time      5925.28
+             C++ : Boost            clang -O2 1K Iter:      0.016, Relative time      5922.01
+             C++ : Boost            clang -O3 1K Iter:      0.012, Relative time      4413.33
+             C++ : Boost     clang -O3 native 1K Iter:      0.011, Relative time      3975.56
+             C++ : Boost                  g++ 1K Iter:          1, Relative time    383254.98
+             C++ : Boost               g++ -O 1K Iter:      0.016, Relative time      5773.70
+             C++ : Boost              g++ -O1 1K Iter:      0.017, Relative time      6145.05
+             C++ : Boost              g++ -O2 1K Iter:      0.015, Relative time      5752.19
+             C++ : Boost              g++ -O3 1K Iter:      0.011, Relative time      4038.10
+             C++ : Boost       g++ -O3 native 1K Iter:      0.011, Relative time      4007.04
+   C++ : Boost no assert                clang 1K Iter:          1, Relative time    376050.09
+   C++ : Boost no assert             clang -O 1K Iter:     0.0056, Relative time      2072.78
+   C++ : Boost no assert            clang -O1 1K Iter:     0.0066, Relative time      2441.83
+   C++ : Boost no assert            clang -O2 1K Iter:     0.0029, Relative time      1078.16
+   C++ : Boost no assert            clang -O3 1K Iter:     0.0029, Relative time      1091.20
+   C++ : Boost no assert     clang -O3 native 1K Iter:     0.0027, Relative time       989.71
+   C++ : Boost no assert                  g++ 1K Iter:       0.98, Relative time    364958.90
+   C++ : Boost no assert               g++ -O 1K Iter:     0.0055, Relative time      2035.92
+   C++ : Boost no assert              g++ -O1 1K Iter:     0.0053, Relative time      1961.27
+   C++ : Boost no assert              g++ -O2 1K Iter:     0.0027, Relative time       992.63
+   C++ : Boost no assert              g++ -O3 1K Iter:     0.0027, Relative time       995.60
+   C++ : Boost no assert       g++ -O3 native 1K Iter:     0.0027, Relative time       991.86
+   C++ : Boost no assert    g++-15 -O3 native 1K Iter:     0.0027, Relative time       999.42
+     C++ : Boost int idx            clang -O3 1K Iter:     0.0014, Relative time       536.95
+ C++ : Boost direct data     clang -O3 native 1K Iter:     0.0014, Relative time       532.12
+            C++ : mdspan            clang -O3 1K Iter:     0.0014, Relative time       530.84
+           C : Num. rec.                clang 1K Iter:      0.027, Relative time     10092.21
+           C : Num. rec.             clang -O 1K Iter:     0.0053, Relative time      1978.52
+           C : Num. rec.            clang -O1 1K Iter:     0.0052, Relative time      1919.50
+           C : Num. rec.            clang -O2 1K Iter:     0.0015, Relative time       541.59
+           C : Num. rec.            clang -O3 1K Iter:     0.0014, Relative time       529.40
+           C : Num. rec.     clang -O3 native 1K Iter:     0.0013, Relative time       501.29
+           C : Num. rec.                  g++ 1K Iter:      0.026, Relative time      9574.61
+           C : Num. rec.               g++ -O 1K Iter:     0.0053, Relative time      1972.84
+           C : Num. rec.              g++ -O1 1K Iter:     0.0053, Relative time      1970.70
+           C : Num. rec.              g++ -O2 1K Iter:     0.0014, Relative time       511.46
+           C : Num. rec.              g++ -O3 1K Iter:     0.0014, Relative time       507.20
+           C : Num. rec.       g++ -O3 native 1K Iter:     0.0013, Relative time       502.35
+           C : Num. rec.    g++-15 -O3 native 1K Iter:     0.0024, Relative time       901.76
+
+Compiler,Ada,Ada : 'Range,Ada : 'Range f32,Ada : f32,APL,APL : rows,Assembler,Assembler : ABI fixed,awk,awk : arrays of arrays,awk : flat,bash,bash : arith,C : Num. rec.,C : raw,C : raw dbl single-add,C : raw double,C : raw restrict,C : raw single-add,C : vectors,C : VLA,C#,C# : float32,C# : SIMD,C++ : Boost,C++ : Boost direct data,C++ : Boost int idx,C++ : Boost no assert,C++ : mdspan,Chapel,Chapel : real(32),Clojure : arrays,Clojure : arrays f32,Clojure : transients,Clojure : vectors,Crystal,Crystal : f32,Crystal : ptr rows,D,D : float,Dart,Dart : flat,Dart : float32,Elixir : array,Elixir : binary,Elixir : binary f32,Elixir : map,Elixir : map rec,F#,F# : float32,F# : while,F# : while float32,Fortran,Fortran : array,Fortran : do concurrent,Fortran : double,Fortran : sections,GDL,GDL : single,GDL : single 2 adds,GDL : vec per-call idx,Go,Go : range,Go : range f32,Haskell,Haskell : f32,Haskell : IOUArray Int,Haskell : Ptr,Haskell : Ptr f32,J,J : float,J : float idx,J : loop,Java,Java : double,Java : Vector API,Javascript,Javascript : f32 round,Javascript : flat,Javascript : flat f32,Javascript : rows,Javascript : typed rows,Julia,Julia : broadcast,Julia : broadcast i32,Julia : double,Kotlin,Kotlin : float32,Lisp,Lisp : f32,Lisp : flat,Lisp : flat f32,Lua,Lua : FFI,Lua : FFI f32,Lua : float,MATLAB,MATLAB : loop (nx,ny),MATLAB : single,MATLAB : single (nx,ny),Mojo,Mojo : flat SIMD,Mojo : flat SIMD f32,Mojo : lists f32,Mojo : rows ptr,Nim,Nim : f32,Nim : flat,Nim : flat f32,Nim : rows ptr,Nim : rows ptr f32,OCaml,OCaml : bigarray f32,OCaml : mapi,OCaml : unrolled,Octave,Octave : loop (nx,ny),Octave : single,Perl,Perl : Inline::C AV,Perl : Inline::C AvARR,Perl : Inline::C f32,Perl : Inline::C packed,Perl : rows,Perl/PDL : arrays,Perl/PDL : arrays f32,Perl/PDL : arrays2,Perl/PDL : arrays2 f32,Perl/PDL : pp,Perl/PDL : pp f32,Perl/PDL : pp prealloc,Perl/PDL : raw,Perl/PDL : raw XS,Perl/PDL : vectors,PHP,PHP : rows,Python : arrays,Python : lists,Python : lists rows,Python : numpy raw,Python : vectors,R : coords,R : env ref,R : outer,R : raw,R : recycle,R : ref class,Raku : hyper,Raku : native,Raku : native nqp,Raku : raw,Raku : raw rows,Raku : shaped,Ruby : Numo,Ruby : Numo f32,Ruby : Numo inpl f32,Ruby : Numo inplace,Ruby : raw,Ruby : while,Rust,Rust : flat,Rust : flat u32 idx,Rust : rows safe,Scheme,Scheme : bytevector f32,Scheme : no trap,Swift,Swift : buffers,Swift : flat,Swift : flat32,Swift : grid,Swift : rows,Tcl : braced,Tcl : lists,Tcl : raw,Zig,Zig : f32,Zig : for
+.NET 8,,,,,,,,,,,,,,,,,,,,,,2249.94,2130.42,2744.52,,,,,,,,,,,,,,,,,,,,,,,,,3063.37,2940.78,2156.58,2104.79,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+.NET 8 AOT,,,,,,,,,,,,,,,,,,,,,,2250.99,2070.70,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+.NET 8 AOT Speed,,,,,,,,,,,,,,,,,,,,,,2225.42,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+bash 5.3,,,,,,,,,,,,34247932.57,23340739.46,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+Bun,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,4889.28,4397.45,3268.51,3584.97,3968.95,2507.90,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+cc -O3,,,,,,,,,,,,,,,,,,,,,530.02,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+chez,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,10559.78,,,,,,,,,,,,,,
+chez opt-level 3,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,2904.45,3797.83,2566.90,,,,,,,,,,,,
+chpl,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,328552.39,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+chpl --fast,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,1105.10,2120.36,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+clang,,,,,,,,,,,,,,10092.21,9988.70,,,,,23385.15,,,,,395550.55,,,376050.09,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+clang (arm64),,,,,,,455.75,467.22,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+clang -O,,,,,,,,,,,,,,1978.52,1991.89,,,,,2003.43,,,,,6110.77,,,2072.78,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+clang -O1,,,,,,,,,,,,,,1919.50,1937.46,,,,,1951.31,,,,,5925.28,,,2441.83,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+clang -O2,,,,,,,,,,,,,,541.59,530.58,,,,,557.35,,,,,5922.01,,,1078.16,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+clang -O3,,,,,,,,,,,,,,529.40,548.44,1207.46,1282.04,,531.14,556.66,,,,,4413.33,,536.95,1091.20,530.84,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+clang -O3 native,,,,,,,,,,,,,,501.29,509.18,,1245.74,543.88,,535.92,,,,,3975.56,532.12,,989.71,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+clojure,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,2018.43,2362.10,97582.57,261577.58,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+Codon,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,5724.18,,2919.90,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+Codon no exceptions,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,1072.06,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+crystal --release,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,1439.85,550.78,1348.54,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+Cython -O3 native,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,1371.92,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+Cython typed,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,1377.06,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+Cython typed f32,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,1001.18,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+Cython typed+checks,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,4628.52,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+Cython untyped,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,872048.05,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+dart compile exe,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,6033.06,4328.42,6472.97,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+dart run,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,2895.22,4474.55,3807.59,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+Deno,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,9920.87,,8187.08,8338.79,5178.09,7993.91,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+dyalog array,,,,,2493.37,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+dyalog loop,,,,,9627698.62,13823.86,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+dyalog rank,,,,,5649.39,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+elixir,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,356333.64,104183.72,96812.71,232421.19,134121.13,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+g++,,,,,,,,,,,,,,9574.61,9423.66,,,,,22691.10,,,,,383254.98,,,364958.90,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+g++ -O,,,,,,,,,,,,,,1972.84,1942.48,,,,,1953.44,,,,,5773.70,,,2035.92,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+g++ -O1,,,,,,,,,,,,,,1970.70,1937.83,,,,,1949.97,,,,,6145.05,,,1961.27,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+g++ -O2,,,,,,,,,,,,,,511.46,508.44,,,,,544.89,,,,,5752.19,,,992.63,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+g++ -O3,,,,,,,,,,,,,,507.20,513.40,,,,,545.24,,,,,4038.10,,,995.60,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+g++ -O3 native,,,,,,,,,,,,,,502.35,506.36,,,,,534.26,,,,,4007.04,,,991.86,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+g++-15 -O3 native,,,,,,,,,,,,,,901.76,903.80,,,,,,,,,,,,,999.42,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+gawk,,,,,,,,,1686129.93,712129.71,715689.66,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+gcc-15 -O3 native,,,,,,,,,,,,,,,,,,,,,905.25,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+gdl loop,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,569192.24,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+gdl serial array,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,1426.20,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+gdl vectorised,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,1556.49,726.93,,11853.13,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+gfortran,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,8607.17,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+gfortran -O,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,2081.95,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+gfortran -O1,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,1978.32,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+gfortran -O2,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,933.54,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+gfortran -O3,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,930.26,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+gfortran -O3 native,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,877.89,5481.32,920.88,1909.58,698.88,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+gfortran -O3 unroll,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,905.97,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+GHC -O2,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,3832.86,3951.84,5892.85,3939.15,3920.25,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+gnatmake -O3,2254.69,2077.47,978.92,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+gnatmake -O3 -gnatp,1967.75,1975.89,979.79,962.15,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+gnatp -mcpu=native,1987.16,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+go,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,2851.00,2153.10,2065.90,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+go -B (no BCE),,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,2474.45,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+GraalPy,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,41809.65,,15486793.46,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+GraalPy float,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,2105.91,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+Java,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,1565.96,1780.41,747.65,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+java -Xint,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,55807.01,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+jconsole,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,3449.18,3295.31,2695.05,1644550.63,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+julia,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,1076.74,1139.72,543.37,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+julia (inbounds),,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,969.09,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+julia (int32),,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,490.87,,,1199.72,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+julia (int32, main),,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,502.76,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+julia -O0,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,35707.61,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+julia -O1,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,19467.93,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+julia -O2,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,1077.38,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+julia -O3,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,1080.43,1143.41,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+kotlinc + JVM,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,1790.33,1555.83,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+ldc2 -O3 -release,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,1262.77,1015.15,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+ldc2 -O3 mcpu=native,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,1093.11,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+lua 5.5,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,78794.44,,,82166.94,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+LuaJIT,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,3128.07,2396.63,2619.75,3199.91,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+matlab loop,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,6609.63,136.47,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+matlab loop 1 thread,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,46.89,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+matlab serial loop,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+matlab vec 1 thread,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+matlab vectorised,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,3822.70,,1.00,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+mawk,,,,,,,,,2561909.42,,365660.48,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+mojo -D ASSERT=none,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,3261.79,,,3107.15,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+mojo build,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,12013.04,1246.30,627.09,,2092.60,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+nim -d:danger,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,1366.76,1005.07,1081.41,992.19,1358.09,1004.74,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+nim -d:danger native,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,1356.68,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+Node.js,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,10219.84,7726.39,4276.39,4659.29,5488.79,4128.12,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+Node.js --no-opt,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,11796.96,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+Node.js baseline,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,111042.74,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+Node.js interpreter,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,171555.36,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+ocamlopt -O3,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,3968.51,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+ocamlopt -unsafe,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,4572.52,19351.60,1597.38,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+octave loop,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,20095022.51,20206778.40,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+octave vectorised,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,25394.11,,24290.05,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+Perl,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,302474.77,33059.14,16976.64,1943.81,1963.83,233554.22,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+Perl/PDL,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,10709.59,10218.64,7435.10,7009.66,2336.20,2057.89,1974.53,3861794.64,2261739.79,28864.06,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+php 8.5,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,99491.85,46656.92,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+php 8.5 JIT,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,21560.54,13291.83,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+php 8.5 JIT function,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,70698.17,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+PyPy3,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,15109.06,5777.81,9648234.00,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+PyPy3 float,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,12197.34,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+Python2,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,17472.71,376256.02,,2638027.12,13293.88,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+Python3,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,7990.91,168989.38,222621.97,860823.96,7067.40,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+Python3 .item(),,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,619625.73,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+Python3 float,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,240719.52,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+Python3 in-place,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,4994.14,,,,4007.23,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+Python3 in-place f32,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,2450.95,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+Python3 JIT,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,187103.53,,891886.63,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+Python3 numba,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,1070.38,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+Python3 numba f32,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,933.66,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+Pythran,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,1062.06,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+Pythran -O3 native,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,1109.21,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+Pythran f32,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,1015.18,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+rakudo,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,1836195.54,2019218.19,148340.52,6208520.24,4544898.22,9399057.40,,,,,,,,,,,,,,,,,,,,,,,,,
+rakudo no spesh,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,12658763.06,180754.01,23821426.18,,,,,,,,,,,,,,,,,,,,,,,,,,,
+Rscript,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,11571.99,323205.10,65757.90,322442.68,39041.88,225723391.75,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+ruby 2.6,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,327403.24,283503.03,,,,,,,,,,,,,,,,,,,
+ruby 3.3,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,10142.46,7456.92,4962.82,6052.69,311453.65,269342.00,,,,,,,,,,,,,,,,,,,
+ruby 3.3 +YJIT,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,9945.06,,,6011.07,118574.78,78011.46,,,,,,,,,,,,,,,,,,,
+Rustc,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,78899.45,,,,,,,,,,,,,,,,,,
+Rustc -O,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,4262.52,,,,,,,,,,,,,,,,,,
+Rustc -O3,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,4110.37,,,,,,,,,,,,,,,,,,
+Rustc -O3 native,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,4117.71,2240.60,436.65,2259.28,,,,,,,,,,,,,,,
+Rustc iterators,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,2464.37,,,,,,,,,,,,,,,,,,
+Rustc unsafe,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,3069.63,,,,,,,,,,,,,,,,,,
+SBCL typed,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,4446.77,4404.20,2486.79,2480.76,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+SBCL untyped,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,69699.13,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+Swiftc,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,1525962.82,,,,,,,,,,,
+Swiftc -O,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,7915.20,1022.60,4180.03,715.48,4137.13,1062.73,,,,,,
+Swiftc -Onone,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,1532555.02,,,,,,,,,,,
+Swiftc -Ounchecked,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,7524.25,1024.40,1013.99,523.01,1008.00,1063.36,,,,,,
+tclsh,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,1599159.54,862036.51,5915156.39,,,
+TruffleRuby,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,4023.88,4007.30,,,,,,,,,,,,,,,,,,,
+wasm Node no-liftoff,,,,,,,,,,,,,,,1983.82,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+wasm Node.js,,,,,,,,,,,,,,,7044.66,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+wasm simd Node nolft,,,,,,,,,,,,,,,896.94,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+wasm simd Node.js,,,,,,,,,,,,,,,4507.41,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+wasm simd wasmtime,,,,,,,,,,,,,,,892.47,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+wasm wasmtime,,,,,,,,,,,,,,,2809.64,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+zig -O ReleaseFast,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,1156.20,995.19,1149.49

@@ -1,0 +1,93 @@
+
+Versions:
+
+Clang     : Apple clang version 17.0.0 (clang-1700.6.4.2)
+Assembler : Apple clang version 17.0.0 (clang-1700.6.4.2)
+Gcc       : Apple clang version 17.0.0 (clang-1700.6.4.2)
+Gfortran  : GNU Fortran (Homebrew GCC 15.2.0_1) 15.2.0
+R         : Rscript (R) version 4.6.0 (2026-04-24)
+Python2   : Python 2.7.15
+Python3   : Python 3.14.6
+Java      : openjdk version "17.0.17" 2025-10-21
+Node.js   : v24.14.1
+Bun       : 1.3.13
+Deno      : deno 2.7.13 (stable, release, aarch64-apple-darwin)
+Ruby      : ruby 3.3.6 (2024-11-05 revision 75015d4c1f) [arm64-darwin24]
+Go        : go version go1.22.0 darwin/arm64
+LuaJIT    : LuaJIT 2.1.1774896198 -- Copyright (C) 2005-2026 Mike Pall. https://luajit.org/
+C#/.NET   : 8.0.420
+Crystal   : Crystal 1.16.3 [3f369d2c7] (2025-05-12)
+OCaml     : 5.4.0
+PyPy      : Python 3.10.14 (75b3de9d9035, Apr 21 2024, 10:55:50)
+Zig       : 0.13.0
+SBCL      : SBCL 2.4.0
+GHC       : The Glorious Glasgow Haskell Compilation System, version 9.10.1
+D (LDC)   : LDC - the LLVM D compiler (1.41.0-beta1):
+Nim       : Nim Compiler Version 2.0.8 [MacOSX: arm64]
+Octave    : GNU Octave (aarch64-apple-darwin24.6.0) version 11.1.0
+Kotlin    : info: kotlinc-jvm 2.3.255-SNAPSHOT (JRE 17.0.17+10)
+J         : j9.6.3/j64arm/darwin/commercial/www.jsoftware.com/2025-04-05T16:34:55/clang-15-0-0/SLEEF=1
+Tcl       : 8.6
+Swift     : Apple Swift version 6.2.4 (swiftlang-6.2.4.1.4 clang-1700.6.4.2)
+Swift     : swift-driver version: 1.127.15 
+Julia     : julia version 1.10.4
+Rust      : rustc 1.95.0 (59807616e 2026-04-14)
+Perl/PDL  : perlDL shell v1.357
+Codon     : 0.20.4
+Cython    : Cython version 3.3.0
+Cython    : Cython version 3.3.0
+Pythran   : 0.19.0
+Mojo      : Mojo 1.2.0 (2016d0cd)
+Raku      : Welcome to Rakudo™ v2026.09.
+GDL       : GDL - GNU Data Language, Version v1.1.2-66-g420c6591
+Clojure   : Clojure CLI version 1.12.6.1673
+Elixir    : Erlang/OTP 29 [erts-17.1.1] [source] [64-bit] [smp:16:16] [ds:16:16:10] [async-threads:1] [jit] [dtrace]
+Chapel    : chpl version 2.10.0
+Lua       : Lua 5.5.0  Copyright (C) 1994-2025 Lua.org, PUC-Rio
+GraalPy   : GraalPy 3.13.14 (GraalVM CE Native 25.4.4.1.1)
+TruffleRb : truffleruby 40.0.0 (2026-09-17), like ruby 4.0.2, GraalVM CE Native [arm64-darwin23]
+wasmtime  : wasmtime 49.0.4 (2c2970205 2026-10-19)
+APL       : Dyalog APL 20.0.53963.0
+Dart      : Dart SDK version: 3.13.7 (stable) (Thu Oct 22 14:28:57 2026 -0700) on "macos_arm64"
+PHP       : PHP 8.5.12 (cli) (built: Oct 19 2026 17:02:46) (NTS)
+Chez      : 10.4.1
+mawk      : mawk 1.3.4 20260302
+gawk      : GNU Awk 5.4.1, API 4.1, PMA Avon 8-g1, (GNU MPFR 4.2.2, GNU MP 6.3.0)
+bash      : GNU bash, version 5.3.20(1)-release (aarch64-apple-darwin24.6.0)
+GNAT      : GNATMAKE 15.3.0
+
+Running through full set of timing tests
+
+Arrays used: 2000 columns, 10 rows
+
+               Assembler        clang (arm64) Rept:  5000000 Elap:       5.41 1K Iter:     0.0011
+                  MATLAB          matlab loop Rept:  1000000 Elap:      23.38 1K Iter:      0.023
+   MATLAB : loop (nx,ny)          matlab loop Rept:   250000 Elap:       3.83 1K Iter:      0.015
+         MATLAB : single          matlab loop Rept:   250000 Elap:       7.48 1K Iter:       0.03
+ MATLAB : single (nx,ny)   matlab serial loop Rept:   250000 Elap:       4.36 1K Iter:      0.017
+                  MATLAB matlab loop 1 thread Rept:   250000 Elap:       5.80 1K Iter:      0.023
+                  MATLAB    matlab vectorised Rept:  2000000 Elap:      28.83 1K Iter:      0.014
+         MATLAB : single    matlab vectorised Rept:   400000 Elap:       5.36 1K Iter:      0.013
+                  MATLAB  matlab vec 1 thread Rept:   400000 Elap:       5.81 1K Iter:      0.015
+Fastest combination is  Assembler and clang (arm64)
+Relative times are against  Assembler and clang (arm64)
+
+Summary of relative speeds:
+
+               Assembler        clang (arm64) 1K Iter:     0.0011, Relative time         1.00
+                  MATLAB          matlab loop 1K Iter:      0.023, Relative time        21.62
+   MATLAB : loop (nx,ny)          matlab loop 1K Iter:      0.015, Relative time        14.18
+         MATLAB : single          matlab loop 1K Iter:       0.03, Relative time        27.66
+ MATLAB : single (nx,ny)   matlab serial loop 1K Iter:      0.017, Relative time        16.11
+                  MATLAB matlab loop 1 thread 1K Iter:      0.023, Relative time        21.45
+                  MATLAB    matlab vectorised 1K Iter:      0.014, Relative time        13.33
+         MATLAB : single    matlab vectorised 1K Iter:      0.013, Relative time        12.38
+                  MATLAB  matlab vec 1 thread 1K Iter:      0.015, Relative time        13.44
+
+Compiler,Assembler,MATLAB,MATLAB : loop (nx,ny),MATLAB : single,MATLAB : single (nx,ny)
+clang (arm64),1.00,,,,
+matlab loop,,21.62,14.18,27.66,
+matlab loop 1 thread,,21.45,,,
+matlab serial loop,,,,,16.11
+matlab vec 1 thread,,13.44,,,
+matlab vectorised,,13.33,,12.38,

@@ -1,0 +1,18 @@
+⍝ csubrank.apls -- Dyalog APL array form with the rank operator (2026).
+⍝ (⍳nx)+⍤1⊢in adds the row-index vector to every row, then (⍳ny)+⍤0 1⊢
+⍝ adds each iy to its own row, so no ny×nx index table is formed (compare
+⍝ csubary.apls, in+(⍳ny)∘.+⍳nx). The input is offset by 0.5 so it stays
+⍝ floating point (see csubraw.apls). Run as
+⍝    dyalogscript csubrank.apls 1000 2000 10
+⎕IO←0
+csub←{in nx ny←⍵ ⋄ (⍳ny)+⍤0 1⊢(⍳nx)+⍤1⊢in}
+args←2⎕NQ#'GetCommandLineArgs'
+(nrpt nx ny)←⍎¨¯3↑(1↓args),(0⌈4-≢args)↑'1000' '2000' '10'
+in←0.5+(nx+ny)-(⍳ny)∘.+⍳nx
+⎕←'Arrays ',(⍕nx),' by ',(⍕ny),' count ',⍕nrpt
+:For r :In ⍳nrpt
+    out←csub in nx ny
+:EndFor
+:If ∨/,out≠in+(⍳ny)∘.+⍳nx
+    ⎕←'Error: result does not match'
+:EndIf

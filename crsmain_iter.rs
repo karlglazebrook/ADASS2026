@@ -112,15 +112,18 @@ fn main() {
          Ok(number) => nrpt = number,
          Err(_error) => println!("Repeats invalid, using {}",nrpt),
       };
+      //  (2026) The arguments are now read as nrpt nx ny, the order Run.py
+      //  passes them in. Until 2026 this read nrpt ny nx, so every Rust
+      //  test, 2019 included, timed 2000 rows of 10 columns.
       if args.len() > 2 {
          match args[2].parse::<usize>() {
-            Ok(number) => ny = number,
-            Err(_error) => println!("Rows invalid, using {}",ny),
+            Ok(number) => nx = number,
+            Err(_error) => println!("Columns invalid, using {}",nx),
          };
          if args.len() > 3 {
             match args[3].parse::<usize>() {
-               Ok(number) => nx = number,
-               Err(_error) => println!("Columns invalid, using {}",nx),
+               Ok(number) => ny = number,
+               Err(_error) => println!("Rows invalid, using {}",ny),
             };
          }
       }

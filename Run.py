@@ -83,6 +83,7 @@ from __future__ import (print_function,division,absolute_import)
 
 import subprocess
 import datetime
+import time
 import sys
 import numpy
 
@@ -189,11 +190,25 @@ def ExecuteCommand (Command) :
 #  command is always run, even if earlier commands fail, but its status
 #  and errors are always ignored in this case.
 
+def InternalTime (Output) :
+
+   #  (2026) The time a test program reports for its own repeat loop, as
+   #  "Internal time <secs> s", or None if it does not report one.
+
+   for Line in Output.split("\n") :
+      if (Line.startswith("Internal time")) :
+         try :
+            return float(Line.split()[2])
+         except (IndexError,ValueError) :
+            return None
+   return None
+
 def BuildAndTimeProgram (
       BuildCommand1,BuildCommand2,ExecCommand,Nrpt,Nx,Ny,CleanupCommand) :
 
    Status = None
    Secs = 0.0
+   InternalSecs = None
    
    #  We need at least two repeats, or we can't subtract off the overheads
    #  associated with starting the test and checking the results.
@@ -220,12 +235,22 @@ def BuildAndTimeProgram (
       #  and end and compute the elapsed time.
       
       Command = "%s %d %d %d" % (ExecCommand,Nrpt,Nx,Ny)
-      
-      Start = datetime.datetime.now()
+
+      #  (2026) Timed with a monotonic clock, and a run counts as failed if
+      #  the program reports an error in its own result check: every test
+      #  program prints "Error" and still exits with status 0. Before 2026
+      #  only the exit status was checked, and the one-repeat run below
+      #  overwrote the status of the timed run.
+
+      Start = time.perf_counter()
       (Status,Output,Errors) = ExecuteCommand(Command)
-      End = datetime.datetime.now()
-      Elapsed = End - Start
-      Secs = Elapsed.total_seconds()
+      Secs = time.perf_counter() - Start
+      if (Status == None and "Error" in Output) :
+         Status = "Result check failed in '" + Command + "'"
+         Errors = Output
+      InternalSecs = InternalTime(Output)
+
+   if (Status == None) :
 
       #  One wrinkle. If Nrpt is very low, say less than 10, it suggests the
       #  code being tested is quite slow, and this means the time to setup and
@@ -236,11 +261,23 @@ def BuildAndTimeProgram (
       #  still have very slow checking code.
 
       Command = "%s %d %d %d" % (ExecCommand,1,Nx,Ny)
-      Start = datetime.datetime.now()
+      Start = time.perf_counter()
       (Status,Output,Errors) = ExecuteCommand(Command)
-      End = datetime.datetime.now()
-      Elapsed = End - Start
-      Secs = (Secs - Elapsed.total_seconds()) * float(Nrpt) / float(Nrpt - 1)
+      Elapsed = time.perf_counter() - Start
+      if (Status == None and "Error" in Output) :
+         Status = "Result check failed in '" + Command + "'"
+         Errors = Output
+
+      #  (2026) A program that times its own repeat loop and prints
+      #  "Internal time <secs> s" is timed by that instead of the wall clock.
+      #  Only the MATLAB tests do this: MATLAB's start-up varies by several
+      #  seconds from one launch to the next, which the wall-clock
+      #  subtraction below cannot remove.
+
+      if (InternalSecs != None and InternalTime(Output) != None) :
+         Secs = InternalSecs
+         Elapsed = InternalTime(Output)
+      Secs = (Secs - Elapsed) * float(Nrpt) / float(Nrpt - 1)
 
    #  If a cleanup command is supplied, we run it no matter what, but only
    #  report its errors if everything else has gone fine so far.
@@ -336,7 +373,7 @@ RawCclangO2 = [
    "c++ -c -O2 csub.cpp -o csub.o",
    "c++ -o cmain -O2 cmain.cpp csub.o",
    "./cmain",
-   1000000,
+   2500000,
    "rm -f cmain csub.o"]
 
 RawCclangO3 = [
@@ -345,7 +382,7 @@ RawCclangO3 = [
    "c++ -c -O3 csub.cpp -o csub.o",
    "c++ -o cmain -O3 cmain.cpp csub.o",
    "./cmain",
-   1000000,
+   2000000,
    "rm -f cmain csub.o"]
 
 RawCclangO3native = [
@@ -390,7 +427,7 @@ RawCgccO2 = [
    "g++ -c -O2 csub.cpp -o csub.o",
    "g++ -o cmain -O2 cmain.cpp csub.o",
    "./cmain",
-   1000000,
+   2800000,
    "rm -f cmain csub.o"]
 
 RawCgccO3 = [
@@ -399,7 +436,7 @@ RawCgccO3 = [
    "g++ -c -O3 csub.cpp -o csub.o",
    "g++ -o cmain -O3 cmain.cpp csub.o",
    "./cmain",
-   1000000,
+   2700000,
    "rm -f cmain csub.o"]
 
 RawCgccO3native = [
@@ -426,7 +463,7 @@ BoostCclangO = [
    "c++ -c -O cbsub.cpp -o cbsub.o",
    "c++ -o cbmain -O cbmain.cpp cbsub.o",
    "./cbmain",
-   100000,
+   230000,
    "rm -f cbmain cbsub.o"]
 
 BoostCclangO1 = [
@@ -435,7 +472,7 @@ BoostCclangO1 = [
    "c++ -c -O1 cbsub.cpp -o cbsub.o",
    "c++ -o cbmain -O1 cbmain.cpp cbsub.o",
    "./cbmain",
-   5000,
+   100000,
    "rm -f cbmain cbsub.o"]
 
 BoostCclangO2 = [
@@ -444,7 +481,7 @@ BoostCclangO2 = [
    "c++ -c -O2 cbsub.cpp -o cbsub.o",
    "c++ -o cbmain -O2 cbmain.cpp cbsub.o",
    "./cbmain",
-   100000,
+   220000,
    "rm -f cbmain cbsub.o"]
 
 BoostCclangO3 = [
@@ -453,7 +490,7 @@ BoostCclangO3 = [
    "c++ -c -O3 cbsub.cpp -o cbsub.o",
    "c++ -o cbmain -O3 cbmain.cpp cbsub.o",
    "./cbmain",
-   100000,
+   290000,
    "rm -f cbmain cbsub.o"]
 
 BoostCclangO3native = [
@@ -462,7 +499,7 @@ BoostCclangO3native = [
    "c++ -c -O3 -march=native cbsub.cpp -o cbsub.o",
    "c++ -o cbmain -O3 -march=native cbmain.cpp cbsub.o",
    "./cbmain",
-   100000,
+   320000,
    "rm -f cbmain cbsub.o"]
 
 BoostCgcc = [
@@ -480,7 +517,7 @@ BoostCgccO = [
    "g++ -c -O cbsub.cpp -o cbsub.o",
    "g++ -o cbmain -O cbmain.cpp cbsub.o",
    "./cbmain",
-   100000,
+   250000,
    "rm -f cbmain cbsub.o"]
 
 BoostCgccO1 = [
@@ -489,7 +526,7 @@ BoostCgccO1 = [
    "g++ -c -O1 cbsub.cpp -o cbsub.o",
    "g++ -o cbmain -O1 cbmain.cpp cbsub.o",
    "./cbmain",
-   3000,
+   70000,
    "rm -f cbmain cbsub.o"]
 
 BoostCgccO2 = [
@@ -498,7 +535,7 @@ BoostCgccO2 = [
    "g++ -c -O2 cbsub.cpp -o cbsub.o",
    "g++ -o cbmain -O2 cbmain.cpp cbsub.o",
    "./cbmain",
-   100000,
+   240000,
    "rm -f cbmain cbsub.o"]
 
 BoostCgccO3 = [
@@ -507,7 +544,7 @@ BoostCgccO3 = [
    "g++ -c -O3 cbsub.cpp -o cbsub.o",
    "g++ -o cbmain -O3 cbmain.cpp cbsub.o",
    "./cbmain",
-   100000,
+   340000,
    "rm -f cbmain cbsub.o"]
 
 BoostCgccO3native = [
@@ -516,7 +553,7 @@ BoostCgccO3native = [
    "g++ -c -O3 -march=native cbsub.cpp -o cbsub.o",
    "g++ -o cbmain -O3 -march=native cbmain.cpp cbsub.o",
    "./cbmain",
-   100000,
+   330000,
    "rm -f cbmain cbsub.o"]
 
 BoostCclangNoAssert = [
@@ -534,7 +571,7 @@ BoostCclangONoAssert = [
    "c++ -c -O -DBOOST_DISABLE_ASSERTS cbsub.cpp -o cbsub.o",
    "c++ -o cbmain -O -DBOOST_DISABLE_ASSERTS cbmain.cpp cbsub.o",
    "./cbmain",
-   100000,
+   520000,
    "rm -f cbmain cbsub.o"]
 
 BoostCclangO1NoAssert = [
@@ -543,7 +580,7 @@ BoostCclangO1NoAssert = [
    "c++ -c -O1 -DBOOST_DISABLE_ASSERTS cbsub.cpp -o cbsub.o",
    "c++ -o cbmain -O1 -DBOOST_DISABLE_ASSERTS cbmain.cpp cbsub.o",
    "./cbmain",
-   3000,
+   85000,
    "rm -f cbmain cbsub.o"]
 
 BoostCclangO2NoAssert = [
@@ -552,7 +589,7 @@ BoostCclangO2NoAssert = [
    "c++ -c -O2 -DBOOST_DISABLE_ASSERTS cbsub.cpp -o cbsub.o",
    "c++ -o cbmain -O2 -DBOOST_DISABLE_ASSERTS cbmain.cpp cbsub.o",
    "./cbmain",
-   100000,
+   770000,
    "rm -f cbmain cbsub.o"]
 
 BoostCclangO3NoAssert = [
@@ -561,7 +598,7 @@ BoostCclangO3NoAssert = [
    "c++ -c -O3 -DBOOST_DISABLE_ASSERTS cbsub.cpp -o cbsub.o",
    "c++ -o cbmain -O3 -DBOOST_DISABLE_ASSERTS cbmain.cpp cbsub.o",
    "./cbmain",
-   100000,
+   740000,
    "rm -f cbmain cbsub.o"]
 
 BoostCclangO3nativeNoAssert = [
@@ -570,7 +607,7 @@ BoostCclangO3nativeNoAssert = [
    "c++ -c -O3 -march=native -DBOOST_DISABLE_ASSERTS cbsub.cpp -o cbsub.o",
    "c++ -o cbmain -O3 -march=native -DBOOST_DISABLE_ASSERTS cbmain.cpp cbsub.o",
    "./cbmain",
-   100000,
+   1050000,
    "rm -f cbmain cbsub.o"]
 
 BoostCgccNoAssert = [
@@ -588,7 +625,7 @@ BoostCgccONoAssert = [
    "g++ -c -O -DBOOST_DISABLE_ASSERTS cbsub.cpp -o cbsub.o",
    "g++ -o cbmain -O -DBOOST_DISABLE_ASSERTS cbmain.cpp cbsub.o",
    "./cbmain",
-   100000,
+   370000,
    "rm -f cbmain cbsub.o"]
 
 BoostCgccO1NoAssert = [
@@ -597,7 +634,7 @@ BoostCgccO1NoAssert = [
    "g++ -c -O1 -DBOOST_DISABLE_ASSERTS cbsub.cpp -o cbsub.o",
    "g++ -o cbmain -O1 -DBOOST_DISABLE_ASSERTS cbmain.cpp cbsub.o",
    "./cbmain",
-   100000,
+   625000,
    "rm -f cbmain cbsub.o"]
 
 BoostCgccO2NoAssert = [
@@ -606,7 +643,7 @@ BoostCgccO2NoAssert = [
    "g++ -c -O2 -DBOOST_DISABLE_ASSERTS cbsub.cpp -o cbsub.o",
    "g++ -o cbmain -O2 -DBOOST_DISABLE_ASSERTS cbmain.cpp cbsub.o",
    "./cbmain",
-   100000,
+   1000000,
    "rm -f cbmain cbsub.o"]
 
 BoostCgccO3NoAssert = [
@@ -615,7 +652,7 @@ BoostCgccO3NoAssert = [
    "g++ -c -O3 -DBOOST_DISABLE_ASSERTS cbsub.cpp -o cbsub.o",
    "g++ -o cbmain -O3 -DBOOST_DISABLE_ASSERTS cbmain.cpp cbsub.o",
    "./cbmain",
-   100000,
+   1000000,
    "rm -f cbmain cbsub.o"]
 
 BoostCgccO3nativeNoAssert = [
@@ -624,7 +661,7 @@ BoostCgccO3nativeNoAssert = [
    "g++ -c -O3 -march=native -DBOOST_DISABLE_ASSERTS cbsub.cpp -o cbsub.o",
    "g++ -o cbmain -O3 -march=native -DBOOST_DISABLE_ASSERTS cbmain.cpp cbsub.o",
    "./cbmain",
-   100000,
+   1050000,
    "rm -f cbmain cbsub.o"]
 
 CNumRclang = [
@@ -660,7 +697,7 @@ CNumRclangO2 = [
    "c++ -c -O2 cnrsub.cpp -o cnrsub.o",
    "c++ -o cnrmain -O2 cnrmain.cpp cnrsub.o",
    "./cnrmain",
-   1000000,
+   2500000,
    "rm -f cnrmain cnrsub.o"]
 
 CNumRclangO3 = [
@@ -669,7 +706,7 @@ CNumRclangO3 = [
    "c++ -c -O3 cnrsub.cpp -o cnrsub.o",
    "c++ -o cnrmain -O3 cnrmain.cpp cnrsub.o",
    "./cnrmain",
-   1000000,
+   2500000,
    "rm -f cnrmain cnrsub.o"]
 
 CNumRclangO3native = [
@@ -714,7 +751,7 @@ CNumRgccO2 = [
    "g++ -c -O2 cnrsub.cpp -o cnrsub.o",
    "g++ -o cnrmain -O2 cnrmain.cpp cnrsub.o",
    "./cnrmain",
-   1000000,
+   2700000,
    "rm -f cnrmain cnrsub.o"]
 
 CNumRgccO3 = [
@@ -723,7 +760,7 @@ CNumRgccO3 = [
    "g++ -c -O3 cnrsub.cpp -o cnrsub.o",
    "g++ -o cnrmain -O3 cnrmain.cpp cnrsub.o",
    "./cnrmain",
-   1000000,
+   2800000,
    "rm -f cnrmain cnrsub.o"]
 
 CNumRgccO3native = [
@@ -768,7 +805,7 @@ VecCclangO2 = [
    "c++ -c -O2 cvsub.cpp -o cvsub.o",
    "c++ -o cvmain -O2 cvmain.cpp cvsub.o",
    "./cvmain",
-   1000000,
+   2400000,
    "rm -f cvmain cvsub.o"]
 
 VecCclangO3 = [
@@ -777,7 +814,7 @@ VecCclangO3 = [
    "c++ -c -O3 cvsub.cpp -o cvsub.o",
    "c++ -o cvmain -O3 cvmain.cpp cvsub.o",
    "./cvmain",
-   1000000,
+   2400000,
    "rm -f cvmain cvsub.o"]
 
 VecCclangO3native = [
@@ -822,7 +859,7 @@ VecCgccO2 = [
    "g++ -c -O2 cvsub.cpp -o cvsub.o",
    "g++ -o cvmain -O2 cvmain.cpp cvsub.o",
    "./cvmain",
-   1000000,
+   2600000,
    "rm -f cvmain cvsub.o"]
 
 VecCgccO3 = [
@@ -831,7 +868,7 @@ VecCgccO3 = [
    "g++ -c -O3 cvsub.cpp -o cvsub.o",
    "g++ -o cvmain -O3 cvmain.cpp cvsub.o",
    "./cvmain",
-   1000000,
+   2600000,
    "rm -f cvmain cvsub.o"]
 
 VecCgccO3native = [
@@ -849,7 +886,7 @@ Fortran = [
    "gfortran -c -o cfsub.o cfsub.f",
    "gfortran -o cfmain cfmain.f cfsub.o",
    "./cfmain",
-   100000,
+   160000,
    "rm -f cfmain cfsub.o"]
 
 FortranO = [
@@ -876,7 +913,7 @@ FortranO2 = [
    "gfortran -c -o cfsub.o -O2 cfsub.f",
    "gfortran -o cfmain -O2 cfmain.f cfsub.o",
    "./cfmain",
-   500000,
+   1500000,
    "rm -f cfmain cfsub.o"]
 
 FortranO3 = [
@@ -885,7 +922,7 @@ FortranO3 = [
    "gfortran -c -o cfsub.o -O3 cfsub.f",
    "gfortran -o cfmain -O3 cfmain.f cfsub.o",
    "./cfmain",
-   500000,
+   1500000,
    "rm -f cfmain cfsub.o"]
 
 FortranO3native = [
@@ -930,7 +967,7 @@ Julia = [
    "",
    "",
    "julia csub.jl",
-   500000,
+   1500000,
    ""]
 
 JuliaO0 = [
@@ -957,7 +994,7 @@ JuliaO2 = [
    "",
    "",
    "julia -O2 csub.jl",
-   200000,
+   1500000,
    ""]
 
 JuliaO3 = [
@@ -966,7 +1003,7 @@ JuliaO3 = [
    "",
    "",
    "julia -O3 csub.jl",
-   200000,
+   1500000,
    ""]
 
 JuliaInt32 = [
@@ -993,7 +1030,7 @@ Rref = [
    "",
    "",
    "Rscript csubref.r",
-   3,
+   7,
    ""]
 
 Router = [
@@ -1011,7 +1048,7 @@ Perl = [
    "",
    "",
    "perl csubraw.pl",
-   1000,
+   5000,
    ""]
 
 #  PDL "raw" per-element access.  csubpdl.pl now uses ->at and ->set
@@ -1034,7 +1071,7 @@ PerlPDLvec = [
    "",
    "",
    "perl csubpdlvec.pl",
-   30000,
+   50000,
    ""]
 
 PerlPDLary = [
@@ -1043,7 +1080,7 @@ PerlPDLary = [
    "",
    "",
    "perl csubpdlary.pl",
-   100000,
+   140000,
    ""]
 
 #  Perl/PDL using Inline::Pdlpp — compiles a small C kernel via PDL::PP the
@@ -1065,7 +1102,7 @@ Python2 = [
    "",
    "",
    "python csubraw.py",
-   1000,
+   3000,
    ""]
 
 Python2np = [
@@ -1074,7 +1111,7 @@ Python2np = [
    "",
    "",
    "python csubnp.py",
-   200,
+   600,
    ""]
 
 Python2vec = [
@@ -1083,7 +1120,7 @@ Python2vec = [
    "",
    "",
    "python csubnpv.py",
-   50000,
+   110000,
    ""]
 
 Python2ary = [
@@ -1092,7 +1129,7 @@ Python2ary = [
    "",
    "",
    "python csubnpna.py",
-   50000,
+   90000,
    ""]
 
 Python3 = [
@@ -1101,7 +1138,7 @@ Python3 = [
    "",
    "",
    "python3 csubraw.py",
-   1000,
+   9000,
    ""]
 
 Python3np = [
@@ -1110,7 +1147,7 @@ Python3np = [
    "",
    "",
    "python3 csubnp.py",
-   200,
+   1500,
    ""]
 
 Python3vec = [
@@ -1119,7 +1156,7 @@ Python3vec = [
    "",
    "",
    "python3 csubnpv.py",
-   50000,
+   200000,
    ""]
 
 Python3ary = [
@@ -1128,7 +1165,7 @@ Python3ary = [
    "",
    "",
    "python3 csubnpna.py",
-   50000,
+   180000,
    ""]
 
 Python3npNumba = [
@@ -1137,7 +1174,7 @@ Python3npNumba = [
    "",
    "",
    "python3 csubnp-numba.py",
-   500000,
+   1400000,
    ""]
 
 Rust = [
@@ -1146,7 +1183,7 @@ Rust = [
    "rustc crsmain.rs ",
    "",
    "./crsmain",
-   1000,
+   8000,
    "rm -f crsmain"]
 
 RustO = [
@@ -1155,7 +1192,7 @@ RustO = [
    "rustc -O crsmain.rs ",
    "",
    "./crsmain",
-   100000,
+   300000,
    "rm -f crsmain"]
 
 RustO3 = [
@@ -1164,7 +1201,7 @@ RustO3 = [
    "rustc -C opt-level=3 crsmain.rs ",
    "",
    "./crsmain",
-   100000,
+   300000,
    "rm -f crsmain"]
 
 RustO3native = [
@@ -1173,7 +1210,7 @@ RustO3native = [
    "rustc -C target-cpu=native -C opt-level=3 crsmain.rs ",
    "",
    "./crsmain",
-   100000,
+   300000,
    "rm -f crsmain"]
 
 RustO3nativeIter = [
@@ -1182,7 +1219,7 @@ RustO3nativeIter = [
    "rustc -C target-cpu=native -C opt-level=3 crsmain_iter.rs ",
    "",
    "./crsmain_iter",
-   100000,
+   500000,
    "rm -f crsmain_iter"]
 
 RustO3nativeUnsafe = [
@@ -1191,7 +1228,7 @@ RustO3nativeUnsafe = [
    "rustc -C target-cpu=native -C opt-level=3 crsmain_unsafe.rs ",
    "",
    "./crsmain_unsafe",
-   300000,
+   450000,
    "rm -f crsmain_unsafe"]
 
 Javascript = [
@@ -1209,7 +1246,7 @@ JavascriptNoopt = [
    "",
    "",
    "node --no-opt cjstest.js",
-   6000,
+   125000,
    ""]
 
 JavascriptBun = [
@@ -1263,7 +1300,7 @@ RubyNumo = [
    "",
    "",
    "ruby csubnumo.rb",
-   100000,
+   150000,
    ""]
 
 RubyNumoYJIT = [
@@ -1272,7 +1309,7 @@ RubyNumoYJIT = [
    "",
    "",
    "ruby --yjit csubnumo.rb",
-   100000,
+   150000,
    ""]
 
 #  Go.  Build to a temporary binary, run, clean up.  Default build flags
@@ -1376,7 +1413,7 @@ SBCLUntyped = [
    "",
    "",
    "sbcl --script csubraw.lisp",
-   5000,
+   20000,
    ""]
 
 #  SBCL Common Lisp — typed variant with full (declare (type ...))
@@ -1468,7 +1505,7 @@ OctaveVec = [
    "",
    "",
    "octave-cli --no-gui --norc -q csubvec.m",
-   10000,
+   60000,
    ""]
 
 #  Kotlin -- JVM language.  `kotlinc` here resolves to the shim in
@@ -1698,7 +1735,7 @@ RakuHyper = [
    "",
    "",
    "raku csubhyp.raku",
-   600,
+   800,
    ""]
 
 #  More languages, 2026 (second batch).  MATLAB runs csubraw.m and
@@ -2150,55 +2187,1766 @@ SwiftGridOunchecked = [
    2000000,
    "rm -f /tmp/cstestgrid"]
 
+#  ------------------------------------------------------------------------------
+#  2026 idiom review. Variants implemented from two independent expert reviews
+#  of the kernels (review/recommendations-fable.md and recommendations-chatgpt.md,
+#  outside this repo), one group of languages per file in review/impl/. Each test
+#  is paired with the existing test it improves on (review/impl/pairs.json).
+
+#  --- from 01-c-family.py ---
+
+#  NEON kernel with v8-v11 (callee-saved) renamed to v26-v29; otherwise identical
+AssemblerABI = [
+   "Assembler : ABI fixed",
+   "clang (arm64)",
+   "c++ -c -o /tmp/cnrsub_arm_abi.o cnrsub_arm_abi.s",
+   "c++ -o /tmp/assmain_abi -O cnrmain.cpp /tmp/cnrsub_arm_abi.o",
+   "/tmp/assmain_abi",
+   4000000,
+   "rm -f /tmp/assmain_abi /tmp/cnrsub_arm_abi.o"]
+
+#  node --no-liftoff: skip the baseline wasm tier
+WasmNodeNoLiftoff = [
+   "C : raw",
+   "wasm Node no-liftoff",
+   "zig cc -target wasm32-wasi -O3 -fno-exceptions -x c++ cmain.cpp csub.cpp -o /tmp/csub_nl.wasm",
+   "",
+   "node --no-liftoff wasirun.mjs /tmp/csub_nl.wasm",
+   250000,
+   "rm -f /tmp/csub_nl.wasm"]
+
+#  node --no-liftoff --experimental-wasm-simd-opt for the SIMD build
+WasmNodeSimdNoLiftoff = [
+   "C : raw",
+   "wasm simd Node nolft",
+   "zig cc -target wasm32-wasi -O3 -msimd128 -fno-exceptions -x c++ cmain.cpp csub.cpp -o /tmp/csub_simd_nl.wasm",
+   "",
+   "node --no-liftoff --experimental-wasm-simd-opt wasirun.mjs /tmp/csub_simd_nl.wasm",
+   400000,
+   "rm -f /tmp/csub_simd_nl.wasm"]
+
+#  float64 twin of the single-add kernel
+RawCdsingleO3 = [
+   "C : raw dbl single-add",
+   "clang -O3",
+   "c++ -c -O3 csubsd.cpp -o /tmp/csubsd.o",
+   "c++ -o /tmp/cmainsd -O3 cmaind.cpp /tmp/csubsd.o",
+   "/tmp/cmainsd",
+   1200000,
+   "rm -f /tmp/cmainsd /tmp/csubsd.o"]
+
+#  in + float(Ix+Iy): one conversion and one float add per element, as the assembler does
+RawCsingleO3 = [
+   "C : raw single-add",
+   "clang -O3",
+   "c++ -c -O3 csubs.cpp -o /tmp/csubs.o",
+   "c++ -o /tmp/cmains -O3 cmain.cpp /tmp/csubs.o",
+   "/tmp/cmains",
+   3000000,
+   "rm -f /tmp/cmains /tmp/csubs.o"]
+
+#  __restrict__ row pointers, Keith's two rounded adds kept
+RawCrestrictO3native = [
+   "C : raw restrict",
+   "clang -O3 native",
+   "c++ -O3 -march=native -c csubrestrict.cpp -o /tmp/csubrestrict.o",
+   "c++ -O3 -march=native cmain.cpp /tmp/csubrestrict.o -o /tmp/cmainrestrict",
+   "/tmp/cmainrestrict",
+   3000000,
+   "rm -f /tmp/csubrestrict.o /tmp/cmainrestrict"]
+
+#  genuine C: C99 VLA parameters, Out[Iy][Ix] in the subroutine, built with cc
+RawCvlaO3 = [
+   "C : VLA",
+   "cc -O3",
+   "cc -std=c11 -c -O3 csub_vla.c -o /tmp/csub_vla.o",
+   "cc -std=c11 -O3 -o /tmp/cmain_c cmain_c.c /tmp/csub_vla.o",
+   "/tmp/cmain_c",
+   3000000,
+   "rm -f /tmp/cmain_c /tmp/csub_vla.o"]
+
+#  the same C99 kernel under real GCC 15 with -march=native
+RawCvlaGcc15O3native = [
+   "C : VLA",
+   "gcc-15 -O3 native",
+   "/opt/homebrew/bin/gcc-15 -std=c11 -c -O3 -march=native csub_vla.c -o /tmp/csub_vla_g.o",
+   "/opt/homebrew/bin/gcc-15 -std=c11 -O3 -march=native -o /tmp/cmain_c_g cmain_c.c /tmp/csub_vla_g.o",
+   "/tmp/cmain_c_g",
+   3000000,
+   "rm -f /tmp/cmain_c_g /tmp/csub_vla_g.o"]
+
+#  real GCC 15 instead of /usr/bin/g++ (which is Apple clang)
+RawCgcc15O3native = [
+   "C : raw",
+   "g++-15 -O3 native",
+   "/opt/homebrew/bin/g++-15 -c -O3 -march=native csub.cpp -o /tmp/csub_g15.o",
+   "/opt/homebrew/bin/g++-15 -o /tmp/cmain_g15 -O3 -march=native cmain.cpp /tmp/csub_g15.o",
+   "/tmp/cmain_g15",
+   3000000,
+   "rm -f /tmp/cmain_g15 /tmp/csub_g15.o"]
+
+#  real GCC 15 for the Boost kernel
+BoostCgcc15O3nativeNoAssert = [
+   "C++ : Boost no assert",
+   "g++-15 -O3 native",
+   "/opt/homebrew/bin/g++-15 -c -O3 -march=native -DBOOST_DISABLE_ASSERTS cbsub.cpp -o /tmp/cbsub_g15.o",
+   "/opt/homebrew/bin/g++-15 -o /tmp/cbmain_g15 -O3 -march=native -DBOOST_DISABLE_ASSERTS cbmain.cpp /tmp/cbsub_g15.o",
+   "/tmp/cbmain_g15",
+   1000000,
+   "rm -f /tmp/cbmain_g15 /tmp/cbsub_g15.o"]
+
+#  int loop counters instead of multi_array::index (ptrdiff_t); -DNDEBUG
+BoostCintO3NoAssert = [
+   "C++ : Boost int idx",
+   "clang -O3",
+   "c++ -c -O3 -DNDEBUG cbsubi.cpp -o /tmp/cbsubi.o",
+   "c++ -o /tmp/cbmaini -O3 -DNDEBUG cbmain.cpp /tmp/cbsubi.o",
+   "/tmp/cbmaini",
+   3000000,
+   "rm -f /tmp/cbmaini /tmp/cbsubi.o"]
+
+#  scan multi_array storage through .data() instead of [][] proxies
+BoostCdataO3native = [
+   "C++ : Boost direct data",
+   "clang -O3 native",
+   "c++ -O3 -march=native -c cbsubdata.cpp -o /tmp/cbsubdata.o",
+   "c++ -O3 -march=native cbmain.cpp /tmp/cbsubdata.o -o /tmp/cbmaindata",
+   "/tmp/cbmaindata",
+   3000000,
+   "rm -f /tmp/cbsubdata.o /tmp/cbmaindata"]
+
+#  C++23 std::mdspan 2D view instead of Boost.MultiArray
+CppMdspanO3 = [
+   "C++ : mdspan",
+   "clang -O3",
+   "c++ -std=c++23 -c -O3 cmdsub.cpp -o /tmp/cmdsub.o",
+   "c++ -std=c++23 -o /tmp/cmdmain -O3 cmdmain.cpp /tmp/cmdsub.o",
+   "/tmp/cmdmain",
+   3000000,
+   "rm -f /tmp/cmdmain /tmp/cmdsub.o"]
+
+#  real GCC 15 for the row-pointer kernel
+CNumRgcc15O3native = [
+   "C : Num. rec.",
+   "g++-15 -O3 native",
+   "/opt/homebrew/bin/g++-15 -c -O3 -march=native cnrsub.cpp -o /tmp/cnrsub_g15.o",
+   "/opt/homebrew/bin/g++-15 -o /tmp/cnrmain_g15 -O3 -march=native cnrmain.cpp /tmp/cnrsub_g15.o",
+   "/tmp/cnrmain_g15",
+   3000000,
+   "rm -f /tmp/cnrmain_g15 /tmp/cnrsub_g15.o"]
+
+#  --- from 02-python.py ---
+
+#  lists filled with floats instead of Python ints
+Python3FloatLists = [
+   "Python : lists",
+   "Python3 float",
+   "",
+   "",
+   "python3 csubrawf.py",
+   6000,
+   ""]
+
+#  row lists bound once per row, enumerate() inner loop
+Python3Rows = [
+   "Python : lists rows",
+   "Python3",
+   "",
+   "",
+   "python3 csubraw_rows.py",
+   6500,
+   ""]
+
+#  ndarray.item() reads return Python floats, not numpy scalars
+Python3npItem = [
+   "Python : numpy raw",
+   "Python3 .item()",
+   "",
+   "",
+   "python3 csubnpitem.py",
+   2300,
+   ""]
+
+#  float index vector, numpy.add(out=row), in-place += (drops the 0-d numpy.array(nx) oddity)
+Python3vec2 = [
+   "Python : vectors",
+   "Python3 in-place",
+   "",
+   "",
+   "python3 csubnpv2.py",
+   350000,
+   ""]
+
+#  whole-array in place: numpy.add(out=out) then +=, float index vectors, no temporaries
+Python3ary2 = [
+   "Python : arrays",
+   "Python3 in-place",
+   "",
+   "",
+   "python3 csubnpna2.py",
+   300000,
+   ""]
+
+#  the in-place whole-array form in float32
+Python3ary32 = [
+   "Python : arrays",
+   "Python3 in-place f32",
+   "",
+   "",
+   "python3 csubnpna32.py",
+   550000,
+   ""]
+
+#  numba kernel on float32 arrays with a float32 index cast
+Python3npNumba32 = [
+   "Python : numpy raw",
+   "Python3 numba f32",
+   "",
+   "",
+   "python3 csubnp-numba32.py",
+   1600000,
+   ""]
+
+#  lists filled with floats instead of Python ints
+PyPyFloatLists = [
+   "Python : lists",
+   "PyPy3 float",
+   "",
+   "",
+   "pypy3 csubrawf.py",
+   120000,
+   ""]
+
+#  row lists bound once per row, enumerate() inner loop
+PyPyRows = [
+   "Python : lists rows",
+   "PyPy3",
+   "",
+   "",
+   "pypy3 csubraw_rows.py",
+   250000,
+   ""]
+
+#  lists filled with floats instead of Python ints
+GraalPyFloatLists = [
+   "Python : lists",
+   "GraalPy float",
+   "",
+   "",
+   "graalpy csubrawf.py",
+   300000,
+   ""]
+
+#  Keith's csubnp.py compiled by Codon with its native numpy (bounds-checked ndarray indexing)
+CodonNumpy = [
+   "Python : numpy raw",
+   "Codon",
+   "codon-pybuild-np csubnp.py /tmp/csub_codon_np",
+   "",
+   "/tmp/csub_codon_np",
+   550000,
+   "rm -f /tmp/csub_codon_np"]
+
+#  the Codon numpy build with --disable-exceptions (no IndexError paths; inner loop vectorises); baseline is itself new, CodonLists is the existing reference
+CodonNumpyNoExc = [
+   "Python : numpy raw",
+   "Codon no exceptions",
+   "codon-pybuild-np csubnp.py /tmp/csub_codon_npne --disable-exceptions",
+   "",
+   "/tmp/csub_codon_npne",
+   1500000,
+   "rm -f /tmp/csub_codon_npne"]
+
+#  same kernel compiled -O3 -mcpu=native instead of inherited -O2
+CythonNative = [
+   "Python : numpy raw",
+   "Cython -O3 native",
+   "pyext-python -m Cython.Build.Cythonize -i -3 csubcy_native.pyx",
+   "",
+   "pyext-python csubext.py csubcy_native",
+   1100000,
+   "rm -rf csubcy_native.c csubcy_native.cpython-314-darwin.so build"]
+
+#  float memoryviews and Py_ssize_t indices; same unchecked kernel
+CythonF32 = [
+   "Python : numpy raw",
+   "Cython typed f32",
+   "pyext-python -m Cython.Build.Cythonize -i -3 csubcy_f32.pyx",
+   "",
+   "pyext-python csubext32.py csubcy_f32",
+   1500000,
+   "rm -rf csubcy_f32.c csubcy_f32.cpython-314-darwin.so build"]
+
+#  same kernel built with -O3 -mcpu=native
+PythranNative = [
+   "Python : numpy raw",
+   "Pythran -O3 native",
+   "pyext-python -m pythran.run -O3 -mcpu=native csubptn.py",
+   "",
+   "pyext-python csubext.py csubptn",
+   1400000,
+   "rm -f csubptn.cpython-314-darwin.so"]
+
+#  float32 export with a float32 index cast
+PythranF32 = [
+   "Python : numpy raw",
+   "Pythran f32",
+   "pyext-python -m pythran.run -O3 csubpt32.py",
+   "",
+   "pyext-python csubext32.py csubpt32",
+   1500000,
+   "rm -f csubpt32.cpython-314-darwin.so"]
+
+#  --- from 03-array-languages.py ---
+
+#  same cfsub.f; -funroll-loops gives an 8-vector NEON loop body instead of one vector per iteration
+FortranUnroll = [
+   "Fortran",
+   "gfortran -O3 unroll",
+   "gfortran -c -o /tmp/cfsub_unroll.o -O3 -march=native -funroll-loops cfsub.f",
+   "gfortran -o /tmp/cfmain_unroll -O3 -march=native -funroll-loops cfmain.f /tmp/cfsub_unroll.o",
+   "/tmp/cfmain_unroll",
+   2500000,
+   "rm -f /tmp/cfmain_unroll /tmp/cfsub_unroll.o"]
+
+#  F90 array sections one column at a time, no spread() temporaries; the Fortran whole-array idiom an expert would write
+FortranCol = [
+   "Fortran : sections",
+   "gfortran -O3 native",
+   "gfortran -c -o /tmp/cfsubcol.o -O3 -march=native cfsubcol.f90",
+   "gfortran -o /tmp/cfmain_col -O3 -march=native cfmain.f /tmp/cfsubcol.o",
+   "/tmp/cfmain_col",
+   1500000,
+   "rm -f /tmp/cfmain_col /tmp/cfsubcol.o"]
+
+#  double precision twin of Keith's float32 cfsub.f/cfmain.f, for comparison with the float64 ports
+FortranDouble = [
+   "Fortran : double",
+   "gfortran -O3 native",
+   "gfortran -c -o /tmp/cfsubd.o -O3 -march=native cfsubd.f",
+   "gfortran -o /tmp/cfmaind -O3 -march=native cfmaind.f /tmp/cfsubd.o",
+   "/tmp/cfmaind",
+   1200000,
+   "rm -f /tmp/cfmaind /tmp/cfsubd.o"]
+
+#  output in an environment, filled in place and written back once per call; csubref.r copies the whole matrix per element store
+REnv = [
+   "R : env ref",
+   "Rscript",
+   "",
+   "",
+   "Rscript csubenv.r",
+   4000,
+   ""]
+
+#  column-major recycling plus rep(each=) instead of outer(); index work still done per call
+RRecyc = [
+   "R : recycle",
+   "Rscript",
+   "",
+   "",
+   "Rscript csubrecyc.r",
+   35000,
+   ""]
+
+#  ChatGPT: zero-based coordinate vectors hoisted, two input-dependent adds per call (MATLAB/Octave convention)
+RCoords = [
+   "R : coords",
+   "Rscript",
+   "",
+   "",
+   "Rscript csubcoords.r",
+   100000,
+   ""]
+
+#  (nx,ny) layout so the inner loop is unit-stride, as in the other column-major ports
+MatlabLoopC = [
+   "MATLAB : loop (nx,ny)",
+   "matlab loop",
+   "",
+   "",
+   "matlab-run csubrawc_ml",
+   250000,
+   ""]
+
+#  single-precision twin of csubraw_ml.m
+MatlabLoopS = [
+   "MATLAB : single",
+   "matlab loop",
+   "",
+   "",
+   "matlab-run csubraws_ml",
+   250000,
+   ""]
+
+#  ChatGPT: (nx,ny) layout, single arrays, zero-based single coordinates, maxNumCompThreads(1) inside the function
+MatlabSingle = [
+   "MATLAB : single (nx,ny)",
+   "matlab serial loop",
+   "",
+   "",
+   "matlab-run csubsingle_ml",
+   250000,
+   ""]
+
+#  same csubraw_ml.m started with matlab -singleCompThread (new wrapper bin/matlab-run-1t)
+MatlabLoop1t = [
+   "MATLAB",
+   "matlab loop 1 thread",
+   "",
+   "",
+   "matlab-run-1t csubraw_ml",
+   250000,
+   ""]
+
+#  single-precision twin of csubvec_ml.m
+MatlabVecS = [
+   "MATLAB : single",
+   "matlab vectorised",
+   "",
+   "",
+   "matlab-run csubvecs_ml",
+   400000,
+   ""]
+
+#  same csubvec_ml.m started with matlab -singleCompThread (new wrapper bin/matlab-run-1t)
+MatlabVec1t = [
+   "MATLAB",
+   "matlab vec 1 thread",
+   "",
+   "",
+   "matlab-run-1t csubvec_ml",
+   400000,
+   ""]
+
+#  index arrays built on every call (lindgen mod/div); csubvec_gdl.pro precomputes the whole ix+iy matrix so only one add is timed
+GDLVec2 = [
+   "GDL : vec per-call idx",
+   "gdl vectorised",
+   "",
+   "",
+   "gdl-run csubvec2_gdl",
+   120000,
+   ""]
+
+#  single-precision twin of csubvec_gdl.pro (same precomputed index matrix)
+GDLVecF = [
+   "GDL : single",
+   "gdl vectorised",
+   "",
+   "",
+   "gdl-run csubvecf_gdl",
+   1200000,
+   ""]
+
+#  ChatGPT: single precision, two separate precomputed coordinate planes, (ina+xx)+yy per call, cpu tpool_nthreads=1
+GDLSingle = [
+   "GDL : single 2 adds",
+   "gdl serial array",
+   "",
+   "",
+   "gdl-run csubsingle_gdl",
+   500000,
+   ""]
+
+#  Keith's csub.jl with @inbounds only (Int64 counters), to separate bounds checks from the int32 effect in csubint32nb.jl
+JuliaNB = [
+   "Julia",
+   "julia (inbounds)",
+   "",
+   "",
+   "julia -O3 csubnb.jl",
+   1500000,
+   ""]
+
+#  same int32 @inbounds kernel; driver in a main() function so the repeat loop is a static call, not dynamic dispatch on globals
+JuliaMain32 = [
+   "Julia",
+   "julia (int32, main)",
+   "",
+   "",
+   "julia -O3 csubmain32.jl",
+   3000000,
+   ""]
+
+#  Float64 twin of csubint32nb.jl
+JuliaF64 = [
+   "Julia : double",
+   "julia (int32)",
+   "",
+   "",
+   "julia -O3 csubf64.jl",
+   1300000,
+   ""]
+
+#  broadcast kernel with Int32 index ranges: four int32->Float32 lanes per NEON vector instead of two int64
+JuliaBcast32 = [
+   "Julia : broadcast i32",
+   "julia",
+   "",
+   "",
+   "julia csubbcast32.jl",
+   3000000,
+   ""]
+
+#  (nx,ny) layout twin of csubrawc_ml.m; unit-stride inner loop (expected to make no measurable difference without a JIT)
+OctaveLoopC = [
+   "Octave : loop (nx,ny)",
+   "octave loop",
+   "",
+   "",
+   "octave-cli --no-gui --norc -q csubrawc.m",
+   80,
+   ""]
+
+#  single-precision twin of csubvec.m (also covers ChatGPT's csubsingle.m proposal)
+OctaveVecS = [
+   "Octave : single",
+   "octave vectorised",
+   "",
+   "",
+   "octave-cli --no-gui --norc -q csubvecs.m",
+   60000,
+   ""]
+
+#  input offset by 0.5 so ina/out are float64 (3!:0 = 8); csubraw.ijs is an int64 test with overflow-checked adds
+JFloat = [
+   "J : float",
+   "jconsole",
+   "",
+   "",
+   "jconsole csubflt.ijs",
+   450000,
+   ""]
+
+#  as JFloat, but the addition table is built directly as floats so the kernel add needs no int-to-float conversion
+JFloatIdx = [
+   "J : float idx",
+   "jconsole",
+   "",
+   "",
+   "jconsole csubfltidx.ijs",
+   550000,
+   ""]
+
+#  J element-by-element loop with { fetch and } amend, on float data; J's counterpart of csubraw.apls
+JLoop = [
+   "J : loop",
+   "jconsole",
+   "",
+   "",
+   "jconsole csubloop.ijs",
+   900,
+   ""]
+
+#  rank-operator form (⍳nx)+⍤1 then (⍳ny)+⍤0 1: no ny×nx index table formed; sizing runs suggest it is slower than ∘.+
+AplRank = [
+   "APL",
+   "dyalog rank",
+   "",
+   "",
+   "dyalogscript csubrank.apls",
+   270000,
+   ""]
+
+#  one row per :For iteration, each row a single vector expression (the 'vectors' form)
+AplRow = [
+   "APL : rows",
+   "dyalog loop",
+   "",
+   "",
+   "dyalogscript csubrow.apls",
+   100000,
+   ""]
+
+#  --- from 04-compiled.py ---
+
+#  flat [Float] via unsafe buffer pointers, Int32 index sum with &+: vectorises at -O (both reviews; Fable's Int32 form)
+SwiftFlat32O = [
+   "Swift : flat32",
+   "Swiftc -O",
+   "xcrun swiftc -o /tmp/cstestflat32 -O cstestflat32.swift",
+   "",
+   "/tmp/cstestflat32",
+   2100000,
+   "rm -f /tmp/cstestflat32"]
+
+#  same kernel at -Ounchecked: index converted 4 lanes at a time instead of 2
+SwiftFlat32Ounchecked = [
+   "Swift : flat32",
+   "Swiftc -Ounchecked",
+   "xcrun swiftc -o /tmp/cstestflat32 -Ounchecked cstestflat32.swift",
+   "",
+   "/tmp/cstestflat32",
+   2800000,
+   "rm -f /tmp/cstestflat32"]
+
+#  flat [Float] via unsafe buffer pointers, Int indices, Float(Ix)+Float(Iy) (ChatGPT 'scoped buffers' / Fable 'flat pointers')
+SwiftBufO = [
+   "Swift : buffers",
+   "Swiftc -O",
+   "xcrun swiftc -o /tmp/cstestbuf -O cstestbuf.swift",
+   "",
+   "/tmp/cstestbuf",
+   1500000,
+   "rm -f /tmp/cstestbuf"]
+
+#  same buffer kernel at -Ounchecked (control: should tie cstestflat -Ounchecked)
+SwiftBufOunchecked = [
+   "Swift : buffers",
+   "Swiftc -Ounchecked",
+   "xcrun swiftc -o /tmp/cstestbuf -Ounchecked cstestbuf.swift",
+   "",
+   "/tmp/cstestbuf",
+   1500000,
+   "rm -f /tmp/cstestbuf"]
+
+#  Keith's [[Float]] layout, row hoisted once per row (withUnsafeMutableBufferPointer)
+SwiftRowsO = [
+   "Swift : rows",
+   "Swiftc -O",
+   "xcrun swiftc -o /tmp/cstestrows -O cstestrows.swift",
+   "",
+   "/tmp/cstestrows",
+   1450000,
+   "rm -f /tmp/cstestrows"]
+
+#  same row-hoisted nested kernel at -Ounchecked
+SwiftRowsOunchecked = [
+   "Swift : rows",
+   "Swiftc -Ounchecked",
+   "xcrun swiftc -o /tmp/cstestrows -Ounchecked cstestrows.swift",
+   "",
+   "/tmp/cstestrows",
+   1400000,
+   "rm -f /tmp/cstestrows"]
+
+#  real(32) twin of csubraw.chpl (both reviews)
+ChapelFast32 = [
+   "Chapel : real(32)",
+   "chpl --fast",
+   "chpl --fast csubraw32.chpl -o /tmp/csub_chpl32",
+   "",
+   "/tmp/csub_chpl32",
+   800000,
+   "rm -f /tmp/csub_chpl32"]
+
+#  flat List[Float64], raw pointer, explicit SIMD inner loop (Fable)
+MojoSimd = [
+   "Mojo : flat SIMD",
+   "mojo build",
+   "mojo build csubsimd.mojo -o /tmp/csub_mojosimd",
+   "",
+   "/tmp/csub_mojosimd",
+   1250000,
+   "rm -f /tmp/csub_mojosimd"]
+
+#  Float32 twin of the flat SIMD kernel
+MojoSimd32 = [
+   "Mojo : flat SIMD f32",
+   "mojo build",
+   "mojo build csubsimd32.mojo -o /tmp/csub_mojosimd32",
+   "",
+   "/tmp/csub_mojosimd32",
+   2400000,
+   "rm -f /tmp/csub_mojosimd32"]
+
+#  List[List] layout kept, row pointers taken once per row (Fable)
+MojoPtr = [
+   "Mojo : rows ptr",
+   "mojo build",
+   "mojo build csubptr.mojo -o /tmp/csub_mojoptr",
+   "",
+   "/tmp/csub_mojoptr",
+   730000,
+   "rm -f /tmp/csub_mojoptr"]
+
+#  Float32 twin of csubraw.mojo, -D ASSERT=none (ChatGPT)
+MojoLists32 = [
+   "Mojo : lists f32",
+   "mojo -D ASSERT=none",
+   "mojo build -D ASSERT=none csubraw32.mojo -o /tmp/csub_mojo32",
+   "",
+   "/tmp/csub_mojo32",
+   500000,
+   "rm -f /tmp/csub_mojo32"]
+
+#  one Vec<f32>, chunks_exact/zip iterators (both reviews; reads nrpt nx ny)
+RustFlat = [
+   "Rust : flat",
+   "Rustc -O3 native",
+   "rustc -C target-cpu=native -C opt-level=3 crsflat.rs -o /tmp/crsflat",
+   "",
+   "/tmp/crsflat",
+   700000,
+   "rm -f /tmp/crsflat"]
+
+#  flat kernel with index sum narrowed to u32 before conversion (Fable)
+RustFlat32idx = [
+   "Rust : flat u32 idx",
+   "Rustc -O3 native",
+   "rustc -C target-cpu=native -C opt-level=3 crsflat32.rs -o /tmp/crsflat32",
+   "",
+   "/tmp/crsflat32",
+   3200000,
+   "rm -f /tmp/crsflat32"]
+
+#  Vec<Vec<f32>> indexed with bounds checks proved away by slicing, no unsafe (Fable)
+RustRows = [
+   "Rust : rows safe",
+   "Rustc -O3 native",
+   "rustc -C target-cpu=native -C opt-level=3 crsrows.rs -o /tmp/crsrows",
+   "",
+   "/tmp/crsrows",
+   700000,
+   "rm -f /tmp/crsrows"]
+
+#  range over input row + re-sliced output row: bounds checks dropped without -B (both reviews)
+GoRange = [
+   "Go : range",
+   "go",
+   "go build -o /tmp/csub_gorange csubrange.go",
+   "",
+   "/tmp/csub_gorange",
+   700000,
+   "rm -f /tmp/csub_gorange"]
+
+#  float32 twin of csubrange.go (ChatGPT's csubsingle.go)
+GoRange32 = [
+   "Go : range f32",
+   "go",
+   "go build -o /tmp/csub_gorange32 csubrange32.go",
+   "",
+   "/tmp/csub_gorange32",
+   720000,
+   "rm -f /tmp/csub_gorange32"]
+
+#  Slice(Float32) twin of csubraw.cr (both reviews)
+Crystal32 = [
+   "Crystal : f32",
+   "crystal --release",
+   "crystal build --release -o /tmp/csub_cr32 csubraw32.cr",
+   "",
+   "/tmp/csub_cr32",
+   2700000,
+   "rm -f /tmp/csub_cr32 /tmp/csub_cr32.dwarf"]
+
+#  rows walked through Slice#to_unsafe pointers (Fable; expected small)
+CrystalPtr = [
+   "Crystal : ptr rows",
+   "crystal --release",
+   "crystal build --release -o /tmp/csub_crptr csubptr.cr",
+   "",
+   "/tmp/csub_crptr",
+   1200000,
+   "rm -f /tmp/csub_crptr /tmp/csub_crptr.dwarf"]
+
+#  f32 with multi-object for loops (both reviews proposed f32; Fable's loop form)
+Zig32 = [
+   "Zig : f32",
+   "zig -O ReleaseFast",
+   "zig build-exe -O ReleaseFast csubraw_f32.zig -femit-bin=/tmp/csub_zig32",
+   "",
+   "/tmp/csub_zig32",
+   1550000,
+   "rm -f /tmp/csub_zig32 /tmp/csub_zig32.o"]
+
+#  f64 control for the multi-object for loop form (Fable)
+ZigFor = [
+   "Zig : for",
+   "zig -O ReleaseFast",
+   "zig build-exe -O ReleaseFast csubfor.zig -femit-bin=/tmp/csub_zigfor",
+   "",
+   "/tmp/csub_zigfor",
+   1250000,
+   "rm -f /tmp/csub_zigfor /tmp/csub_zigfor.o"]
+
+#  float twin of csubraw.d (both reviews)
+DLang32 = [
+   "D : float",
+   "ldc2 -O3 -release",
+   "ldc2 -O3 -release -boundscheck=off csubraw32.d -of=/tmp/csub_d32 -od=/tmp",
+   "",
+   "/tmp/csub_d32",
+   1550000,
+   "rm -f /tmp/csub_d32 /tmp/csub_d32.o"]
+
+#  csubraw.d with -mcpu=native (Fable)
+DLangNative = [
+   "D",
+   "ldc2 -O3 mcpu=native",
+   "ldc2 -O3 -release -boundscheck=off -mcpu=native csubraw.d -of=/tmp/csub_dnat -od=/tmp",
+   "",
+   "/tmp/csub_dnat",
+   1250000,
+   "rm -f /tmp/csub_dnat /tmp/csub_dnat.o"]
+
+#  rows as ptr UncheckedArray; csubraw.nim's loop is scalar (Fable)
+NimRowsPtr = [
+   "Nim : rows ptr",
+   "nim -d:danger",
+   "nim c -d:danger --mm:arc --hints:off --nimcache:/tmp/csub_nimrp_cache -o:/tmp/csub_nimrp csubrowsptr.nim",
+   "",
+   "/tmp/csub_nimrp",
+   1150000,
+   "rm -rf /tmp/csub_nimrp /tmp/csub_nimrp_cache"]
+
+#  float32 twin of csubrowsptr.nim
+NimRowsPtr32 = [
+   "Nim : rows ptr f32",
+   "nim -d:danger",
+   "nim c -d:danger --mm:arc --hints:off --nimcache:/tmp/csub_nimrp32_cache -o:/tmp/csub_nimrp32 csubrowsptr32.nim",
+   "",
+   "/tmp/csub_nimrp32",
+   1600000,
+   "rm -rf /tmp/csub_nimrp32 /tmp/csub_nimrp32_cache"]
+
+#  flat seq passed as openArray (Fable)
+NimFlat = [
+   "Nim : flat",
+   "nim -d:danger",
+   "nim c -d:danger --mm:arc --hints:off --nimcache:/tmp/csub_nimflat_cache -o:/tmp/csub_nimflat csubflat.nim",
+   "",
+   "/tmp/csub_nimflat",
+   1350000,
+   "rm -rf /tmp/csub_nimflat /tmp/csub_nimflat_cache"]
+
+#  float32 twin of csubflat.nim
+NimFlat32 = [
+   "Nim : flat f32",
+   "nim -d:danger",
+   "nim c -d:danger --mm:arc --hints:off --nimcache:/tmp/csub_nimflat32_cache -o:/tmp/csub_nimflat32 csubflat32.nim",
+   "",
+   "/tmp/csub_nimflat32",
+   1550000,
+   "rm -rf /tmp/csub_nimflat32 /tmp/csub_nimflat32_cache"]
+
+#  float32 twin of csubraw.nim, read-only input param, --mm:arc (ChatGPT)
+Nim32 = [
+   "Nim : f32",
+   "nim -d:danger",
+   "nim c -d:danger --mm:arc --hints:off --nimcache:/tmp/csub_nim32_cache -o:/tmp/csub_nim32 csubraw32.nim",
+   "",
+   "/tmp/csub_nim32",
+   1600000,
+   "rm -rf /tmp/csub_nim32 /tmp/csub_nim32_cache"]
+
+#  csubraw.nim with --passC:-mcpu=native for clang (Fable group note)
+NimNative = [
+   "Nim",
+   "nim -d:danger native",
+   "nim c -d:danger --mm:arc --hints:off --passC:-mcpu=native --nimcache:/tmp/csub_nimnat_cache -o:/tmp/csub_nimnat csubraw.nim",
+   "",
+   "/tmp/csub_nimnat",
+   1150000,
+   "rm -rf /tmp/csub_nimnat /tmp/csub_nimnat_cache"]
+
+#  'Range loops and Long_Float(Ix)+Long_Float(Iy): checked build vectorises (Fable)
+AdaRngO3 = [
+   "Ada : 'Range",
+   "gnatmake -O3",
+   "gnatmake -q -f -O3 csubrng.adb -o /tmp/csub_adarng -D /tmp",
+   "",
+   "/tmp/csub_adarng",
+   800000,
+   "rm -f /tmp/csub_adarng /tmp/csubrng.ali /tmp/csubrng.o"]
+
+#  same kernel with -gnatp (control)
+AdaRngO3gnatp = [
+   "Ada : 'Range",
+   "gnatmake -O3 -gnatp",
+   "gnatmake -q -f -O3 -gnatp csubrng.adb -o /tmp/csub_adarng -D /tmp",
+   "",
+   "/tmp/csub_adarng",
+   800000,
+   "rm -f /tmp/csub_adarng /tmp/csubrng.ali /tmp/csubrng.o"]
+
+#  Float (32-bit) twin of csubrng.adb, checks on
+AdaRng32O3 = [
+   "Ada : 'Range f32",
+   "gnatmake -O3",
+   "gnatmake -q -f -O3 csubrng32.adb -o /tmp/csub_adarng32 -D /tmp",
+   "",
+   "/tmp/csub_adarng32",
+   1600000,
+   "rm -f /tmp/csub_adarng32 /tmp/csubrng32.ali /tmp/csubrng32.o"]
+
+#  Float (32-bit) twin of csubrng.adb, -gnatp
+AdaRng32O3gnatp = [
+   "Ada : 'Range f32",
+   "gnatmake -O3 -gnatp",
+   "gnatmake -q -f -O3 -gnatp csubrng32.adb -o /tmp/csub_adarng32 -D /tmp",
+   "",
+   "/tmp/csub_adarng32",
+   1600000,
+   "rm -f /tmp/csub_adarng32 /tmp/csubrng32.ali /tmp/csubrng32.o"]
+
+#  Float twin of csubraw.adb, original loop form, -gnatp (ChatGPT)
+Ada32gnatp = [
+   "Ada : f32",
+   "gnatmake -O3 -gnatp",
+   "gnatmake -q -f -O3 -gnatp csubraw32.adb -o /tmp/csub_ada32 -D /tmp",
+   "",
+   "/tmp/csub_ada32",
+   1600000,
+   "rm -f /tmp/csub_ada32 /tmp/csubraw32.ali /tmp/csubraw32.o"]
+
+#  csubraw.adb -O3 -gnatp with -mcpu=native (Fable)
+AdaNative = [
+   "Ada",
+   "gnatp -mcpu=native",
+   "gnatmake -q -f -O3 -gnatp -mcpu=native csubraw.adb -o /tmp/csub_adanat -D /tmp",
+   "",
+   "/tmp/csub_adanat",
+   800000,
+   "rm -f /tmp/csub_adanat /tmp/csubraw.ali /tmp/csubraw.o"]
+
+#  --- from 05-vm.py ---
+
+#  persistent vectors built via transient/assoc!/persistent! instead of per-element persistent assoc
+ClojureTrans = [
+   "Clojure : transients",
+   "clojure",
+   "",
+   "",
+   "clojure -M csubtrans.clj",
+   14000,
+   ""]
+
+#  float[][] (float32 storage; arithmetic widened to double, narrowed on store) with *unchecked-math*
+ClojureArrF32 = [
+   "Clojure : arrays f32",
+   "clojure",
+   "",
+   "",
+   "clojure -M csubarrf32.clj",
+   700000,
+   ""]
+
+#  Keith's kernel on double[][] for like-for-like comparison with the float64 ports
+JavaDouble = [
+   "Java : double",
+   "Java",
+   "javac -g:none csubd.java",
+   "",
+   "java csubd",
+   800000,
+   "rm -f csubd.class"]
+
+#  explicit SIMD with jdk.incubator.vector FloatVector (4 lanes), float32
+JavaVector = [
+   "Java : Vector API",
+   "Java",
+   "javac -g:none --add-modules jdk.incubator.vector csubvec.java",
+   "",
+   "java --add-modules jdk.incubator.vector csubvec",
+   1800000,
+   "rm -f csubvec.class"]
+
+#  interpreter-only JVM (-Xint), the no-JIT control
+JavaXint = [
+   "Java",
+   "java -Xint",
+   "javac -g:none csub.java",
+   "",
+   "java -Xint csub",
+   14000,
+   "rm -f csub.class"]
+
+#  node --no-opt --no-maglev: Sparkplug baseline JIT only (--no-opt alone leaves Maglev on)
+JavascriptBaseline = [
+   "Javascript",
+   "Node.js baseline",
+   "",
+   "",
+   "node --no-opt --no-maglev cjstest.js",
+   13000,
+   ""]
+
+#  node --no-opt --no-maglev --no-sparkplug: Ignition interpreter only
+JavascriptInterp = [
+   "Javascript",
+   "Node.js interpreter",
+   "",
+   "",
+   "node --no-opt --no-maglev --no-sparkplug cjstest.js",
+   8500,
+   ""]
+
+#  Keith's nested Smi arrays with the row arrays hoisted out of the inner loop
+JavascriptRows = [
+   "Javascript : rows",
+   "Node.js",
+   "",
+   "",
+   "node cjstestrows.js",
+   240000,
+   ""]
+
+#  same, Bun
+JavascriptRowsBun = [
+   "Javascript : rows",
+   "Bun",
+   "",
+   "",
+   "bun cjstestrows.js",
+   340000,
+   ""]
+
+#  same, Deno
+JavascriptRowsDeno = [
+   "Javascript : rows",
+   "Deno",
+   "",
+   "",
+   "deno run cjstestrows.js",
+   240000,
+   ""]
+
+#  nested Array of Float64Array rows (double[][] layout) vs one flat Float64Array
+JavascriptTyped = [
+   "Javascript : typed rows",
+   "Node.js",
+   "",
+   "",
+   "node cjstesttyped.js",
+   330000,
+   ""]
+
+#  flat Float32Array, double arithmetic, float32 storage
+JavascriptFlat32 = [
+   "Javascript : flat f32",
+   "Node.js",
+   "",
+   "",
+   "node cjstestflat32.js",
+   300000,
+   ""]
+
+#  flat Float32Array with Math.fround on every intermediate: true binary32 arithmetic
+JavascriptFlat32R = [
+   "Javascript : f32 round",
+   "Node.js",
+   "",
+   "",
+   "node cjstestflat32r.js",
+   170000,
+   ""]
+
+#  same, Bun
+JavascriptTypedBun = [
+   "Javascript : typed rows",
+   "Bun",
+   "",
+   "",
+   "bun cjstesttyped.js",
+   550000,
+   ""]
+
+#  same, Bun
+JavascriptFlat32Bun = [
+   "Javascript : flat f32",
+   "Bun",
+   "",
+   "",
+   "bun cjstestflat32.js",
+   450000,
+   ""]
+
+#  same, Bun
+JavascriptFlat32RBun = [
+   "Javascript : f32 round",
+   "Bun",
+   "",
+   "",
+   "bun cjstestflat32r.js",
+   500000,
+   ""]
+
+#  same, Deno
+JavascriptTypedDeno = [
+   "Javascript : typed rows",
+   "Deno",
+   "",
+   "",
+   "deno run cjstesttyped.js",
+   160000,
+   ""]
+
+#  same, Deno
+JavascriptFlat32Deno = [
+   "Javascript : flat f32",
+   "Deno",
+   "",
+   "",
+   "deno run cjstestflat32.js",
+   170000,
+   ""]
+
+#  float[][] twin of cs_proj
+CSharpF32 = [
+   "C# : float32",
+   ".NET 8",
+   "dotnet build cs_f32_proj -c Release -o /tmp/csf32bin --nologo -v q",
+   "",
+   "/tmp/csf32bin/cs_f32_proj",
+   800000,
+   "rm -rf /tmp/csf32bin"]
+
+#  explicit SIMD with System.Numerics.Vector<double> (2 lanes); residual range checks on CopyTo
+CSharpSIMD = [
+   "C# : SIMD",
+   ".NET 8",
+   "dotnet build cs_simd_proj -c Release -o /tmp/cssimdbin --nologo -v q",
+   "",
+   "/tmp/cssimdbin/cs_simd_proj",
+   1000000,
+   "rm -rf /tmp/cssimdbin"]
+
+#  float[][] twin of cs_aot_proj (Native AOT)
+CSharpF32AOT = [
+   "C# : float32",
+   ".NET 8 AOT",
+   "dotnet publish cs_f32_aot_proj -c Release -r osx-arm64 -o /tmp/csf32aotbin --nologo -v q",
+   "",
+   "/tmp/csf32aotbin/cs_f32_aot_proj",
+   800000,
+   "rm -rf /tmp/csf32aotbin"]
+
+#  Native AOT with OptimizationPreference=Speed
+CSharpAOTSpeed = [
+   "C#",
+   ".NET 8 AOT Speed",
+   "dotnet publish cs_aot_speed_proj -c Release -r osx-arm64 -o /tmp/csaotspdbin --nologo -v q",
+   "",
+   "/tmp/csaotspdbin/cs_aot_speed_proj",
+   650000,
+   "rm -rf /tmp/csaotspdbin"]
+
+#  while loops with < tests so RyuJIT clones the loop and removes the per-element range checks
+FSharpWhile = [
+   "F# : while",
+   ".NET 8",
+   "dotnet build fs_while_proj -c Release -o /tmp/fswbin --nologo -v q",
+   "",
+   "/tmp/fswbin/fs_while_proj",
+   650000,
+   "rm -rf /tmp/fswbin"]
+
+#  float32[][] twin of fs_proj, keeping the for .. in range loops
+FSharpF32 = [
+   "F# : float32",
+   ".NET 8",
+   "dotnet build fs_f32_proj -c Release -o /tmp/fsf32bin --nologo -v q",
+   "",
+   "/tmp/fsf32bin/fs_f32_proj",
+   550000,
+   "rm -rf /tmp/fsf32bin"]
+
+#  float32[][] with while loops
+FSharpF32While = [
+   "F# : while float32",
+   ".NET 8",
+   "dotnet build fs_f32_while_proj -c Release -o /tmp/fsf32wbin --nologo -v q",
+   "",
+   "/tmp/fsf32wbin/fs_f32_while_proj",
+   800000,
+   "rm -rf /tmp/fsf32wbin"]
+
+#  Array<FloatArray> twin of csubraw.kt
+KotlinF32 = [
+   "Kotlin : float32",
+   "kotlinc + JVM",
+   "kotlinc csubf32.kt -include-runtime -d /tmp/csubf32_kt.jar",
+   "",
+   "java -jar /tmp/csubf32_kt.jar",
+   900000,
+   "rm -f /tmp/csubf32_kt.jar"]
+
+#  one flat Float64List indexed iy*nx + ix
+DartFlatJIT = [
+   "Dart : flat",
+   "dart run",
+   "",
+   "",
+   "dart run csubflat.dart",
+   340000,
+   ""]
+
+#  Float32List rows (float32 storage, double arithmetic), fixed-length row list
+DartF32JIT = [
+   "Dart : float32",
+   "dart run",
+   "",
+   "",
+   "dart run csubf32.dart",
+   380000,
+   ""]
+
+#  same, dart compile exe
+DartFlatAOT = [
+   "Dart : flat",
+   "dart compile exe",
+   "dart compile exe csubflat.dart -o /tmp/csubflat_dart",
+   "",
+   "/tmp/csubflat_dart",
+   250000,
+   "rm -f /tmp/csubflat_dart"]
+
+#  same, dart compile exe
+DartF32AOT = [
+   "Dart : float32",
+   "dart compile exe",
+   "dart compile exe csubf32.dart -o /tmp/csubf32_dart",
+   "",
+   "/tmp/csubf32_dart",
+   250000,
+   "rm -f /tmp/csubf32_dart"]
+
+#  --- from 06-scripting.py ---
+
+#  range foreach, row refs hoisted (data still integer-valued, as csubraw.pl)
+PerlRows = [
+   "Perl : rows",
+   "Perl",
+   "",
+   "",
+   "perl csubrows.pl",
+   6000,
+   ""]
+
+#  direct AvARRAY indexing instead of av_fetch per element
+PerlInlineAV2 = [
+   "Perl : Inline::C AvARR",
+   "Perl",
+   "perl csubinlav2.pl 1 2000 10",
+   "",
+   "perl csubinlav2.pl",
+   250000,
+   "rm -rf /tmp/inline_csubinlav2"]
+
+#  pack('f*') buffers and float kernel
+PerlInlinePackedF32 = [
+   "Perl : Inline::C f32",
+   "Perl",
+   "perl csubinlpk_f32.pl 1 2000 10",
+   "",
+   "perl csubinlpk_f32.pl",
+   1200000,
+   "rm -rf /tmp/inline_csubinlpk_f32"]
+
+#  PDL::Core::at_bad_c/set_c called directly, no ->at/->set wrapper
+PerlPDLrawXS = [
+   "Perl/PDL : raw XS",
+   "Perl/PDL",
+   "",
+   "",
+   "perl csubpdlxs.pl",
+   600,
+   ""]
+
+#  plus() into preallocated output + in-place broadcast add, no nx*ny temporaries
+PerlPDLary2 = [
+   "Perl/PDL : arrays2",
+   "Perl/PDL",
+   "",
+   "",
+   "perl csubpdlary2.pl",
+   200000,
+   ""]
+
+#  the no-temporaries form with float ndarrays
+PerlPDLary2F32 = [
+   "Perl/PDL : arrays2 f32",
+   "Perl/PDL",
+   "",
+   "",
+   "perl csubpdlary2_f32.pl",
+   200000,
+   ""]
+
+#  csubpdlary.pl with float ndarrays, same expression
+PerlPDLaryF32 = [
+   "Perl/PDL : arrays f32",
+   "Perl/PDL",
+   "",
+   "",
+   "perl csubpdlary_f32.pl",
+   150000,
+   ""]
+
+#  PP kernel writes into preallocated output instead of allocating per call
+PerlPDLpp2 = [
+   "Perl/PDL : pp prealloc",
+   "Perl/PDL",
+   "perl csubpdlpp2.pl 1 2000 10",
+   "",
+   "perl csubpdlpp2.pl",
+   1300000,
+   "rm -rf /tmp/inline_csubpdlpp2"]
+
+#  preallocated-output PP kernel on float ndarrays
+PerlPDLpp2F32 = [
+   "Perl/PDL : pp f32",
+   "Perl/PDL",
+   "perl csubpdlpp2_f32.pl 1 2000 10",
+   "",
+   "perl csubpdlpp2_f32.pl",
+   1300000,
+   "rm -rf /tmp/inline_csubpdlpp2_f32"]
+
+#  nqp::atpos_n/bindpos_n on native num rows (Rakudo-specific)
+RakuNqp = [
+   "Raku : native nqp",
+   "rakudo",
+   "",
+   "",
+   "raku csubnqp.raku",
+   10000,
+   ""]
+
+#  same, MVM_SPESH_DISABLE=1
+RakuNqpNoSpesh = [
+   "Raku : native nqp",
+   "rakudo no spesh",
+   "",
+   "",
+   "env MVM_SPESH_DISABLE=1 raku csubnqp.raku",
+   8000,
+   ""]
+
+#  boxed AoA with row arrays bound once per iy
+RakuRows = [
+   "Raku : raw rows",
+   "rakudo",
+   "",
+   "",
+   "raku csubrows.raku",
+   300,
+   ""]
+
+#  FFI double[] flat buffers instead of tables of tables
+LuaFFI = [
+   "Lua : FFI",
+   "LuaJIT",
+   "",
+   "",
+   "luajit csubffi.lua",
+   600000,
+   ""]
+
+#  FFI float[] flat buffers
+LuaFFIF32 = [
+   "Lua : FFI f32",
+   "LuaJIT",
+   "",
+   "",
+   "luajit csubffi_f32.lua",
+   600000,
+   ""]
+
+#  float-valued table elements (csubraw.lua stores integers)
+LuaJITFloat = [
+   "Lua : float",
+   "LuaJIT",
+   "",
+   "",
+   "luajit csubflt.lua",
+   450000,
+   ""]
+
+#  float-valued table elements (csubraw.lua stores integers)
+LuaPUCFloat = [
+   "Lua : float",
+   "lua 5.5",
+   "",
+   "",
+   "lua csubflt.lua",
+   18000,
+   ""]
+
+#  while loops instead of Integer#times blocks
+RubyWhile33 = [
+   "Ruby : while",
+   "ruby 3.3",
+   "",
+   "",
+   "ruby csubwhile.rb",
+   5000,
+   ""]
+
+#  while loops instead of Integer#times blocks
+RubyWhile33YJIT = [
+   "Ruby : while",
+   "ruby 3.3 +YJIT",
+   "",
+   "",
+   "ruby --yjit csubwhile.rb",
+   18000,
+   ""]
+
+#  while loops instead of Integer#times blocks
+RubyWhile26 = [
+   "Ruby : while",
+   "ruby 2.6",
+   "",
+   "",
+   "/usr/bin/ruby csubwhile.rb",
+   5000,
+   ""]
+
+#  while loops instead of Integer#times blocks
+RubyWhileTruffle = [
+   "Ruby : while",
+   "TruffleRuby",
+   "",
+   "",
+   "truffleruby csubwhile.rb",
+   350000,
+   ""]
+
+#  store + two inplace broadcast adds, no temporaries or []= path
+RubyNumo2 = [
+   "Ruby : Numo inplace",
+   "ruby 3.3",
+   "",
+   "",
+   "ruby csubnumo2.rb",
+   250000,
+   ""]
+
+#  the inplace form on Numo::SFloat
+RubyNumo2F32 = [
+   "Ruby : Numo inpl f32",
+   "ruby 3.3",
+   "",
+   "",
+   "ruby csubnumo2_f32.rb",
+   300000,
+   ""]
+
+#  csubnumo.rb on Numo::SFloat, same expression
+RubyNumoF32 = [
+   "Ruby : Numo f32",
+   "ruby 3.3",
+   "",
+   "",
+   "ruby csubnumo_f32.rb",
+   190000,
+   ""]
+
+#  store + two inplace broadcast adds, no temporaries or []= path
+RubyNumo2YJIT = [
+   "Ruby : Numo inplace",
+   "ruby 3.3 +YJIT",
+   "",
+   "",
+   "ruby --yjit csubnumo2.rb",
+   250000,
+   ""]
+
+#  braced expr (ctest.tcl's unbraced expr is re-parsed every call); double() input
+TclBraced = [
+   "Tcl : braced",
+   "tclsh",
+   "",
+   "",
+   "tclsh ctestbr.tcl",
+   900,
+   ""]
+
+#  nested lists with lindex/lset instead of a string-keyed array; braced expr
+TclLists = [
+   "Tcl : lists",
+   "tclsh",
+   "",
+   "",
+   "tclsh ctestlst.tcl",
+   1700,
+   ""]
+
+#  row arrays hoisted: input row by value, output row by reference
+PHPRows = [
+   "PHP : rows",
+   "php 8.5",
+   "",
+   "",
+   "php csubrows.php",
+   30000,
+   ""]
+
+#  row arrays hoisted, tracing JIT
+PHPRowsJIT = [
+   "PHP : rows",
+   "php 8.5 JIT",
+   "",
+   "",
+   "php -d opcache.enable_cli=1 -d opcache.jit=tracing -d opcache.jit_buffer_size=64M csubrows.php",
+   110000,
+   ""]
+
+#  opcache.jit=function instead of tracing, same csubraw.php
+PHPJITfunc = [
+   "PHP",
+   "php 8.5 JIT function",
+   "",
+   "",
+   "php -d opcache.enable_cli=1 -d opcache.jit=function -d opcache.jit_buffer_size=64M csubraw.php",
+   20000,
+   ""]
+
+#  flat integer key iy*nx+ix instead of SUBSEP string key
+MawkFlat = [
+   "awk : flat",
+   "mawk",
+   "",
+   "",
+   "mawk -f csubflat.awk",
+   4000,
+   ""]
+
+#  flat integer key iy*nx+ix instead of SUBSEP string key
+GawkFlat = [
+   "awk : flat",
+   "gawk",
+   "",
+   "",
+   "gawk -f csubflat.awk",
+   2000,
+   ""]
+
+#  gawk arrays of arrays inp[iy][ix]
+GawkAoA = [
+   "awk : arrays of arrays",
+   "gawk",
+   "",
+   "",
+   "gawk -f csubaoa.awk",
+   2000,
+   ""]
+
+#  declare -ai arrays, store inside (( )), running flat index
+BashArith = [
+   "bash : arith",
+   "bash 5.3",
+   "",
+   "",
+   "/opt/homebrew/bin/bash csubarith.sh",
+   60,
+   ""]
+
+#  --- from 07-functional.py ---
+
+#  packed float64 binary rows, recursive match/append, vs Erlang :array
+ElixirBin = [
+   "Elixir : binary",
+   "elixir",
+   "",
+   "",
+   "elixir csubbin.exs",
+   4500,
+   ""]
+
+#  same binary kernel with ::float-32 storage
+ElixirBin32 = [
+   "Elixir : binary f32",
+   "elixir",
+   "",
+   "",
+   "elixir csubbin32.exs",
+   4500,
+   ""]
+
+#  single body-recursive pass per row vs Enum.with_index |> Enum.map
+ElixirMapRec = [
+   "Elixir : map rec",
+   "elixir",
+   "",
+   "",
+   "elixir csubmap2.exs",
+   4500,
+   ""]
+
+#  inner loop unrolled 4x (amortises OCaml 5 poll and tagged-int indexing)
+OCamlUnroll = [
+   "OCaml : unrolled",
+   "ocamlopt -unsafe",
+   "ocamlopt -unsafe csubunr.ml -o /tmp/csubunr_ml",
+   "",
+   "/tmp/csubunr_ml",
+   1000000,
+   "rm -f /tmp/csubunr_ml csubunr.cmi csubunr.cmx csubunr.o"]
+
+#  flat Bigarray.Array1 float32 storage, double arithmetic
+OCamlBigarray32 = [
+   "OCaml : bigarray f32",
+   "ocamlopt -unsafe",
+   "ocamlopt -unsafe csubba32.ml -o /tmp/csubba32_ml",
+   "",
+   "/tmp/csubba32_ml",
+   400000,
+   "rm -f /tmp/csubba32_ml csubba32.cmi csubba32.cmx csubba32.o"]
+
+#  immutable Array.mapi form allocating a new output each call
+OCamlMapi = [
+   "OCaml : mapi",
+   "ocamlopt -unsafe",
+   "ocamlopt -unsafe csubmapi.ml -o /tmp/csubmapi_ml",
+   "",
+   "/tmp/csubmapi_ml",
+   90000,
+   "rm -f /tmp/csubmapi_ml csubmapi.cmi csubmapi.cmx csubmapi.o"]
+
+#  storage-vector indexing with hoisted row base vs 2D aref
+SBCLFlat = [
+   "Lisp : flat",
+   "SBCL typed",
+   "",
+   "",
+   "sbcl --script csubflat.lisp",
+   600000,
+   ""]
+
+#  same flat kernel in single-float
+SBCLFlat32 = [
+   "Lisp : flat f32",
+   "SBCL typed",
+   "",
+   "",
+   "sbcl --script csubflat32.lisp",
+   600000,
+   ""]
+
+#  existing 2D-aref typed kernel in single-float (ChatGPT)
+SBCLTyped32 = [
+   "Lisp : f32",
+   "SBCL typed",
+   "",
+   "",
+   "sbcl --script csubraw-typed32.lisp",
+   400000,
+   ""]
+
+#  malloc'd Ptr Double, pointer-bump worker loop
+HaskellPtr = [
+   "Haskell : Ptr",
+   "GHC -O2",
+   "ghc -O2 csubptr.hs -o /tmp/csubptr_hs",
+   "",
+   "/tmp/csubptr_hs",
+   450000,
+   "rm -f /tmp/csubptr_hs csubptr.o csubptr.hi"]
+
+#  same pointer kernel over Ptr Float
+HaskellPtr32 = [
+   "Haskell : Ptr f32",
+   "GHC -O2",
+   "ghc -O2 csubptr32.hs -o /tmp/csubptr32_hs",
+   "",
+   "/tmp/csubptr32_hs",
+   450000,
+   "rm -f /tmp/csubptr32_hs csubptr32.o csubptr32.hi"]
+
+#  IOUArray Int Double, explicit workers, hoisted row base
+HaskellArr = [
+   "Haskell : IOUArray Int",
+   "GHC -O2",
+   "ghc -O2 csubarr.hs -o /tmp/csubarr_hs",
+   "",
+   "/tmp/csubarr_hs",
+   300000,
+   "rm -f /tmp/csubarr_hs csubarr.o csubarr.hi"]
+
+#  existing forM_ kernel over IOUArray (Int,Int) Float (ChatGPT)
+Haskell32 = [
+   "Haskell : f32",
+   "GHC -O2",
+   "ghc -O2 csubraw32.hs -o /tmp/csubraw32_hs",
+   "",
+   "/tmp/csubraw32_hs",
+   450000,
+   "rm -f /tmp/csubraw32_hs csubraw32.o csubraw32.hi"]
+
+#  generate-interrupt-trap #f, debug-level 0, unsafe variable refs
+ChezNoTrap = [
+   "Scheme : no trap",
+   "chez opt-level 3",
+   "",
+   "",
+   "chez --optimize-level 3 --script csubnotrap.ss",
+   600000,
+   ""]
+
+#  bytevector IEEE-single rows, double arithmetic
+ChezBV32 = [
+   "Scheme : bytevector f32",
+   "chez opt-level 3",
+   "",
+   "",
+   "chez --optimize-level 3 --script csubbv32.ss",
+   400000,
+   ""]
+
 FullTests = [
-   Swift,SwiftOnone,SwiftO,SwiftOunchecked,
-   Assembler,
-   Fortran,FortranO,FortranO1,FortranO2,FortranO3,FortranO3native,
-   RawR, Rref, Router,
-   Perl,PerlPDLraw,PerlPDLvec,PerlPDLary,PerlPDLpp,
-   PerlInlineAV,PerlInlinePacked,
-   RakuRaw,RakuRawNoSpesh,RakuNative,RakuNativeNoSpesh,RakuShaped,RakuHyper,
-   MatlabLoop,MatlabVec,GDLLoop,GDLVec,ClojureVec,ClojureArr,
-   ElixirArray,ElixirMap,ChapelFast,Chapel,
-   LuaPUC,Python3JIT,Python3npJIT,GraalPy,GraalPyNumpy,TruffleRuby,
-   WasmWasmtime,WasmWasmtimeSimd,WasmNode,WasmNodeSimd,
-   Python2,Python2np,Python2vec,Python2ary,
-   Python3,Python3np,Python3vec,Python3ary,
-   Python3npNumba,
-   CodonLists,CythonUntyped,CythonTyped,CythonChecked,Pythran,Mojo,MojoNoAssert,
-   Rust,RustO,RustO3,RustO3native,
-   RustO3nativeIter,RustO3nativeUnsafe,
-   Java,
-   Tcl,
-   Julia,JuliaO0,JuliaO1,JuliaO2,JuliaO3,JuliaInt32,
-   Javascript,JavascriptNoopt,JavascriptBun,JavascriptDeno,
-   RubyRaw26,RubyRaw33,RubyRaw33YJIT,RubyNumo,RubyNumoYJIT,
-   Go,GoNoBCE,LuaJIT,CSharp,
-   Crystal,OCaml,
-   PyPy,Zig,SBCLUntyped,SBCLTyped,Haskell,
-   FSharp,CSharpAOT,DLang,Nim,KotlinJVM,PyPyNumpy,
-   OctaveLoop,OctaveVec,J,
-   AplLoop,AplArray,
-   SwiftFlatO,SwiftFlatOunchecked,DartJIT,DartAOT,PHP,PHPJIT,
-   ChezScheme,ChezSchemeO3,Mawk,Gawk,Bash,AdaO3,AdaO3gnatp,
-   RawCdclangO3,RawCdclangO3native,FortranArray,FortranDoConc,
-   JuliaBcast,JuliaBcastO3,JavascriptFlat,JavascriptFlatBun,JavascriptFlatDeno,
-   SwiftGridO,SwiftGridOunchecked,
-   RawCclang,RawCclangO,RawCclangO1,RawCclangO2,RawCclangO3,RawCclangO3native,
-   RawCgcc,RawCgccO,RawCgccO1,RawCgccO2,RawCgccO3,RawCgccO3native,
+   Swift,SwiftOnone,SwiftO,SwiftOunchecked,Assembler,AssemblerABI,Fortran,
+   FortranO,FortranO1,FortranO2,FortranO3,FortranO3native,FortranUnroll,
+   RawR,Rref,REnv,Router,RRecyc,RCoords,Perl,PerlRows,PerlPDLraw,PerlPDLrawXS,
+   PerlPDLvec,PerlPDLary,PerlPDLary2,PerlPDLary2F32,PerlPDLaryF32,PerlPDLpp,
+   PerlPDLpp2,PerlPDLpp2F32,PerlInlineAV,PerlInlineAV2,PerlInlinePacked,
+   PerlInlinePackedF32,RakuRaw,RakuRows,RakuRawNoSpesh,RakuNative,RakuNqp,
+   RakuNativeNoSpesh,RakuNqpNoSpesh,RakuShaped,RakuHyper,MatlabLoop,MatlabLoopC,
+   MatlabLoopS,MatlabSingle,MatlabLoop1t,MatlabVec,MatlabVecS,MatlabVec1t,
+   GDLLoop,GDLVec,GDLVec2,GDLVecF,GDLSingle,ClojureVec,ClojureTrans,ClojureArr,
+   ClojureArrF32,ElixirArray,ElixirMap,ElixirBin,ElixirBin32,ElixirMapRec,
+   ChapelFast,Chapel,ChapelFast32,LuaPUC,LuaPUCFloat,Python3JIT,Python3npJIT,
+   GraalPy,GraalPyFloatLists,GraalPyNumpy,TruffleRuby,RubyWhileTruffle,
+   WasmWasmtime,WasmWasmtimeSimd,WasmNode,WasmNodeSimd,WasmNodeNoLiftoff,
+   WasmNodeSimdNoLiftoff,Python2,Python2np,Python2vec,Python2ary,Python3,
+   Python3FloatLists,Python3Rows,Python3np,Python3npItem,Python3vec,Python3vec2,
+   Python3ary,Python3ary2,Python3ary32,Python3npNumba,Python3npNumba32,
+   CodonLists,CodonNumpy,CodonNumpyNoExc,CythonUntyped,CythonTyped,CythonNative,
+   CythonF32,CythonChecked,Pythran,PythranNative,PythranF32,Mojo,MojoNoAssert,
+   MojoSimd,MojoSimd32,MojoPtr,MojoLists32,Rust,RustO,RustO3,RustO3native,
+   RustO3nativeIter,RustO3nativeUnsafe,RustFlat,RustFlat32idx,RustRows,
+   Java,JavaDouble,JavaVector,JavaXint,Tcl,TclBraced,TclLists,Julia,
+   JuliaO0,JuliaO1,JuliaO2,JuliaO3,JuliaInt32,JuliaNB,JuliaMain32,JuliaF64,
+   Javascript,JavascriptNoopt,JavascriptBaseline,JavascriptInterp,JavascriptRows,
+   JavascriptBun,JavascriptRowsBun,JavascriptDeno,JavascriptRowsDeno,RubyRaw26,
+   RubyWhile26,RubyRaw33,RubyWhile33,RubyRaw33YJIT,RubyWhile33YJIT,RubyNumo,
+   RubyNumo2,RubyNumo2F32,RubyNumoF32,RubyNumoYJIT,RubyNumo2YJIT,Go,GoNoBCE,
+   GoRange,GoRange32,LuaJIT,LuaFFI,LuaFFIF32,LuaJITFloat,CSharp,CSharpF32,
+   CSharpSIMD,Crystal,Crystal32,CrystalPtr,OCaml,OCamlUnroll,OCamlBigarray32,
+   OCamlMapi,PyPy,PyPyFloatLists,PyPyRows,Zig,Zig32,ZigFor,SBCLUntyped,
+   SBCLTyped,SBCLFlat,SBCLFlat32,SBCLTyped32,Haskell,HaskellPtr,HaskellPtr32,
+   HaskellArr,Haskell32,FSharp,FSharpWhile,FSharpF32,FSharpF32While,CSharpAOT,
+   CSharpF32AOT,CSharpAOTSpeed,DLang,DLang32,DLangNative,Nim,NimRowsPtr,
+   NimRowsPtr32,NimFlat,NimFlat32,Nim32,NimNative,KotlinJVM,KotlinF32,
+   PyPyNumpy,OctaveLoop,OctaveLoopC,OctaveVec,OctaveVecS,J,JFloat,JFloatIdx,
+   JLoop,AplLoop,AplRow,AplArray,AplRank,SwiftFlatO,SwiftFlatOunchecked,
+   DartJIT,DartFlatJIT,DartF32JIT,DartAOT,DartFlatAOT,DartF32AOT,PHP,
+   PHPRows,PHPJIT,PHPRowsJIT,PHPJITfunc,ChezScheme,ChezSchemeO3,ChezNoTrap,
+   ChezBV32,Mawk,MawkFlat,Gawk,GawkFlat,GawkAoA,Bash,BashArith,AdaO3,
+   AdaO3gnatp,AdaRngO3,AdaRngO3gnatp,AdaRng32O3,AdaRng32O3gnatp,Ada32gnatp,
+   AdaNative,RawCdclangO3,RawCdclangO3native,RawCdsingleO3,FortranArray,
+   FortranCol,FortranDoConc,FortranDouble,JuliaBcast,JuliaBcastO3,JuliaBcast32,
+   JavascriptFlat,JavascriptTyped,JavascriptFlat32,JavascriptFlat32R,JavascriptFlatBun,
+   JavascriptTypedBun,JavascriptFlat32Bun,JavascriptFlat32RBun,JavascriptFlatDeno,
+   JavascriptTypedDeno,JavascriptFlat32Deno,SwiftGridO,SwiftGridOunchecked,
+   SwiftFlat32O,SwiftFlat32Ounchecked,SwiftBufO,SwiftBufOunchecked,SwiftRowsO,
+   SwiftRowsOunchecked,RawCclang,RawCclangO,RawCclangO1,RawCclangO2,RawCclangO3,
+   RawCclangO3native,RawCgcc,RawCgccO,RawCgccO1,RawCgccO2,RawCgccO3,RawCgccO3native,
+   RawCsingleO3,RawCrestrictO3native,RawCvlaO3,RawCvlaGcc15O3native,RawCgcc15O3native,
    VecCclang,VecCclangO,VecCclangO1,VecCclangO2,VecCclangO3,VecCclangO3native,
-   VecCgcc,VecCgccO,VecCgccO1,VecCgccO2,VecCgccO3,VecCgccO3native,
-   BoostCclang,BoostCclangO,BoostCclangO1,
-   BoostCclangO2,BoostCclangO3,BoostCclangO3native,
+   VecCgcc,VecCgccO,VecCgccO1,VecCgccO2,VecCgccO3,VecCgccO3native,BoostCclang,
+   BoostCclangO,BoostCclangO1,BoostCclangO2,BoostCclangO3,BoostCclangO3native,
    BoostCgcc,BoostCgccO,BoostCgccO1,BoostCgccO2,BoostCgccO3,BoostCgccO3native,
-   BoostCclangNoAssert,BoostCclangONoAssert,BoostCclangO1NoAssert,
-   BoostCclangO2NoAssert,BoostCclangO3NoAssert,BoostCclangO3nativeNoAssert,
-   BoostCgccNoAssert,BoostCgccONoAssert,BoostCgccO1NoAssert,
-   BoostCgccO2NoAssert,BoostCgccO3NoAssert,BoostCgccO3nativeNoAssert,
-   CNumRclang,CNumRclangO,CNumRclangO1,
-   CNumRclangO2,CNumRclangO3,CNumRclangO3native,
+   BoostCclangNoAssert,BoostCclangONoAssert,BoostCclangO1NoAssert,BoostCclangO2NoAssert,
+   BoostCclangO3NoAssert,BoostCclangO3nativeNoAssert,BoostCgccNoAssert,BoostCgccONoAssert,
+   BoostCgccO1NoAssert,BoostCgccO2NoAssert,BoostCgccO3NoAssert,BoostCgccO3nativeNoAssert,
+   BoostCgcc15O3nativeNoAssert,BoostCintO3NoAssert,BoostCdataO3native,CppMdspanO3,
+   CNumRclang,CNumRclangO,CNumRclangO1,CNumRclangO2,CNumRclangO3,CNumRclangO3native,
    CNumRgcc,CNumRgccO,CNumRgccO1,CNumRgccO2,CNumRgccO3,CNumRgccO3native,
-  ]
+   CNumRgcc15O3native]
 
 # ------------------------------------------------------------------------------
 #
@@ -2384,6 +4132,16 @@ for LangTechIndex in range(NLangTech) :
          FastestLangTech = LangTechList[LangTechIndex]
          FastestCompOpt = CompOptList[CompOptIndex]
 print ("Fastest combination is ",FastestLangTech,"and",FastestCompOpt)
+
+#  (2026) Relative times are given against Keith's arm64 assembler, the
+#  study's reference, rather than against whichever test was fastest: some
+#  2026 float32 variants run faster than the assembler.
+
+if ("Assembler" in LangTechList and "clang (arm64)" in CompOptList) :
+   RefResult = Results[LangTechList.index("Assembler"),CompOptList.index("clang (arm64)")]
+   if (RefResult > 0.0) :
+      BenchKIterSecs = RefResult
+      print ("Relative times are against  Assembler and clang (arm64)")
 
 #  Now that we know the benchmark speed, output a final list of results, this
 #  time including the relative speed for each test.
