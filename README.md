@@ -28,6 +28,10 @@ and the kind of change: idiom, compiler flags, float32 precision, or a fairness
 fix such as integer data in a supposedly floating-point test. The reviews
 themselves are kept outside this repo.
 
+Two tests have been added since run32 and are not yet in a full run: Rust on a
+2D `Grid` type with `(iy, ix)` subscripts (`crsgrid.rs`, and `crsgrid32.rs`
+with a `u32` index sum), the analogue of Swift's `Grid`.
+
 The new ports (`csubraw.*`, `csubraw-typed.lisp`, `csubvec.m`, `csubnumo.rb`,
 `csubpdlpp.pl`, the C#/F# project directories and the other new `csub*` and
 `c*test*` files) sit next to Keith's 2019 files and `Run.py`. Each source file's
@@ -80,15 +84,16 @@ November 2026:
 - **Rust timed a transposed array.** Keith's `crsmain.rs`, `crsmain_iter.rs` and
   `crsmain_unsafe.rs` read their arguments as `nrpt ny nx`, but `Run.py` passes
   `nrpt nx ny`. So every Rust result, 2019 included, timed 2,000 rows of 10
-  columns. They now read `nrpt nx ny`, which makes Rust 1.3–1.5× faster at `-O`
-  and `-O3`.
+  columns. They now read `nrpt nx ny`, which makes Rust 1.4–1.6× faster at `-O`
+  and `-O3` (run32).
 - **`Run.py` checked only the exit status.** Every test program prints "Error"
   when its result check fails and still exits with status 0. Also, the
   one-repeat run overwrote the status of the timed run. A test now fails if
   either run reports an error.
 - **The reference was the fastest test, not the assembler.** Relative times are
   now against `Assembler clang (arm64)` explicitly, because one 2026 float32
-  variant (Rust, flat array with `u32` indices, 0.96) beats it.
+  variant (Rust, flat array with `u32` indices, 0.96 in run31 and 0.94 in run32)
+  beats it; side-by-side runs suggest a tie within about 10%.
 
 `Run.py` also times with a monotonic clock now, and uses a program's own timer
 when it prints `Internal time <secs> s`. Only the MATLAB programs do, because

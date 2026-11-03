@@ -2907,6 +2907,27 @@ RustFlat32idx = [
    3200000,
    "rm -f /tmp/crsflat32"]
 
+#  Grid struct with an (iy, ix) subscript over one Vec<f32>, the analogue of
+#  SwiftGrid (added 3 Nov 2026, after the talk)
+RustGrid = [
+   "Rust : Grid",
+   "Rustc -O3 native",
+   "rustc -C target-cpu=native -C opt-level=3 crsgrid.rs -o /tmp/crsgrid",
+   "",
+   "/tmp/crsgrid",
+   800000,
+   "rm -f /tmp/crsgrid"]
+
+#  as RustGrid, with the index sum narrowed to u32 before conversion
+RustGrid32idx = [
+   "Rust : Grid u32 idx",
+   "Rustc -O3 native",
+   "rustc -C target-cpu=native -C opt-level=3 crsgrid32.rs -o /tmp/crsgrid32",
+   "",
+   "/tmp/crsgrid32",
+   1600000,
+   "rm -f /tmp/crsgrid32"]
+
 #  Vec<Vec<f32>> indexed with bounds checks proved away by slicing, no unsafe (Fable)
 RustRows = [
    "Rust : rows safe",
@@ -3923,7 +3944,7 @@ FullTests = [
    CodonLists,CodonNumpy,CodonNumpyNoExc,CythonUntyped,CythonTyped,CythonNative,
    CythonF32,CythonChecked,Pythran,PythranNative,PythranF32,Mojo,MojoNoAssert,
    MojoSimd,MojoSimd32,MojoPtr,MojoLists32,Rust,RustO,RustO3,RustO3native,
-   RustO3nativeIter,RustO3nativeUnsafe,RustFlat,RustFlat32idx,RustRows,
+   RustO3nativeIter,RustO3nativeUnsafe,RustFlat,RustFlat32idx,RustGrid,RustGrid32idx,RustRows,
    Java,JavaDouble,JavaVector,JavaXint,Tcl,TclBraced,TclLists,Julia,
    JuliaO0,JuliaO1,JuliaO2,JuliaO3,JuliaInt32,JuliaNB,JuliaMain32,JuliaF64,
    Javascript,JavascriptNoopt,JavascriptBaseline,JavascriptInterp,JavascriptRows,
