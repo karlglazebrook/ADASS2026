@@ -33,7 +33,7 @@ The new ports (`csubraw.*`, `csubraw-typed.lisp`, `csubvec.m`, `csubnumo.rb`,
 `c*test*` files) sit next to Keith's 2019 files and `Run.py`. Each source file's
 header says what it tests.
 
-Porting, toolchain work and analysis were done with Claude Sonnet 4.7 (Anthropic)
+Porting, toolchain work and analysis were done with Claude Opus 4.7 (Anthropic)
 as co-author, and the November 2026 extension with Claude Opus 5.5. The talk and the full write-up are kept outside this repo.
 
 ## Contents
