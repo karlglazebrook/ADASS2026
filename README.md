@@ -28,9 +28,9 @@ and the kind of change: idiom, compiler flags, float32 precision, or a fairness
 fix such as integer data in a supposedly floating-point test. The reviews
 themselves are kept outside this repo.
 
-Two tests have been added since run32 and are not yet in a full run: Rust on a
-2D `Grid` type with `(iy, ix)` subscripts (`crsgrid.rs`, and `crsgrid32.rs`
-with a `u32` index sum), the analogue of Swift's `Grid`.
+Two tests were added after run32: Rust on a 2D `Grid` type with `(iy, ix)`
+subscripts (`crsgrid.rs`, and `crsgrid32.rs` with a `u32` index sum), the
+analogue of Swift's `Grid`. With them the suite has 362 tests (run33).
 
 The new ports (`csubraw.*`, `csubraw-typed.lisp`, `csubvec.m`, `csubnumo.rb`,
 `csubpdlpp.pl`, the C#/F# project directories and the other new `csub*` and
@@ -49,7 +49,8 @@ as co-author, and the November 2026 extension with Claude Opus 5.5. The talk and
 | `results/run30.log` | The full 192-test suite (1 Nov 2026), 192/192 passed |
 | `results/run31.log` | The 360-test suite with the idiom-review variants (2 Nov 2026), 360/360 passed |
 | `results/run31-matlab.log` | The eight MATLAB tests re-run with MATLAB's internal timing (see below); use these in place of run31's MATLAB lines |
-| `results/run32.log` | The 360-test suite after the warm-up and index-array fixes below (2 Nov 2026), 360/360 passed: the current reference |
+| `results/run32.log` | The 360-test suite after the warm-up and index-array fixes below (2 Nov 2026), 360/360 passed |
+| `results/run33.log` | The 362-test suite with the Rust Grid tests (3 Nov 2026), 362/362 passed: the current reference, used by the second edition of the report |
 | `run-benchmarks.sh` | Sets up PATH and environment for every toolchain, then runs `Run.py` |
 | `install-tools.sh` | Installs the pinned toolchains into `tools/` (about 3 GB, 7–10 min) |
 | `bin/` | Shims for tools whose own `bin/` directories would hijack other tests (they ship their own `python`, `ruby` or `gcc`), and for MATLAB, GDL and Mojo launchers |
@@ -58,7 +59,7 @@ as co-author, and the November 2026 extension with Claude Opus 5.5. The talk and
 
 ```sh
 ./install-tools.sh            # or TOOLS=/elsewhere ./install-tools.sh
-./run-benchmarks.sh | tee run32.log
+./run-benchmarks.sh | tee run33.log
 ```
 
 A full run of all 360 tests takes about 40 minutes on an M-series Mac.
@@ -84,8 +85,8 @@ November 2026:
 - **Rust timed a transposed array.** Keith's `crsmain.rs`, `crsmain_iter.rs` and
   `crsmain_unsafe.rs` read their arguments as `nrpt ny nx`, but `Run.py` passes
   `nrpt nx ny`. So every Rust result, 2019 included, timed 2,000 rows of 10
-  columns. They now read `nrpt nx ny`, which makes Rust 1.4–1.6× faster at `-O`
-  and `-O3` (run32).
+  columns. They now read `nrpt nx ny`, which makes Rust 1.3–1.6× faster at `-O`
+  and `-O3` (run32 and run33).
 - **`Run.py` checked only the exit status.** Every test program prints "Error"
   when its result check fails and still exits with status 0. Also, the
   one-repeat run overwrote the status of the timed run. A test now fails if
@@ -93,7 +94,8 @@ November 2026:
 - **The reference was the fastest test, not the assembler.** Relative times are
   now against `Assembler clang (arm64)` explicitly, because one 2026 float32
   variant (Rust, flat array with `u32` indices, 0.96 in run31 and 0.94 in run32)
-  beats it; side-by-side runs suggest a tie within about 10%.
+  timed faster than it. That was the reference measuring slow in those runs:
+  in run33 it is 0.99, a tie.
 
 `Run.py` also times with a monotonic clock now, and uses a program's own timer
 when it prints `Internal time <secs> s`. Only the MATLAB programs do, because
